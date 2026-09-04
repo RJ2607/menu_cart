@@ -1,12 +1,13 @@
+import 'package:menu_cart/stac_runtime/widgets/cart/st_cart_badge/st_cart_badge.dart';
+import 'package:menu_cart/stac_runtime/widgets/cart/st_category_chip/st_category_chip.dart';
 import 'package:stac/stac_core.dart';
+
 import 'menu_data.dart';
 import 'widgets/food_card.dart';
 import 'widgets/section_header.dart';
 
 @StacScreen(screenName: 'menu')
 StacWidget menuScreen() {
-  // Note: This is a static screen. For dynamic cart count, 
-  // implement a custom Stac widget parser or use Flutter screen
   return StacScaffold(
     backgroundColor: surfaceColor,
     appBar: StacAppBar(
@@ -25,58 +26,19 @@ StacWidget menuScreen() {
           ),
           StacText(
             data: brandTagline,
-            style: StacTextStyle(
-              fontSize: 12,
-              color: textSecondary,
-            ),
+            style: StacTextStyle(fontSize: 12, color: textSecondary),
           ),
         ],
       ),
       actions: [
-        // Cart button - shows static count
-        // For dynamic count, use a Flutter screen instead of Stac
+        // STATEFUL CART BADGE - shows live count
         StacPadding(
           padding: const StacEdgeInsets.only(right: 16),
-          child: StacGestureDetector(
+          child: StCartBadge(
+            iconColor: textPrimary,
+            badgeColor: primaryColor,
+            iconSize: 28,
             onTap: StacNavigator.pushStac('cart'),
-            child: StacStack(
-              children: [
-                StacPadding(
-                  padding: const StacEdgeInsets.all(8),
-                  child: StacIcon(
-                    icon: StacIcons.shopping_cart,
-                    color: textPrimary,
-                    size: 28,
-                  ),
-                ),
-                // Static badge - will show 0
-                StacPositioned(
-                  right: 4,
-                  top: 4,
-                  child: StacContainer(
-                    padding: const StacEdgeInsets.all(4),
-                    decoration: StacBoxDecoration(
-                      color: primaryColor,
-                      shape: StacBoxShape.circle,
-                    ),
-                    constraints: const StacBoxConstraints(
-                      minWidth: 18,
-                      minHeight: 18,
-                    ),
-                    child: StacCenter(
-                      child: StacText(
-                        data: '0',
-                        style: StacTextStyle(
-                          color: StacColors.white,
-                          fontSize: 10,
-                          fontWeight: StacFontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
           ),
         ),
       ],
@@ -91,10 +53,7 @@ StacWidget menuScreen() {
             padding: const StacEdgeInsets.all(16),
             decoration: StacBoxDecoration(
               gradient: StacLinearGradient(
-                colors: [
-                  primaryColor,
-                  accentColor,
-                ],
+                colors: [primaryColor, accentColor],
                 begin: StacAlignment.centerLeft,
                 end: StacAlignment.centerRight,
               ),
@@ -121,7 +80,7 @@ StacWidget menuScreen() {
             ),
           ),
 
-          // Category chips - static (no filtering in pure Stac)
+          // STATEFUL Category chips - interactive filtering
           StacContainer(
             height: 40,
             margin: const StacEdgeInsets.only(left: 16, bottom: 16),
@@ -129,8 +88,8 @@ StacWidget menuScreen() {
               scrollDirection: StacAxis.horizontal,
               child: StacRow(
                 children: [
-                  categoryChip('All', true),
-                  ...categories.map((cat) => categoryChip(cat, false)),
+                  const StCategoryChip(category: 'All'),
+                  ...categories.map((cat) => StCategoryChip(category: cat)),
                 ],
               ),
             ),

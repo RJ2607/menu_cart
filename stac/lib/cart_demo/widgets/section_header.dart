@@ -1,4 +1,5 @@
 import 'package:stac/stac_core.dart';
+
 import '../menu_data.dart';
 
 /// Creates a section header for categories
@@ -22,14 +23,10 @@ StacWidget categoryChip(String category, bool isSelected) {
     margin: const StacEdgeInsets.only(right: 8),
     padding: const StacEdgeInsets.symmetric(horizontal: 16, vertical: 8),
     decoration: StacBoxDecoration(
-      color: isSelected
-          ? primaryColor
-          : surfaceColor,
+      color: isSelected ? primaryColor : surfaceColor,
       borderRadius: StacBorderRadius.circular(20),
       border: StacBorder.all(
-        color: isSelected
-            ? primaryColor
-            : textSecondary.withOpacity(0.2),
+        color: isSelected ? primaryColor : textSecondary.withOpacity(0.2),
         width: 1,
       ),
     ),
@@ -38,9 +35,7 @@ StacWidget categoryChip(String category, bool isSelected) {
       style: StacTextStyle(
         fontSize: 14,
         fontWeight: StacFontWeight.w600,
-        color: isSelected
-            ? StacColors.white
-            : textSecondary,
+        color: isSelected ? StacColors.white : textSecondary,
       ),
     ),
   );

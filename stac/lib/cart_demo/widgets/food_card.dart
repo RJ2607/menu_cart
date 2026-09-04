@@ -11,13 +11,13 @@ StacWidget foodCard(MenuItem item) {
     child: StacContainer(
       margin: const StacEdgeInsets.only(bottom: 16),
       decoration: StacBoxDecoration(
-        color:cardColor,
+        color: cardColor,
         borderRadius: StacBorderRadius.circular(16),
         boxShadow: [
           StacBoxShadow(
             color: StacColors.black.withOpacity(0.08),
             blurRadius: 8,
-            offset: const StacOffset(dx:0, dy:2),
+            offset: const StacOffset(dx: 0, dy: 2),
           ),
         ],
       ),
@@ -33,9 +33,7 @@ StacWidget foodCard(MenuItem item) {
             child: StacContainer(
               width: 110,
               height: 110,
-              decoration: StacBoxDecoration(
-                color: surfaceColor,
-              ),
+              decoration: StacBoxDecoration(color: surfaceColor),
               child: item.isAvailable
                   ? StacImage.network(item.imageUrl, fit: StacBoxFit.cover)
                   : StacStack(
@@ -86,7 +84,7 @@ StacWidget foodCard(MenuItem item) {
                                 color: '#FFD700',
                                 borderRadius: StacBorderRadius.circular(4),
                               ),
-                              child:  StacText(
+                              child: StacText(
                                 data: '🌱',
                                 style: StacTextStyle(fontSize: 10),
                               ),
@@ -102,7 +100,7 @@ StacWidget foodCard(MenuItem item) {
                                 color: accentColor,
                                 borderRadius: StacBorderRadius.circular(4),
                               ),
-                              child:  StacText(
+                              child: StacText(
                                 data: '⭐',
                                 style: StacTextStyle(fontSize: 10),
                               ),

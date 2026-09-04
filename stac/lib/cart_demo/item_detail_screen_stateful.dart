@@ -6,11 +6,18 @@ import 'package:stac/stac_core.dart';
 
 import 'menu_data.dart';
 
-/// Item detail screen - STATEFUL version with reactive selections
-@StacScreen(screenName: 'item_detail')
-StacWidget itemDetailScreen() {
+/// Item detail screen - STATEFUL version with reactive size/addon selection
+/// Features:
+/// - Interactive size selection with visual feedback
+/// - Interactive addon selection with checkboxes
+/// - Dynamic price calculation based on selections
+/// - Favorite toggle button
+@StacScreen(screenName: 'item_detail_stateful')
+StacWidget itemDetailScreenStateful() {
   final item = getItemById(featuredItemId)!;
-  const stateKey = 'item_detail_main';
+
+  // State key for this item's selections
+  const stateKey = 'item_detail_state';
 
   return StacScaffold(
     backgroundColor: StacColors.white,
@@ -27,7 +34,7 @@ StacWidget itemDetailScreen() {
                 decoration: StacBoxDecoration(color: surfaceColor),
                 child: StacImage.network(item.imageUrl, fit: StacBoxFit.cover),
               ),
-              // Gradient overlay for better button visibility
+              // Gradient overlay
               StacContainer(
                 height: 300,
                 decoration: StacBoxDecoration(
@@ -61,7 +68,7 @@ StacWidget itemDetailScreen() {
                   ),
                 ),
               ),
-              // Favorite toggle button
+              // Favorite toggle button (stateful - will be enhanced later)
               StacPositioned(
                 top: 44,
                 right: 16,
@@ -140,7 +147,7 @@ StacWidget itemDetailScreen() {
 
                 const StacSizedBox(height: 8),
 
-                // STATEFUL PRICE - updates dynamically
+                // STATEFUL PRICE DISPLAY - updates based on selections
                 StPriceDisplay(
                   stateKey: stateKey,
                   basePrice: item.price,
@@ -196,7 +203,7 @@ StacWidget itemDetailScreen() {
 
                 const StacSizedBox(height: 32),
 
-                // Add to cart button - navigates to cart
+                // Add to cart button
                 StacRow(
                   children: [
                     StacExpanded(
@@ -210,7 +217,7 @@ StacWidget itemDetailScreen() {
                           ),
                         ),
                         child: StacText(
-                          data: 'View Cart',
+                          data: 'View Cart (Demo)',
                           style: StacTextStyle(
                             fontSize: 18,
                             fontWeight: StacFontWeight.w700,
