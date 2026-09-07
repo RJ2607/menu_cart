@@ -144,7 +144,7 @@ const List<Map<String, dynamic>> sizeOptions = [
 
 /// Add-on options for detail screen
 const List<Map<String, dynamic>> addonOptions = [
-  {'label': 'Extra Cheese', 'price': 1.5},
+  {'label': 'Extras Cheese', 'price': 1.5},
   {'label': 'Bacon', 'price': 2.0},
   {'label': 'Avocado', 'price': 2.5},
 ];
@@ -158,7 +158,7 @@ final List<Map<String, dynamic>> seededCartItems = [
         'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800',
     'price': 12.99,
     'quantity': 2,
-    'options': 'Large, Extra Cheese',
+    'options': 'Large, Extras Cheese',
   },
   {
     'id': 'fries_truffle',

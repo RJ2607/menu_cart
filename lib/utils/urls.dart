@@ -1,7 +1,5 @@
 // lib/utils/urls.dart
 
-import 'package:flutter/foundation.dart';
-
 class AppUrls {
   // Unchanged â€” real backend, used by backendDio for everything non-Stac
   static String backendUrl = "http://192.168.1.17:8080";
@@ -21,12 +19,13 @@ class AppUrls {
     /// even ones not started through stac watch.
 
     // const isLocalDev = bool.fromEnvironment('STAC_LOCAL_DEV');
-    if (!kDebugMode) return backendUrl;
+    // if (!kDebugMode) return backendUrl;
     const host = String.fromEnvironment(
       'STAC_DEV_HOST',
-      defaultValue: 'localhost',
+      defaultValue: '192.168.1.3',
     );
     const port = String.fromEnvironment('STAC_DEV_PORT', defaultValue: '8090');
-    return 'http://$host:$port';
+    return 'https://2505-111-92-95-200.ngrok-free.app';
+    // return 'http://$host:$port';
   }
 }

@@ -77,7 +77,7 @@ StPriceDisplay(           // Real-time price calculation
   stateKey: 'item_detail_main',
   basePrice: 12.99,
   sizePrices: {'Large': 2.5},
-  addonPrices: {'Extra Cheese': 1.5, 'Bacon': 2.0},
+  addonPrices: {'Extras Cheese': 1.5, 'Bacon': 2.0},
 )
 
 StSizeSelector(           // Interactive size buttons
@@ -213,13 +213,13 @@ Obx() Rebuilds UI (Reactive)
    - Click "Regular" again → Reverts to **$12.99**
 
 2. **Addon Selection:**
-   - "Extra Cheese" checkbox is checked by default
+   - "Extras Cheese" checkbox is checked by default
    - Click "Bacon" → Checkbox checks, price adds **$2.00**
    - Click "Avocado" → Checkbox checks, price adds **$2.50**
-   - Click "Extra Cheese" again → Unchecks, price decreases **$1.50**
+   - Click "Extras Cheese" again → Unchecks, price decreases **$1.50**
 
 3. **Dynamic Price:**
-   - Select "Large" + "Extra Cheese" + "Bacon" + "Avocado"
+   - Select "Large" + "Extras Cheese" + "Bacon" + "Avocado"
    - Price becomes: **$12.99 + $2.50 + $1.50 + $2.00 + $2.50 = $21.49**
 
 4. **Favorite Toggle:**
@@ -293,10 +293,10 @@ Multi-select checkboxes for product add-ons.
 StAddonSelector(
   stateKey: 'product_123',
   options: [
-    {'label': 'Extra Cheese', 'price': 1.5},
+    {'label': 'Extras Cheese', 'price': 1.5},
     {'label': 'Bacon', 'price': 2.0},
   ],
-  initialSelected: ['Extra Cheese'],
+  initialSelected: ['Extras Cheese'],
 )
 ```
 
@@ -311,7 +311,7 @@ StPriceDisplay(
   stateKey: 'product_123',
   basePrice: 12.99,
   sizePrices: {'Large': 2.5},
-  addonPrices: {'Extra Cheese': 1.5, 'Bacon': 2.0},
+  addonPrices: {'Extras Cheese': 1.5, 'Bacon': 2.0},
 )
 ```
 

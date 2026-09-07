@@ -21,7 +21,7 @@ import 'package:stac/stac_core.dart';
 StacOptions get defaultStacOptions => StacOptions(
   name: 'stac_test_pro',
   description: '',
-  projectId: 'wmal7BdlQ4f0VMiUuZQJ',
+  projectId: '',
   sourceDir: 'stac',
   outputDir: 'stac/.build',
 );

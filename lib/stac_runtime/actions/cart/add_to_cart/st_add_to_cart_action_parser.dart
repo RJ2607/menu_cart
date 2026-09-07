@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stac/stac.dart';
-import '../../../../features/cart/cart_controller.dart';
+
+import '../../../../core/controllers/cart_controller.dart';
 import 'st_add_to_cart_action.dart';
 
 class StAddToCartActionParser extends StacActionParser<StAddToCartAction> {
@@ -15,7 +16,7 @@ class StAddToCartActionParser extends StacActionParser<StAddToCartAction> {
   @override
   Future<void> onCall(BuildContext context, StAddToCartAction model) async {
     final controller = Get.find<CartController>();
-    
+
     controller.addToCart(
       id: model.id,
       name: model.name,

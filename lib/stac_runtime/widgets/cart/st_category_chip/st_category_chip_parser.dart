@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stac/stac.dart';
-import '../../../../features/cart/cart_controller.dart';
+
+import '../../../../core/controllers/cart_controller.dart';
 import 'st_category_chip.dart';
 
 class StCategoryChipParser extends StacParser<StCategoryChip> {
@@ -30,7 +31,8 @@ class _CategoryChipWidget extends StatelessWidget {
     final CartController cartController = Get.find<CartController>();
 
     return Obx(() {
-      final isSelected = cartController.selectedCategory.value == model.category;
+      final isSelected =
+          cartController.selectedCategory.value == model.category;
 
       return GestureDetector(
         onTap: () => cartController.setCategory(model.category),
@@ -54,9 +56,7 @@ class _CategoryChipWidget extends StatelessWidget {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
-              color: isSelected
-                  ? Colors.white
-                  : const Color(0xFF636E72),
+              color: isSelected ? Colors.white : const Color(0xFF636E72),
             ),
           ),
         ),

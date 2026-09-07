@@ -25,7 +25,7 @@ class CartItem {
     if (selectedSize == 'Large') price += 2.50;
     for (var addon in selectedAddons) {
       switch (addon) {
-        case 'Extra Cheese':
+        case 'Extras Cheese':
           price += 1.50;
           break;
         case 'Bacon':
@@ -57,7 +57,8 @@ class CartController extends GetxController {
   final RxString selectedCategory = 'All'.obs;
 
   int get cartCount => cartItems.fold(0, (sum, item) => sum + item.quantity);
-  double get subtotal => cartItems.fold(0.0, (sum, item) => sum + item.totalPrice);
+  double get subtotal =>
+      cartItems.fold(0.0, (sum, item) => sum + item.totalPrice);
   double get deliveryFee => 3.99;
   double get total => subtotal + deliveryFee;
 
@@ -83,24 +84,28 @@ class CartController extends GetxController {
     String size = 'Regular',
     List<String> addons = const [],
   }) {
-    final existingIndex = cartItems.indexWhere((item) =>
-        item.id == id &&
-        item.selectedSize == size &&
-        _listsEqual(item.selectedAddons, addons));
+    final existingIndex = cartItems.indexWhere(
+      (item) =>
+          item.id == id &&
+          item.selectedSize == size &&
+          _listsEqual(item.selectedAddons, addons),
+    );
 
     if (existingIndex != -1) {
       cartItems[existingIndex].quantity++;
       cartItems.refresh();
     } else {
-      cartItems.add(CartItem(
-        id: id,
-        name: name,
-        imageUrl: imageUrl,
-        basePrice: basePrice,
-        quantity: 1,
-        selectedSize: size,
-        selectedAddons: List.from(addons),
-      ));
+      cartItems.add(
+        CartItem(
+          id: id,
+          name: name,
+          imageUrl: imageUrl,
+          basePrice: basePrice,
+          quantity: 1,
+          selectedSize: size,
+          selectedAddons: List.from(addons),
+        ),
+      );
     }
   }
 
@@ -138,16 +143,18 @@ class CartController extends GetxController {
       CartItem(
         id: 'burger_classic',
         name: 'Classic Urban Burger',
-        imageUrl: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800',
+        imageUrl:
+            'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800',
         basePrice: 12.99,
         quantity: 2,
         selectedSize: 'Large',
-        selectedAddons: ['Extra Cheese'],
+        selectedAddons: ['Extras Cheese'],
       ),
       CartItem(
         id: 'fries_truffle',
         name: 'Truffle Parmesan Fries',
-        imageUrl: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=800',
+        imageUrl:
+            'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=800',
         basePrice: 5.99,
         quantity: 1,
         selectedSize: 'Regular',

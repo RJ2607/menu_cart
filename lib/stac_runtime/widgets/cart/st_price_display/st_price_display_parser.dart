@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stac/stac.dart';
-import '../../../../features/cart/item_selection_controller.dart';
+
+import '../../../../core/controllers/item_selection_controller.dart';
 import 'st_price_display.dart';
 
 class StPriceDisplayParser extends StacParser<StPriceDisplay> {
@@ -27,13 +28,19 @@ class _PriceDisplayWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<ItemSelectionController>(tag: model.stateKey);
+    final controller =
+        Get.isRegistered<ItemSelectionController>(tag: model.stateKey)
+        ? Get.find<ItemSelectionController>(tag: model.stateKey)
+        : Get.put(
+            ItemSelectionController(stateKey: model.stateKey),
+            tag: model.stateKey,
+          );
 
     return Obx(() {
       double totalPrice = model.basePrice;
 
       // Add size price
-      if (model.sizePrices != null && 
+      if (model.sizePrices != null &&
           model.sizePrices!.containsKey(controller.selectedSize.value)) {
         totalPrice += model.sizePrices![controller.selectedSize.value]!;
       }

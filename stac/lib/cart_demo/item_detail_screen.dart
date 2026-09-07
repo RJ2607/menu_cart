@@ -144,9 +144,9 @@ StacWidget itemDetailScreen() {
                 StPriceDisplay(
                   stateKey: stateKey,
                   basePrice: item.price,
-                  sizePrices: const {'Regular': 0.0, 'Large': 2.5},
+                  sizePrices: const {'Regular': 0.0, 'Large': 12.5},
                   addonPrices: const {
-                    'Extra Cheese': 1.5,
+                    'Extras Cheese': 1.5,
                     'Bacon': 2.0,
                     'Avocado': 2.5,
                   },
@@ -156,7 +156,7 @@ StacWidget itemDetailScreen() {
 
                 // Size selection - STATEFUL
                 StacText(
-                  data: 'Choose Size',
+                  data: 'Choose Sizeaaaaa',
                   style: StacTextStyle(
                     fontSize: 18,
                     fontWeight: StacFontWeight.w600,
@@ -177,9 +177,9 @@ StacWidget itemDetailScreen() {
 
                 // Add-ons - STATEFUL
                 StacText(
-                  data: 'Add-Ons',
+                  data: 'Add-Onssss',
                   style: StacTextStyle(
-                    fontSize: 18,
+                    fontSize: 15,
                     fontWeight: StacFontWeight.w600,
                     color: textPrimary,
                   ),
@@ -191,7 +191,7 @@ StacWidget itemDetailScreen() {
                 StAddonSelector(
                   stateKey: stateKey,
                   options: addonOptions,
-                  initialSelected: const ['Extra Cheese'],
+                  initialSelected: const ['Extras Cheese'],
                 ),
 
                 const StacSizedBox(height: 32),

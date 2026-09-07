@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stac/stac.dart';
-import '../../../../features/cart/cart_controller.dart';
+
+import '../../../../core/controllers/cart_controller.dart';
 import 'st_set_category_action.dart';
 
 class StSetCategoryActionParser extends StacActionParser<StSetCategoryAction> {

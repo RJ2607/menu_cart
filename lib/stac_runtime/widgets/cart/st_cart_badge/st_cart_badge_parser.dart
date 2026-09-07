@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stac/stac.dart';
 
-import '../../../../features/cart/cart_controller.dart';
+import '../../../../core/controllers/cart_controller.dart';
 import 'st_cart_badge.dart';
 
 class StCartBadgeParser extends StacParser<StCartBadge> {

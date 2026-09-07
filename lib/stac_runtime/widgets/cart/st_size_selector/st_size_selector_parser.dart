@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:menu_cart/core/controllers/item_selection_controller.dart';
 import 'package:stac/stac.dart';
-import '../../../../features/cart/item_selection_controller.dart';
+
 import 'st_size_selector.dart';
 
 class StSizeSelectorParser extends StacParser<StSizeSelector> {
@@ -27,20 +28,24 @@ class _SizeSelectorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(
-      ItemSelectionController(
-        stateKey: model.stateKey,
-        initialSize: model.initialValue ?? 'Regular',
-      ),
-      tag: model.stateKey,
-    );
+    final controller =
+        Get.isRegistered<ItemSelectionController>(tag: model.stateKey)
+        ? Get.find<ItemSelectionController>(tag: model.stateKey)
+        : Get.put(
+            ItemSelectionController(
+              stateKey: model.stateKey,
+              initialSize: model.initialValue ?? 'Regular',
+            ),
+            tag: model.stateKey,
+          );
 
     return Obx(() {
       return Row(
         children: model.options.map((option) {
           final label = option['label'] as String;
           final price = (option['price'] as num).toDouble();
-          final isSelected = controller.selectedSize.value == label;
+          final selectedSize = controller.selectedSize.value;
+          final isSelected = selectedSize == label;
 
           return GestureDetector(
             onTap: () => controller.selectSize(label),

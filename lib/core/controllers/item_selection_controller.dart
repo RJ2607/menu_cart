@@ -7,8 +7,8 @@ class ItemSelectionController extends GetxController {
     required this.stateKey,
     String? initialSize,
     List<String>? initialAddons,
-  })  : selectedSize = (initialSize ?? 'Regular').obs,
-        selectedAddons = RxList<String>(initialAddons ?? []);
+  }) : selectedSize = (initialSize ?? 'Regular').obs,
+       selectedAddons = RxList<String>(initialAddons ?? []);
 
   final String stateKey;
   final RxString selectedSize;
@@ -24,6 +24,8 @@ class ItemSelectionController extends GetxController {
     } else {
       selectedAddons.add(addon);
     }
+    selectedAddons.refresh(); // Notify listeners of the change
+    update(); // Notify GetBuilder listeners
   }
 
   double calculateTotalPrice({

@@ -3,32 +3,47 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:stac/stac.dart';
 import 'package:menu_cart/utils/console_logger.dart';
+import 'package:stac/stac.dart';
 
 import 'app/app_pages.dart';
 import 'app/init_bindings.dart';
 import 'core/storage/hive.dart';
+import 'shared/cards/custom_error_cards.dart';
+import 'shared/pages/custom_error_page.dart';
 import 'stac_runtime/stac_registry.dart';
 import 'utils/urls.dart';
-import 'shared/pages/custom_error_page.dart';
 
-const String _stacBaseUrl = 'http://localhost:8090';
+/// Hive command:
+/// fvm flutter packages pub run build_runner build --delete-conflicting-outputs
+
+/// build_runner command:
+/// fvm dart run build_runner build --delete-conflicting-outputs
+
+/// stac watch command:
+/// dart run stac_cli/bin/stac_watch.dart
+
+/// stac cli command (Windows -> stac.exe, macOS/Linux -> stac):
+/// fvm dart pub global activate --source git --git-path packages/stac_cli --git-ref main https://github.com/smoke-trees/st_sdui.git
+
+///App Build command
+/// fvm flutter build appbundle  --release --obfuscate --split-debug-info=C:\\Av\Work\fomo_app\debug-info
+/// fvm flutter build apk  --release --obfuscate --split-debug-info=C:\\Av\Work\fomo_app\debug-info
+/// fvm flutter build apk  --release --no-shrink
 
 Future<void> main() async {
   runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
       PaintingBinding.instance.imageCache.maximumSizeBytes = 200 << 20;
+      // Get.testMode = true;
 
       Widget app;
 
       try {
-        await GetStorage.init();
         await HiveService.initialize();
         await Stac.initialize(
-          baseUrl: _stacBaseUrl,
+          baseUrl: AppUrls.stacBaseUrl, // was: AppUrls.backendUrl
           parsers: StacParsers.parsers,
           actionParsers: StacParsers.actionParsers,
           logStackTraces: true,
@@ -40,18 +55,37 @@ Future<void> main() async {
 
         InitBindings().dependencies();
 
-        // Use GetMaterialApp with Flutter pages for full functionality
-        app = GetMaterialApp(
-          debugShowCheckedModeBanner: false,
-          initialBinding: InitBindings(),
-          getPages: AppPages.flutterPages,
-          initialRoute: '/menu',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-            scaffoldBackgroundColor: const Color(0xFFFFF8F3),
-          ),
-          useInheritedMediaQuery: true,
-        );
+        // AnalyticsService.initialize();
+        app = const App();
+
+        FlutterError.onError = (FlutterErrorDetails details) {
+          ConsoleLogger.error(
+            '==FLUTTER ERROR==',
+            name: "FLUTTER ERROR",
+            error: details.exception,
+            stackTrace: details.stack,
+          );
+          app = GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: CustomErrorPage(
+              error: details.exception.toString(),
+              appLogo: '',
+            ), // Change this to your app logo path
+          );
+        };
+        ErrorWidget.builder = (FlutterErrorDetails details) {
+          ConsoleLogger.error(
+            '==WIDGET BUILD ERROR==',
+            name: "WIDGET ERROR",
+            error: details.exception,
+            stackTrace: details.stack,
+          );
+
+          return CustomErrorCard(
+            error: details.exceptionAsString(),
+            routeName: '',
+          ); // Change this to default route or your app logo path
+        };
       } catch (e, stackTrace) {
         ConsoleLogger.error(
           '==INITIALIZATION ERROR==',
@@ -64,10 +98,16 @@ Future<void> main() async {
           home: CustomErrorPage(
             error: e.toString(),
             appLogo: '',
-          ),
+          ), // Change this to your app logo path
         );
       }
 
+      // runApp(
+      //   DevicePreview(
+      //     enabled: !kReleaseMode,
+      //     builder: (context) => app,
+      //   ),
+      // );
       runApp(app);
     },
     (error, stackTrace) {
@@ -79,4 +119,57 @@ Future<void> main() async {
       );
     },
   );
+}
+
+class App extends StatefulWidget {
+  final String? starterRoute;
+
+  const App({super.key, this.starterRoute});
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  // This widget is the root of your application.
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+        systemNavigationBarColor: Colors.transparent,
+        statusBarBrightness: Brightness.dark,
+        systemNavigationBarIconBrightness: Brightness.dark,
+      ),
+    );
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      // DeviceOrientation.landscapeLeft,
+      // DeviceOrientation.landscapeRight,
+    ]);
+
+    return StacApp(
+      title: 'Stac App Test',
+      routes: AppPages.stacPages,
+      homeBuilder: (p0) => Stac(routeName: 'menu'),
+      debugShowCheckedModeBanner: false,
+      useInheritedMediaQuery: true,
+      themeMode: ThemeMode.light,
+      theme: StacAppTheme(name: 'main_theme'),
+      darkTheme: StacAppTheme(name: 'main_theme'),
+      onGenerateRoute: (settings) {
+        ConsoleLogger.info('name ${settings.name}');
+        print('Route settings: ${settings.name}');
+        return null;
+      },
+    );
+  }
 }
