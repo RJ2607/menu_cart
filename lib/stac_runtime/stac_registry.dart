@@ -9,6 +9,7 @@ import 'actions/cart/update_cart_quantity/st_update_cart_quantity_action_parser.
 import 'widgets/cart/st_addon_selector/st_addon_selector_parser.dart';
 import 'widgets/cart/st_cart_badge/st_cart_badge_parser.dart';
 import 'widgets/cart/st_category_chip/st_category_chip_parser.dart';
+import 'widgets/cart/filtered_menu_items/st_filtered_menu_items_parser.dart';
 import 'widgets/cart/st_price_display/st_price_display_parser.dart';
 import 'widgets/cart/st_size_selector/st_size_selector_parser.dart';
 
@@ -31,9 +32,14 @@ class StacParsers {
     StFutureDataParser(_dio),
     StListViewBuilderParser(_dio),
     WildcardPageParser(),
+    DynamicCartSummaryParser(),
+    QuantityControlParser(),
+    DynamicCartListParser(),
+    AddToCartButtonParser(),
     // Cart custom widgets
     const StCartBadgeParser(),
     const StCategoryChipParser(),
+    const FilteredMenuItemsParser(),
     const StSizeSelectorParser(),
     const StAddonSelectorParser(),
     const StPriceDisplayParser(),
@@ -41,6 +47,8 @@ class StacParsers {
 
   static final List<StacActionParser> actionParsers = [
     StWildcardPageNavActionParser(),
+    StPlaceOrderActionParser(),
+    StNavigateToItemDetailActionParser(),
     // Cart custom actions
     StAddToCartActionParser(),
     StSetCategoryActionParser(),

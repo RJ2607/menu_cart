@@ -1,6 +1,7 @@
 import 'package:menu_cart/stac_runtime/widgets/cart/st_addon_selector/st_addon_selector.dart';
 import 'package:menu_cart/stac_runtime/widgets/cart/st_price_display/st_price_display.dart';
 import 'package:menu_cart/stac_runtime/widgets/cart/st_size_selector/st_size_selector.dart';
+import 'package:menu_cart/stac_runtime/widgets/cart/add_to_cart_button/st_add_to_cart_button.dart';
 import 'package:menu_cart/stac_runtime/widgets/controls/animated_icon_toggle/st_animated_icon_toggle.dart';
 import 'package:stac/stac_core.dart';
 
@@ -9,6 +10,8 @@ import 'menu_data.dart';
 /// Item detail screen - STATEFUL version with reactive selections
 @StacScreen(screenName: 'item_detail')
 StacWidget itemDetailScreen() {
+  // The screen DSL is executed by the JSON generator as a standalone Dart
+  // program. Runtime navigation state is handled by the registered parsers.
   final item = getItemById(featuredItemId)!;
   const stateKey = 'item_detail_main';
 
@@ -146,7 +149,7 @@ StacWidget itemDetailScreen() {
                   basePrice: item.price,
                   sizePrices: const {'Regular': 0.0, 'Large': 12.5},
                   addonPrices: const {
-                    'Extras Cheese': 1.5,
+                    'Extra Cheese': 1.5,
                     'Bacon': 2.0,
                     'Avocado': 2.5,
                   },
@@ -156,7 +159,7 @@ StacWidget itemDetailScreen() {
 
                 // Size selection - STATEFUL
                 StacText(
-                  data: 'Choose Sizeaaaaa',
+                  data: 'Choose Size',
                   style: StacTextStyle(
                     fontSize: 18,
                     fontWeight: StacFontWeight.w600,
@@ -177,7 +180,7 @@ StacWidget itemDetailScreen() {
 
                 // Add-ons - STATEFUL
                 StacText(
-                  data: 'Add-Onssss',
+                  data: 'Add-Ons',
                   style: StacTextStyle(
                     fontSize: 15,
                     fontWeight: StacFontWeight.w600,
@@ -191,35 +194,19 @@ StacWidget itemDetailScreen() {
                 StAddonSelector(
                   stateKey: stateKey,
                   options: addonOptions,
-                  initialSelected: const ['Extras Cheese'],
+                  initialSelected: const ['Extra Cheese'],
                 ),
 
                 const StacSizedBox(height: 32),
 
-                // Add to cart button - navigates to cart
-                StacRow(
-                  children: [
-                    StacExpanded(
-                      child: StacElevatedButton(
-                        onPressed: StacNavigator.pushStac('cart'),
-                        style: StacButtonStyle(
-                          backgroundColor: primaryColor,
-                          padding: const StacEdgeInsets.symmetric(vertical: 16),
-                          shape: StacRoundedRectangleBorder(
-                            borderRadius: StacBorderRadius.circular(12),
-                          ),
-                        ),
-                        child: StacText(
-                          data: 'View Cart',
-                          style: StacTextStyle(
-                            fontSize: 18,
-                            fontWeight: StacFontWeight.w700,
-                            color: StacColors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                // Add to cart button - adds item with selections and navigates to cart
+                AddToCartButton(
+                  stateKey: stateKey,
+                  itemId: item.id,
+                  itemName: item.name,
+                  itemImageUrl: item.imageUrl,
+                  itemBasePrice: item.price,
+                  buttonText: 'Add to Cart',
                 ),
 
                 const StacSizedBox(height: 32),

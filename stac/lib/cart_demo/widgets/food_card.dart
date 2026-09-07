@@ -1,3 +1,4 @@
+import 'package:menu_cart/stac_runtime/actions/cart/navigate_to_item_detail/st_navigate_to_item_detail_action.dart';
 import 'package:stac/stac_core.dart';
 
 import '../menu_data.dart';
@@ -6,7 +7,7 @@ import '../menu_data.dart';
 StacWidget foodCard(MenuItem item) {
   return StacGestureDetector(
     onTap: item.isAvailable
-        ? StacNavigator.pushStac('item_detail', arguments: {'itemId': item.id})
+        ? StNavigateToItemDetailAction(itemId: item.id)
         : null,
     child: StacContainer(
       margin: const StacEdgeInsets.only(bottom: 16),

@@ -1409,13 +1409,13 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/stac"
-      ref: "3260a502abcb2acf2ce5be659ccd806147144bf8"
+      ref: main
       resolved-ref: "3260a502abcb2acf2ce5be659ccd806147144bf8"
       url: "https://github.com/smoke-trees/st_sdui.git"
     source: git
     version: "1.5.0"
   stac_core:
-    dependency: "direct main"
+    dependency: transitive
     description:
       path: "packages/stac_core"
       ref: "3260a502abcb2acf2ce5be659ccd806147144bf8"
@@ -1424,7 +1424,7 @@ packages:
     source: git
     version: "1.5.0"
   stac_framework:
-    dependency: "direct main"
+    dependency: transitive
     description:
       path: "packages/stac_framework"
       ref: "3260a502abcb2acf2ce5be659ccd806147144bf8"
@@ -1433,7 +1433,7 @@ packages:
     source: git
     version: "1.0.0"
   stac_logger:
-    dependency: "direct main"
+    dependency: transitive
     description:
       path: "packages/stac_logger"
       ref: "3260a502abcb2acf2ce5be659ccd806147144bf8"

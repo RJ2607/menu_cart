@@ -1,3 +1,4 @@
+import 'package:menu_cart/stac_runtime/widgets/cart/filtered_menu_items/st_filtered_menu_items.dart';
 import 'package:menu_cart/stac_runtime/widgets/cart/st_cart_badge/st_cart_badge.dart';
 import 'package:menu_cart/stac_runtime/widgets/cart/st_category_chip/st_category_chip.dart';
 import 'package:stac/stac_core.dart';
@@ -95,30 +96,33 @@ StacWidget menuScreen() {
             ),
           ),
 
-          // Menu items by category - static list
+          // Menu items by category - REACTIVE filtered list
           StacPadding(
             padding: const StacEdgeInsets.symmetric(horizontal: 16),
-            child: StacColumn(
-              crossAxisAlignment: StacCrossAxisAlignment.start,
-              children: [
-                // Mains section
-                sectionHeader('Mains'),
-                ...getItemsByCategory('Mains').map(foodCard),
-
-                const StacSizedBox(height: 16),
-
-                // Sides section
-                sectionHeader('Sides'),
-                ...getItemsByCategory('Sides').map(foodCard),
-
-                const StacSizedBox(height: 16),
-
-                // Drinks section
-                sectionHeader('Drinks'),
-                ...getItemsByCategory('Drinks').map(foodCard),
-
-                const StacSizedBox(height: 32),
-              ],
+            child: FilteredMenuItems(
+              child: StacColumn(
+                crossAxisAlignment: StacCrossAxisAlignment.start,
+                children: [
+                  sectionHeader('Mains'),
+                  ...List.generate(
+                    getItemsByCategory('Mains').length,
+                    (i) => foodCard(getItemsByCategory('Mains')[i]),
+                  ),
+                  const StacSizedBox(height: 16),
+                  sectionHeader('Sides'),
+                  ...List.generate(
+                    getItemsByCategory('Sides').length,
+                    (i) => foodCard(getItemsByCategory('Sides')[i]),
+                  ),
+                  const StacSizedBox(height: 16),
+                  sectionHeader('Drinks'),
+                  ...List.generate(
+                    getItemsByCategory('Drinks').length,
+                    (i) => foodCard(getItemsByCategory('Drinks')[i]),
+                  ),
+                  const StacSizedBox(height: 32),
+                ],
+              ),
             ),
           ),
         ],

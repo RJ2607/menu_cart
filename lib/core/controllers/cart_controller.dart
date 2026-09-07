@@ -55,6 +55,7 @@ class CartController extends GetxController {
   final RxList<CartItem> cartItems = <CartItem>[].obs;
   final RxSet<String> favorites = <String>{}.obs;
   final RxString selectedCategory = 'All'.obs;
+  final RxString selectedItemId = ''.obs;
 
   int get cartCount => cartItems.fold(0, (sum, item) => sum + item.quantity);
   double get subtotal =>
@@ -74,6 +75,10 @@ class CartController extends GetxController {
 
   void setCategory(String category) {
     selectedCategory.value = category;
+  }
+
+  void setSelectedItemId(String itemId) {
+    selectedItemId.value = itemId;
   }
 
   void addToCart({
