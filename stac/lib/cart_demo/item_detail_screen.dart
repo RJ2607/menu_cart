@@ -4,7 +4,6 @@ import 'package:menu_cart/stac_runtime/widgets/cart/st_addon_selector/st_addon_s
 import 'package:menu_cart/stac_runtime/widgets/cart/st_item_selection_wrapper/st_item_selection_wrapper.dart';
 import 'package:menu_cart/stac_runtime/widgets/cart/st_price_display/st_price_display.dart';
 import 'package:menu_cart/stac_runtime/widgets/cart/st_size_selector/st_size_selector.dart';
-import 'package:menu_cart/stac_runtime/widgets/controls/animated_icon_toggle/st_animated_icon_toggle.dart';
 import 'package:menu_cart/stac_runtime/widgets/controls/main_button/st_main_button.dart';
 import 'package:menu_cart/stac_runtime/widgets/layout/conditional/st_conditional_widget.dart';
 import 'package:stac/stac_core.dart';
@@ -71,26 +70,26 @@ StacWidget itemDetailScreen() {
                   ),
                 ),
                 // Favorite toggle button
-                StacPositioned(
-                  top: 44,
-                  right: 16,
-                  child: StacContainer(
-                    padding: const StacEdgeInsets.all(8),
-                    decoration: const StacBoxDecoration(
-                      color: StacColors.white,
-                      shape: StacBoxShape.circle,
-                    ),
-                    child: StAnimatedIconToggle(
-                      when: false,
-                      trueIcon: 'favorite',
-                      falseIcon: 'favorite_border',
-                      trueColor: primaryColor,
-                      falseColor: textSecondary,
-                      size: 24,
-                      durationMs: 200,
-                    ),
-                  ),
-                ),
+                // StacPositioned(
+                //   top: 44,
+                //   right: 16,
+                //   child: StacContainer(
+                //     padding: const StacEdgeInsets.all(8),
+                //     decoration: const StacBoxDecoration(
+                //       color: StacColors.white,
+                //       shape: StacBoxShape.circle,
+                //     ),
+                //     child: StAnimatedIconToggle(
+                //       when: false,
+                //       trueIcon: 'favorite',
+                //       falseIcon: 'favorite_border',
+                //       trueColor: primaryColor,
+                //       falseColor: textSecondary,
+                //       size: 24,
+                //       durationMs: 200,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
 
