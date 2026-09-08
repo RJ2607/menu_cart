@@ -12,7 +12,7 @@ class StSetCategoryAction extends StacAction {
   });
 
   @override
-  String get type => 'set_category';
+  String get actionType => 'set_category';
 
   factory StSetCategoryAction.fromJson(Map<String, dynamic> json) =>
       _$StSetCategoryActionFromJson(json);

@@ -21,11 +21,11 @@ StAddToCartAction _$StAddToCartActionFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$StAddToCartActionToJson(StAddToCartAction instance) =>
     <String, dynamic>{
-      'actionType': instance.actionType,
       'id': instance.id,
       'name': instance.name,
       'imageUrl': instance.imageUrl,
       'basePrice': instance.basePrice,
       'size': instance.size,
       'addons': instance.addons,
+      'actionType': instance.actionType,
     };

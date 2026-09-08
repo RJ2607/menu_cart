@@ -16,4 +16,5 @@ Map<String, dynamic> _$StNavigateToItemDetailActionToJson(
         StNavigateToItemDetailAction instance) =>
     <String, dynamic>{
       'itemId': instance.itemId,
+      'actionType': instance.actionType,
     };

@@ -5,8 +5,15 @@ part 'st_update_cart_quantity_action.g.dart';
 
 @JsonSerializable()
 class StUpdateCartQuantityAction extends StacAction {
-  final int index;
-  final int quantity;
+  /// Cart item index (can be a string placeholder like "{{index}}" in templates)
+  final dynamic index;
+  
+  /// Quantity to set (can be a string placeholder)
+  /// Special values when used in templates:
+  /// - positive number: absolute quantity
+  /// - negative number: relative decrement
+  /// - 0: remove item
+  final dynamic quantity;
 
   const StUpdateCartQuantityAction({
     required this.index,
@@ -14,7 +21,7 @@ class StUpdateCartQuantityAction extends StacAction {
   });
 
   @override
-  String get type => 'update_cart_quantity';
+  String get actionType => 'update_cart_quantity';
 
   factory StUpdateCartQuantityAction.fromJson(Map<String, dynamic> json) =>
       _$StUpdateCartQuantityActionFromJson(json);

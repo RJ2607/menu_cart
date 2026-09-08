@@ -28,16 +28,14 @@ class _PriceDisplayWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller =
-        Get.isRegistered<ItemSelectionController>(tag: model.stateKey)
-        ? Get.find<ItemSelectionController>(tag: model.stateKey)
-        : Get.put(
-            ItemSelectionController(stateKey: model.stateKey),
-            tag: model.stateKey,
-          );
+    final controller = Get.find<ItemSelectionController>(
+      tag: model.stateKey,
+    );
 
     return Obx(() {
-      double totalPrice = model.basePrice;
+      double totalPrice = model.basePrice is num
+          ? (model.basePrice as num).toDouble()
+          : double.tryParse(model.basePrice.toString()) ?? 0;
 
       // Add size price
       if (model.sizePrices != null &&

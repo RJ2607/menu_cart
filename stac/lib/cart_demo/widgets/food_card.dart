@@ -1,7 +1,7 @@
 import 'package:menu_cart/stac_runtime/actions/cart/navigate_to_item_detail/st_navigate_to_item_detail_action.dart';
 import 'package:stac/stac_core.dart';
 
-import '../menu_data.dart';
+import '../../../../lib/core/menu_data.dart';
 
 /// Creates a card for a menu item
 StacWidget foodCard(MenuItem item) {

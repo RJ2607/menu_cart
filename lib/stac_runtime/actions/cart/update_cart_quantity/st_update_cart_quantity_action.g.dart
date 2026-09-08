@@ -9,8 +9,8 @@ part of 'st_update_cart_quantity_action.dart';
 StUpdateCartQuantityAction _$StUpdateCartQuantityActionFromJson(
         Map<String, dynamic> json) =>
     StUpdateCartQuantityAction(
-      index: (json['index'] as num).toInt(),
-      quantity: (json['quantity'] as num).toInt(),
+      index: json['index'],
+      quantity: json['quantity'],
     );
 
 Map<String, dynamic> _$StUpdateCartQuantityActionToJson(

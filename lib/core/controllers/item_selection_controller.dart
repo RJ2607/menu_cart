@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:menu_cart/core/menu_data.dart';
 
 /// Controller for managing item selection state (size and addons)
 /// Used by size selector, addon selector, and price display widgets
@@ -7,12 +8,15 @@ class ItemSelectionController extends GetxController {
     required this.stateKey,
     String? initialSize,
     List<String>? initialAddons,
+    MenuItem? initialItem,
   }) : selectedSize = (initialSize ?? 'Regular').obs,
-       selectedAddons = RxList<String>(initialAddons ?? []);
+       selectedAddons = RxList<String>(initialAddons ?? []),
+       selectedItem = initialItem.obs;
 
   final String stateKey;
   final RxString selectedSize;
   final RxList<String> selectedAddons;
+  final Rx<MenuItem?> selectedItem;
 
   void selectSize(String size) {
     selectedSize.value = size;

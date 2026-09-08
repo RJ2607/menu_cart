@@ -25,7 +25,7 @@ class CartItem {
     if (selectedSize == 'Large') price += 2.50;
     for (var addon in selectedAddons) {
       switch (addon) {
-        case 'Extras Cheese':
+        case 'Extra Cheese':
           price += 1.50;
           break;
         case 'Bacon':
@@ -144,28 +144,6 @@ class CartController extends GetxController {
 
   void seedCartData() {
     cartItems.clear();
-    cartItems.addAll([
-      CartItem(
-        id: 'burger_classic',
-        name: 'Classic Urban Burger',
-        imageUrl:
-            'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800',
-        basePrice: 12.99,
-        quantity: 2,
-        selectedSize: 'Large',
-        selectedAddons: ['Extras Cheese'],
-      ),
-      CartItem(
-        id: 'fries_truffle',
-        name: 'Truffle Parmesan Fries',
-        imageUrl:
-            'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=800',
-        basePrice: 5.99,
-        quantity: 1,
-        selectedSize: 'Regular',
-        selectedAddons: [],
-      ),
-    ]);
   }
 
   @override

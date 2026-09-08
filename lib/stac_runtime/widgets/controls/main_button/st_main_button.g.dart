@@ -35,7 +35,7 @@ StMainButton _$StMainButtonFromJson(Map<String, dynamic> json) => StMainButton(
 Map<String, dynamic> _$StMainButtonToJson(StMainButton instance) =>
     <String, dynamic>{
       'actionKey': instance.actionKey,
-      'onPressed': instance.onPressed,
+      'onPressed': instance.onPressed?.toJson(),
       'title': instance.title,
       'textStyle': instance.textStyle,
       'padding': instance.padding,

@@ -12,7 +12,7 @@ class StToggleFavoriteAction extends StacAction {
   });
 
   @override
-  String get type => 'toggle_favorite';
+  String get actionType => 'toggle_favorite';
 
   factory StToggleFavoriteAction.fromJson(Map<String, dynamic> json) =>
       _$StToggleFavoriteActionFromJson(json);

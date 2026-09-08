@@ -45,7 +45,7 @@ StacWidget stToDoListView() {
                 spacing: 12,
                 scrollDirection: StacAxis.vertical.toString(),
                 itemTemplate: StDismissible(
-                  keyValue: 'dismiss-',
+                  keyValue: 'dismiss-{{id}}',
                   direction: 'horizontal',
                   background: StacContainer(
                     margin: const StacEdgeInsets.symmetric(vertical: 2),
@@ -60,7 +60,7 @@ StacWidget stToDoListView() {
                       mainAxisSize: StacMainAxisSize.min,
                       children: [
                         StConditionalWidget(
-                          when: '',
+                          when: '{{completed}}',
                           whenTrue: const StacIcon(
                             icon: StacIcons.replay_rounded,
                             color: StacColors.white,
@@ -72,7 +72,7 @@ StacWidget stToDoListView() {
                         ),
                         const StacSizedBox(width: 8),
                         StConditionalWidget(
-                          when: '',
+                          when: '{{completed}}',
                           whenTrue: StacText(
                             data: 'Undo',
                             style: StacTextStyle(
@@ -121,17 +121,17 @@ StacWidget stToDoListView() {
                   confirmDialog: const StDismissibleConfirmDialog(
                     title: 'Delete this to-do?',
                     message:
-                        ' will be removed.', // falls back to generic text if title is empty server-side
+                        '{{title}} will be removed.', // falls back to generic text if title is empty server-side
                     cancelLabel: 'Cancel',
                     confirmLabel: 'Delete',
                     confirmColor: StacColors.redAccent,
                   ),
-                  onStartToEnd: StacToggleToDoAction(id: ''),
-                  onEndToStart: StacDeleteToDoAction(id: ''),
+                  onStartToEnd: StacToggleToDoAction(id: '{{id}}'),
+                  onEndToStart: StacDeleteToDoAction(id: '{{id}}'),
                   child: StAnimatedContainer(
                     durationMs: 200,
                     // see note below
-                    decorationWhen: '',
+                    decorationWhen: '{{completed}}',
                     // margin: StacEdgeInsets.only(bottom: 12),
                     decorationWhenTrue: StacBoxDecoration(
                       color: StAppColors.grey2.withOpacity(0.15),
@@ -161,7 +161,7 @@ StacWidget stToDoListView() {
                       borderRadius: StacBorderRadius.circular(18),
                       child: StacGestureDetector(
                         behavior: StacHitTestBehavior.opaque,
-                        onTap: StacToggleToDoAction(id: ''),
+                        onTap: StacToggleToDoAction(id: '{{id}}'),
                         child: StacPadding(
                           padding: const StacEdgeInsets.all(16),
                           child: StacColumn(
@@ -174,7 +174,7 @@ StacWidget stToDoListView() {
                                   StConditionalContainer(
                                     width: 44, // serialNumberMarkWidth
                                     height: 44,
-                                    when: '',
+                                    when: '{{completed}}',
                                     decorationWhenTrue: StacBoxDecoration(
                                       shape: StacBoxShape.circle,
                                       color: StAppColors.grey1.withOpacity(0.4),
@@ -205,7 +205,7 @@ StacWidget stToDoListView() {
                                     ),
                                     child: StacCenter(
                                       child: StacText(
-                                        data: '',
+                                        data: '{{serialNumber}}',
                                         style: StacTextStyle(
                                           color: StacColors.white,
                                           fontWeight: StacFontWeight.w700,
@@ -220,9 +220,9 @@ StacWidget stToDoListView() {
                                           StacCrossAxisAlignment.start,
                                       children: [
                                         StConditionalWidget(
-                                          when: '',
+                                          when: '{{completed}}',
                                           whenTrue: StacText(
-                                            data: '',
+                                            data: '{{title}}',
                                             maxLines: 2,
                                             overflow: StacTextOverflow.ellipsis,
                                             style: StacTextStyle(
@@ -235,7 +235,7 @@ StacWidget stToDoListView() {
                                             ),
                                           ),
                                           whenFalse: StacText(
-                                            data: '',
+                                            data: '{{title}}',
                                             maxLines: 2,
                                             overflow: StacTextOverflow.ellipsis,
                                             style: StacTextStyle(
@@ -246,7 +246,7 @@ StacWidget stToDoListView() {
                                         ),
                                         const StacSizedBox(height: 6),
                                         StConditionalWidget(
-                                          when: '',
+                                          when: '{{completed}}',
                                           whenTrue: StacContainer(
                                             padding:
                                                 const StacEdgeInsets.symmetric(
@@ -295,22 +295,22 @@ StacWidget stToDoListView() {
                                   ),
                                   const StacSizedBox(width: 8),
                                   StAnimatedIconToggle(
-                                    when: '',
+                                    when: '{{completed}}',
                                     trueIcon: 'check_circle_rounded',
                                     falseIcon: 'radio_button_unchecked_rounded',
                                     trueColor: StAppColors.primaryColor,
                                     falseColor: StAppColors.grey1,
                                     size: 30,
-                                    onTap: StacToggleToDoAction(id: ''),
+                                    onTap: StacToggleToDoAction(id: '{{id}}'),
                                   ),
                                 ],
                               ),
                               // hasDescription check: only meaningful when description is guaranteed non-empty
-                              // server-side, since Stac has no A Stac-powered Flutter application.isNotEmpty check. See note below.
+                              // server-side, since Stac has no {{description}}.isNotEmpty check. See note below.
                               const StacSizedBox(height: 12),
                               StConditionalContainer(
                                 padding: const StacEdgeInsets.all(12),
-                                when: '',
+                                when: '{{completed}}',
                                 decorationWhenTrue: StacBoxDecoration(
                                   color: StAppColors.grey2.withOpacity(0.2),
                                   borderRadius: StacBorderRadius.circular(12),
@@ -321,9 +321,9 @@ StacWidget stToDoListView() {
                                 ),
 
                                 child: StConditionalWidget(
-                                  when: '',
+                                  when: '{{completed}}',
                                   whenTrue: StacText(
-                                    data: 'A Stac-powered Flutter application',
+                                    data: '{{description}}',
                                     maxLines: 3,
                                     overflow: StacTextOverflow.ellipsis,
                                     style: StacTextStyle(
@@ -336,7 +336,7 @@ StacWidget stToDoListView() {
                                     ),
                                   ),
                                   whenFalse: StacText(
-                                    data: 'A Stac-powered Flutter application',
+                                    data: '{{description}}',
                                     maxLines: 3,
                                     overflow: StacTextOverflow.ellipsis,
                                     style: StacTextStyle(
@@ -358,8 +358,8 @@ StacWidget stToDoListView() {
                 orderBy: 'serialNumber',
                 order: 'ASC',
                 onReorder: StacReorderToDoAction(
-                  id: '',
-                  toIndex: '',
+                  id: '{{id}}',
+                  toIndex: '{{newIndex}}',
                 ),
               ),
             ),

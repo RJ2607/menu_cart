@@ -6,7 +6,7 @@ part 'st_price_display.g.dart';
 @JsonSerializable()
 class StPriceDisplay extends StacWidget {
   final String stateKey;
-  final double basePrice;
+  final dynamic basePrice;
   final Map<String, double>? sizePrices;
   final Map<String, double>? addonPrices;
 

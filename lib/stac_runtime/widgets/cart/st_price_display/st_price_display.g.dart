@@ -9,7 +9,7 @@ part of 'st_price_display.dart';
 StPriceDisplay _$StPriceDisplayFromJson(Map<String, dynamic> json) =>
     StPriceDisplay(
       stateKey: json['stateKey'] as String,
-      basePrice: (json['basePrice'] as num).toDouble(),
+      basePrice: json['basePrice'],
       sizePrices: (json['sizePrices'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, (e as num).toDouble()),
       ),

@@ -28,16 +28,9 @@ class _SizeSelectorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller =
-        Get.isRegistered<ItemSelectionController>(tag: model.stateKey)
-        ? Get.find<ItemSelectionController>(tag: model.stateKey)
-        : Get.put(
-            ItemSelectionController(
-              stateKey: model.stateKey,
-              initialSize: model.initialValue ?? 'Regular',
-            ),
-            tag: model.stateKey,
-          );
+    final controller = Get.find<ItemSelectionController>(
+      tag: model.stateKey,
+    );
 
     return Obx(() {
       return Row(

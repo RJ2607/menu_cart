@@ -10,4 +10,6 @@ StPlaceOrderAction _$StPlaceOrderActionFromJson(Map<String, dynamic> json) =>
     StPlaceOrderAction();
 
 Map<String, dynamic> _$StPlaceOrderActionToJson(StPlaceOrderAction instance) =>
-    <String, dynamic>{};
+    <String, dynamic>{
+      'actionType': instance.actionType,
+    };

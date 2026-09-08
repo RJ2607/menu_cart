@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:menu_cart/core/controllers/cart_controller.dart';
+import 'package:menu_cart/utils/console_logger.dart';
 import 'package:stac/stac.dart';
 
-import '../../../../core/controllers/cart_controller.dart';
 import 'st_navigate_to_item_detail_action.dart';
 
 /// Parses and dispatches [StNavigateToItemDetailAction].
@@ -22,8 +22,14 @@ class StNavigateToItemDetailActionParser
     BuildContext context,
     StNavigateToItemDetailAction model,
   ) async {
-    final controller = Get.find<CartController>();
+    ConsoleLogger.info('itemId: ${model.itemId}');
+    final controller = CartController.to;
     controller.setSelectedItemId(model.itemId);
-    Navigator.of(context).pushNamed('item_detail');
+    final navigateAction = StacNavigateAction(
+      navigationStyle: NavigationStyle.push,
+      routeName: 'item_detail',
+      arguments: {'itemId': model.itemId},
+    );
+    await Stac.onCallFromJson(navigateAction.toJson(), context);
   }
 }

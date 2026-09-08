@@ -15,6 +15,6 @@ StToggleFavoriteAction _$StToggleFavoriteActionFromJson(
 Map<String, dynamic> _$StToggleFavoriteActionToJson(
         StToggleFavoriteAction instance) =>
     <String, dynamic>{
-      'actionType': instance.actionType,
       'itemId': instance.itemId,
+      'actionType': instance.actionType,
     };

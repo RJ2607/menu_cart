@@ -2,6 +2,10 @@
 
 part of 'st_filtered_menu_items.dart';
 
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
 FilteredMenuItems _$FilteredMenuItemsFromJson(Map<String, dynamic> json) =>
     FilteredMenuItems(
       child: json['child'] == null
@@ -10,4 +14,7 @@ FilteredMenuItems _$FilteredMenuItemsFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$FilteredMenuItemsToJson(FilteredMenuItems instance) =>
-    <String, dynamic>{'child': instance.child?.toJson(), 'type': instance.type};
+    <String, dynamic>{
+      'child': instance.child?.toJson(),
+      'type': instance.type,
+    };

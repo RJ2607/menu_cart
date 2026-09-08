@@ -1,6 +1,6 @@
 import 'package:stac/stac_core.dart';
 
-import '../menu_data.dart';
+import '../../../../lib/core/menu_data.dart';
 
 /// Creates a section header for categories
 StacWidget sectionHeader(String title) {

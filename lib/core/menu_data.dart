@@ -58,7 +58,7 @@ final List<MenuItem> menuItems = [
     category: 'Mains',
     price: 12.99,
     imageUrl:
-        'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800',
+        'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=800&fm=jpg',
     isVegetarian: false,
     isAvailable: true,
     isFeatured: true,
@@ -70,7 +70,7 @@ final List<MenuItem> menuItems = [
     category: 'Mains',
     price: 10.99,
     imageUrl:
-        'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=800',
+        'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=800&fm=jpg',
     isVegetarian: false,
     isAvailable: true,
   ),
@@ -81,7 +81,8 @@ final List<MenuItem> menuItems = [
     description: 'Quinoa, roasted veggies, falafel, tahini drizzle',
     category: 'Mains',
     price: 11.49,
-    imageUrl: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800',
+    imageUrl:
+        'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&fm=jpg',
     isVegetarian: true,
     isAvailable: false,
   ),
@@ -93,7 +94,7 @@ final List<MenuItem> menuItems = [
     category: 'Sides',
     price: 5.99,
     imageUrl:
-        'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=800',
+        'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=800&fm=jpg',
     isVegetarian: true,
     isAvailable: true,
   ),
@@ -105,7 +106,7 @@ final List<MenuItem> menuItems = [
     category: 'Drinks',
     price: 3.99,
     imageUrl:
-        'https://images.unsplash.com/photo-1523677011781-c91d1bbe2f9f?w=800',
+        'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=800',
     isVegetarian: true,
     isAvailable: true,
   ),
@@ -116,7 +117,7 @@ final List<MenuItem> menuItems = [
     category: 'Drinks',
     price: 6.49,
     imageUrl:
-        'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=800',
+        'https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=800&fm=jpg',
     isVegetarian: true,
     isAvailable: true,
   ),
@@ -144,32 +145,13 @@ const List<Map<String, dynamic>> sizeOptions = [
 
 /// Add-on options for detail screen
 const List<Map<String, dynamic>> addonOptions = [
-  {'label': 'Extras Cheese', 'price': 1.5},
+  {'label': 'Extra Cheese', 'price': 1.5},
   {'label': 'Bacon', 'price': 2.0},
   {'label': 'Avocado', 'price': 2.5},
 ];
 
 /// Seeded cart items for demo
-final List<Map<String, dynamic>> seededCartItems = [
-  {
-    'id': 'burger_classic',
-    'name': 'Classic Urban Burger',
-    'imageUrl':
-        'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800',
-    'price': 12.99,
-    'quantity': 2,
-    'options': 'Large, Extras Cheese',
-  },
-  {
-    'id': 'fries_truffle',
-    'name': 'Truffle Parmesan Fries',
-    'imageUrl':
-        'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=800',
-    'price': 5.99,
-    'quantity': 1,
-    'options': 'Regular',
-  },
-];
+final List<Map<String, dynamic>> seededCartItems = [];
 
 /// Cart calculations
 const double deliveryFee = 3.99;

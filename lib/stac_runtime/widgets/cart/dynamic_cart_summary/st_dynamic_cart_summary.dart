@@ -7,7 +7,46 @@ part 'st_dynamic_cart_summary.g.dart';
 /// Displays order summary with reactive totals from CartController.
 @JsonSerializable(explicitToJson: true)
 class DynamicCartSummary extends StacWidget {
-  const DynamicCartSummary();
+  // Labels
+  final String? subtotalLabel;
+  final String? deliveryLabel;
+  final String? totalLabel;
+  final String? placeOrderText;
+
+  // Colors
+  final String? backgroundColor;
+  final String? subtotalTextColor;
+  final String? subtotalValueColor;
+  final String? deliveryTextColor;
+  final String? deliveryValueColor;
+  final String? totalTextColor;
+  final String? totalValueColor;
+  final String? dividerColor;
+  final String? placeOrderButtonColor;
+  final String? placeOrderTextColor;
+
+  // Sizing
+  final double? borderTopRadius;
+  final double? verticalPadding;
+
+  const DynamicCartSummary({
+    this.subtotalLabel,
+    this.deliveryLabel,
+    this.totalLabel,
+    this.placeOrderText,
+    this.backgroundColor,
+    this.subtotalTextColor,
+    this.subtotalValueColor,
+    this.deliveryTextColor,
+    this.deliveryValueColor,
+    this.totalTextColor,
+    this.totalValueColor,
+    this.dividerColor,
+    this.placeOrderButtonColor,
+    this.placeOrderTextColor,
+    this.borderTopRadius,
+    this.verticalPadding,
+  });
 
   @override
   String get type => 'st_dynamic_cart_summary';
