@@ -9,6 +9,7 @@ class AppPages {
     'menu': (context) => const Stac(routeName: 'menu'),
     'item_detail': (context) => const Stac(routeName: 'item_detail'),
     'cart': (context) => const Stac(routeName: 'cart'),
+    'wildcard_page': (context) => const Stac(routeName: 'wildcard_page'),
   };
 
   // Use Flutter pages for full functionality

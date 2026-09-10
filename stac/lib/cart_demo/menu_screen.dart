@@ -1,9 +1,12 @@
 import 'package:menu_cart/core/menu_data.dart';
 import 'package:menu_cart/stac_runtime/actions/cart/navigate_to_item_detail/st_navigate_to_item_detail_action.dart';
+import 'package:menu_cart/stac_runtime/actions/wildcard_page_nav/st_wildcard_page_nav.dart';
 import 'package:menu_cart/stac_runtime/widgets/cart/menu_item_list_builder/st_menu_item_list_builder.dart';
 import 'package:menu_cart/stac_runtime/widgets/cart/st_cart_badge/st_cart_badge.dart';
 import 'package:menu_cart/stac_runtime/widgets/cart/st_category_chip/st_category_chip.dart';
 import 'package:stac/stac_core.dart';
+
+import '../wildcard_page/festival_discount_data.dart';
 
 /// Menu screen - Fully template-based with category filtering
 ///
@@ -85,6 +88,33 @@ StacWidget menuScreen() {
               ],
             ),
           ),
+
+          StacPadding(
+            padding: const StacEdgeInsets.symmetric(horizontal: 16),
+            child: StacRow(
+              children: [
+                StacExpanded(
+                  child: _festivalCard(
+                    title: 'Christmas',
+                    discount: '25% OFF',
+                    color: '#8F1D2C',
+                    page: christmasDiscountPageKey,
+                  ),
+                ),
+                const StacSizedBox(width: 12),
+                StacExpanded(
+                  child: _festivalCard(
+                    title: 'New Year',
+                    discount: '30% OFF',
+                    color: '#173B58',
+                    page: newYearDiscountPageKey,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const StacSizedBox(height: 16),
 
           // STATEFUL Category chips - interactive filtering
           StacContainer(
@@ -240,6 +270,46 @@ StacWidget menuScreen() {
           ),
 
           const StacSizedBox(height: 32),
+        ],
+      ),
+    ),
+  );
+}
+
+StacWidget _festivalCard({
+  required String title,
+  required String discount,
+  required String color,
+  required String page,
+}) {
+  return StacGestureDetector(
+    onTap: StWildcardPageNavAction(wildcardPage: page),
+    child: StacContainer(
+      padding: const StacEdgeInsets.all(16),
+      decoration: StacBoxDecoration(
+        color: color,
+        borderRadius: StacBorderRadius.circular(16),
+      ),
+      child: StacColumn(
+        crossAxisAlignment: StacCrossAxisAlignment.start,
+        children: [
+          StacText(
+            data: title,
+            style: StacTextStyle(
+              color: StacColors.white,
+              fontSize: 14,
+              fontWeight: StacFontWeight.w600,
+            ),
+          ),
+          const StacSizedBox(height: 6),
+          StacText(
+            data: discount,
+            style: StacTextStyle(
+              color: StacColors.white,
+              fontSize: 20,
+              fontWeight: StacFontWeight.w700,
+            ),
+          ),
         ],
       ),
     ),
