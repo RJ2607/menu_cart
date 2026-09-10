@@ -10,7 +10,7 @@ StMenuItemListBuilder _$StMenuItemListBuilderFromJson(
         Map<String, dynamic> json) =>
     StMenuItemListBuilder(
       items: (json['items'] as List<dynamic>)
-          .map((e) => Map<String, dynamic>.from(e as Map))
+          .map((e) => e as Map<String, dynamic>)
           .toList(),
       itemTemplate:
           StacWidget.fromJson(json['itemTemplate'] as Map<String, dynamic>),
@@ -24,12 +24,10 @@ StMenuItemListBuilder _$StMenuItemListBuilderFromJson(
 Map<String, dynamic> _$StMenuItemListBuilderToJson(
         StMenuItemListBuilder instance) =>
     <String, dynamic>{
-      'type': instance.type,
       'items': instance.items,
       'itemTemplate': instance.itemTemplate.toJson(),
-      if (instance.sectionHeaderTemplate != null)
-        'sectionHeaderTemplate': instance.sectionHeaderTemplate,
-      if (instance.emptyWidget != null)
-        'emptyWidget': instance.emptyWidget!.toJson(),
-      if (instance.spacing != null) 'spacing': instance.spacing,
+      'sectionHeaderTemplate': instance.sectionHeaderTemplate,
+      'emptyWidget': instance.emptyWidget?.toJson(),
+      'spacing': instance.spacing,
+      'type': instance.type,
     };

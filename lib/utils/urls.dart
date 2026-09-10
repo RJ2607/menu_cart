@@ -25,7 +25,7 @@ class AppUrls {
       defaultValue: '192.168.1.3',
     );
     const port = String.fromEnvironment('STAC_DEV_PORT', defaultValue: '8090');
-    return 'https://44c6-111-92-95-200.ngrok-free.app';
+    return 'https://e6c4-111-92-95-200.ngrok-free.app';
     // return 'http://$host:$port';
   }
 }

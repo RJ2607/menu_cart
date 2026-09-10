@@ -19,9 +19,9 @@ Map<String, dynamic> _$ChargeItemToJson(ChargeItem instance) =>
     <String, dynamic>{
       'label': instance.label,
       'valueKey': instance.valueKey,
-      if (instance.color != null) 'color': instance.color,
-      if (instance.fontSize != null) 'fontSize': instance.fontSize,
-      if (instance.fontWeight != null) 'fontWeight': instance.fontWeight,
+      'color': instance.color,
+      'fontSize': instance.fontSize,
+      'fontWeight': instance.fontWeight,
       'isTotal': instance.isTotal,
     };
 
@@ -45,16 +45,13 @@ StCartSummaryBuilder _$StCartSummaryBuilderFromJson(
 Map<String, dynamic> _$StCartSummaryBuilderToJson(
         StCartSummaryBuilder instance) =>
     <String, dynamic>{
-      'type': instance.type,
       'chargeItems': instance.chargeItems.map((e) => e.toJson()).toList(),
-      if (instance.actionButton != null)
-        'actionButton': instance.actionButton!.toJson(),
-      if (instance.backgroundColor != null)
-        'backgroundColor': instance.backgroundColor,
-      if (instance.borderTopRadius != null)
-        'borderTopRadius': instance.borderTopRadius,
-      if (instance.padding != null) 'padding': instance.padding,
-      if (instance.rowSpacing != null) 'rowSpacing': instance.rowSpacing,
+      'actionButton': instance.actionButton?.toJson(),
+      'backgroundColor': instance.backgroundColor,
+      'borderTopRadius': instance.borderTopRadius,
+      'padding': instance.padding,
+      'rowSpacing': instance.rowSpacing,
       'showDivider': instance.showDivider,
-      if (instance.dividerColor != null) 'dividerColor': instance.dividerColor,
+      'dividerColor': instance.dividerColor,
+      'type': instance.type,
     };

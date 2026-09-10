@@ -21,6 +21,10 @@ export 'stac_runtime/actions/cart/navigate_to_item_detail/st_navigate_to_item_de
 export 'stac_runtime/actions/cart/place_order/st_place_order_action.dart';
 export 'stac_runtime/actions/cart/place_order/st_place_order_action_parser.dart';
 export 'stac_runtime/actions/cart/st_add_to_cart/st_add_to_cart_action_parser.dart';
+export 'stac_runtime/actions/cart/select_item_size/st_select_item_size_action.dart';
+export 'stac_runtime/actions/cart/select_item_size/st_select_item_size_action_parser.dart';
+export 'stac_runtime/actions/cart/toggle_item_addon/st_toggle_item_addon_action.dart';
+export 'stac_runtime/actions/cart/toggle_item_addon/st_toggle_item_addon_action_parser.dart';
 export 'stac_runtime/actions/wildcard_page_nav/st_wildcard_page_nav.dart';
 export 'stac_runtime/actions/wildcard_page_nav/st_wildcard_page_nav_parser.dart';
 export 'stac_runtime/widgets/cart/dynamic_cart_summary/st_dynamic_cart_summary.dart';

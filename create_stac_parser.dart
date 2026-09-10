@@ -1,18 +1,24 @@
 import 'dart:io';
 
 void main(List<String> args) async {
-  if (args.isEmpty) {
+  final injectDataFlag = args.contains('--inject-data');
+  final positionalArgs = args.where((a) => !a.startsWith('--')).toList();
+
+  if (positionalArgs.isEmpty) {
     stderr.writeln(
-      'Usage: dart run create_stac_parser.dart <Name> [category] [subdir...]',
+      'Usage: dart run create_stac_parser.dart <Name> [category] [subdir...] [--inject-data]',
     );
     stderr.writeln(
       'Example: dart run create_stac_parser.dart MyWidget layout custom',
+    );
+    stderr.writeln(
+      'Example: dart run create_stac_parser.dart ProductTile collections --inject-data',
     );
     exitCode = 64;
     return;
   }
 
-  final name = args.first;
+  final name = positionalArgs.first;
   if (!RegExp(r'^[A-Z][A-Za-z0-9]*$').hasMatch(name)) {
     stderr.writeln(
       'Name must be a PascalCase Dart identifier, such as MyWidget.',
@@ -25,7 +31,10 @@ void main(List<String> args) async {
   Directory.current = root;
   final snake = _snakeCase(name);
   final type = 'st_$snake';
-  final pathParts = _pathParts(args.skip(1), defaultCategory: 'layout');
+  final pathParts = _pathParts(
+    positionalArgs.skip(1),
+    defaultCategory: 'layout',
+  );
   final relativeDirectory = [
     'lib',
     'stac_runtime',
@@ -46,8 +55,196 @@ void main(List<String> args) async {
   final parser = File(_join([...relativeDirectory, 'st_${snake}_parser.dart']));
   final generated = File(_join([...relativeDirectory, 'st_$snake.g.dart']));
 
-  model.writeAsStringSync(
-    '''import 'package:json_annotation/json_annotation.dart';
+  if (injectDataFlag) {
+    model.writeAsStringSync(
+      '''import 'package:json_annotation/json_annotation.dart';
+import 'package:stac/stac_core.dart';
+
+part 'st_$snake.g.dart';
+
+/// Data model for the "$type" Stac widget type.
+///
+/// Supports data injection via [endpoint], [items], or [actionKey].
+/// Placeholders like `{{key}}` in [childTemplate] are replaced with
+/// the fetched/inline/action data at runtime.
+@JsonSerializable(explicitToJson: true)
+class $name extends StacWidget {
+  const $name({
+    this.endpoint,
+    this.items,
+    this.actionKey,
+    required this.childTemplate,
+    this.loadingWidget,
+    this.errorWidget,
+    this.emptyWidget,
+  });
+
+  /// API endpoint to fetch data from. When null, [items] or [actionKey] is used.
+  final String? endpoint;
+
+  /// Inline item data used when [endpoint] is null.
+  final List<Map<String, dynamic>>? items;
+
+  /// Action key registered in [ActionRegistry] to fetch data.
+  /// When provided, calls the action and injects the result into [childTemplate].
+  /// Returns `Map<String, dynamic>` for single item or `List<Map<String, dynamic>>` for list.
+  final String? actionKey;
+
+  /// Stac widget template rendered with injected data.
+  /// Placeholders like `{{key}}` are replaced with fetched/inline/action values.
+  final Map<String, dynamic> childTemplate;
+
+  /// Stac widget JSON shown while loading.
+  final Map<String, dynamic>? loadingWidget;
+
+  /// Stac widget JSON shown when the fetch fails.
+  final Map<String, dynamic>? errorWidget;
+
+  /// Stac widget JSON shown when the resolved data is empty.
+  final Map<String, dynamic>? emptyWidget;
+
+  @override
+  String get type => '$type';
+
+  factory $name.fromJson(Map<String, dynamic> json) =>
+      _\$${name}FromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _\$${name}ToJson(this);
+}
+''',
+    );
+
+    parser.writeAsStringSync('''import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:stac/stac.dart';
+
+import '../../../utils/action_registry.dart';
+import '../../../utils/inject_data.dart';
+import 'st_$snake.dart';
+
+/// Parses the "$type" Stac widget type.
+///
+/// Supports data injection: fetches data from [endpoint], uses inline [items],
+/// or calls an [ActionRegistry] action by [actionKey], then injects it into
+/// [childTemplate] via `{{key}}` placeholders.
+class ${name}Parser extends StacParser<$name> {
+  final Dio dio;
+
+  ${name}Parser({Dio? dio}) : dio = dio ?? Dio();
+
+  @override
+  String get type => '$type';
+
+  @override
+  $name getModel(Map<String, dynamic> json) => $name.fromJson(json);
+
+  @override
+  Widget parse(BuildContext context, $name model) {
+    if (model.actionKey != null && model.actionKey!.isNotEmpty) {
+      return _buildWithAction(context, model);
+    }
+    if (model.endpoint == null || model.endpoint!.isEmpty) {
+      return _buildWithItems(context, model, model.items ?? const []);
+    }
+    return _buildWithEndpoint(context, model);
+  }
+
+  Widget _buildWithAction(BuildContext context, $name model) {
+    return FutureBuilder<dynamic>(
+      future: ActionRegistry.call(context, model.actionKey!),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return model.loadingWidget != null
+              ? Stac.fromJson(model.loadingWidget, context) ?? const SizedBox()
+              : const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasError) {
+          return model.errorWidget != null
+              ? Stac.fromJson(model.errorWidget, context) ?? const SizedBox()
+              : const Center(child: Text('Failed to load'));
+        }
+        final data = snapshot.data;
+        if (data == null) {
+          return model.emptyWidget != null
+              ? Stac.fromJson(model.emptyWidget, context) ?? const SizedBox()
+              : const SizedBox();
+        }
+        if (data is List) {
+          final items = data.cast<Map<String, dynamic>>();
+          return _buildList(context, model, items);
+        }
+        final mapData = data is Map<String, dynamic> ? data : {'data': data};
+        final resolvedJson = injectData(model.childTemplate, mapData);
+        return Stac.fromJson(resolvedJson, context) ?? const SizedBox();
+      },
+    );
+  }
+
+  Widget _buildWithItems(
+    BuildContext context,
+    $name model,
+    List<Map<String, dynamic>> items,
+  ) {
+    if (items.isEmpty) {
+      return model.emptyWidget != null
+          ? Stac.fromJson(model.emptyWidget, context) ?? const SizedBox()
+          : const SizedBox();
+    }
+    if(items.length == 1) {
+      final resolvedJson = injectData(model.childTemplate, items.first);
+      return Stac.fromJson(resolvedJson, context) ?? const SizedBox();
+    }
+    return _buildList(context, model, items);
+  }
+
+  Widget _buildList(
+    BuildContext context,
+    $name model,
+    List<Map<String, dynamic>> items,
+  ) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (int i = 0; i < items.length; i++)
+          Builder(
+            builder: (context) {
+              final itemWithIndex = <String, dynamic>{...items[i], 'index': i};
+              final resolvedJson = injectData(model.childTemplate, itemWithIndex);
+              return Stac.fromJson(resolvedJson, context) ?? const SizedBox();
+            },
+          ),
+      ],
+    );
+  }
+
+  Widget _buildWithEndpoint(BuildContext context, $name model) {
+    return FutureBuilder<Response>(
+      future: dio.get(model.endpoint!),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return model.loadingWidget != null
+              ? Stac.fromJson(model.loadingWidget, context) ?? const SizedBox()
+              : const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasError) {
+          return model.errorWidget != null
+              ? Stac.fromJson(model.errorWidget, context) ?? const SizedBox()
+              : const Center(child: Text('Failed to load'));
+        }
+        final data = snapshot.data!.data;
+        final Map<String, dynamic> mapData =
+            data is Map<String, dynamic> ? data : {'data': data};
+        final resolvedJson = injectData(model.childTemplate, mapData);
+        return Stac.fromJson(resolvedJson, context) ?? const SizedBox();
+      },
+    );
+  }
+}
+''');
+  } else {
+    model.writeAsStringSync(
+      '''import 'package:json_annotation/json_annotation.dart';
 import 'package:stac/stac_core.dart';
 
 part 'st_$snake.g.dart';
@@ -71,9 +268,9 @@ class $name extends StacWidget {
   Map<String, dynamic> toJson() => _\$${name}ToJson(this);
 }
 ''',
-  );
+    );
 
-  parser.writeAsStringSync('''import 'package:flutter/material.dart';
+    parser.writeAsStringSync('''import 'package:flutter/material.dart';
 import 'package:stac/stac.dart';
 
 import 'st_$snake.dart';
@@ -92,9 +289,10 @@ class ${name}Parser extends StacParser<$name> {
   }
 }
 ''');
+  }
 
   _insertAfter(
-    File(_join(['lib', 'menu_cart.dart'])),
+    File(_join(['lib', 'health_app_agent.dart'])),
     "export 'stac_runtime/widgets/layout/wildcard_page/wildcard_page_parser.dart';",
     ["export '$packagePath.dart';", "export '${packagePath}_parser.dart';"],
   );
@@ -105,6 +303,11 @@ class ${name}Parser extends StacParser<$name> {
   );
 
   stdout.writeln("Created custom Stac parser '$name'");
+  if (injectDataFlag) {
+    stdout.writeln(
+      '  Mode:    inject-data (with endpoint/items and childTemplate)',
+    );
+  }
   stdout.writeln('  Model:   ${model.path}');
   stdout.writeln('  Parser:  ${parser.path}');
   await _runBuildRunner(generated, "part of 'st_$snake.dart';");

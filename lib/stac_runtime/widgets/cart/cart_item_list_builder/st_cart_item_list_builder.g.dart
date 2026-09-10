@@ -23,12 +23,11 @@ StCartItemListBuilder _$StCartItemListBuilderFromJson(
 Map<String, dynamic> _$StCartItemListBuilderToJson(
         StCartItemListBuilder instance) =>
     <String, dynamic>{
-      'type': instance.type,
       'itemTemplate': instance.itemTemplate.toJson(),
-      if (instance.emptyWidget != null)
-        'emptyWidget': instance.emptyWidget!.toJson(),
-      if (instance.spacing != null) 'spacing': instance.spacing,
-      if (instance.headerText != null) 'headerText': instance.headerText,
-      if (instance.itemSingular != null) 'itemSingular': instance.itemSingular,
-      if (instance.itemPlural != null) 'itemPlural': instance.itemPlural,
+      'emptyWidget': instance.emptyWidget?.toJson(),
+      'spacing': instance.spacing,
+      'headerText': instance.headerText,
+      'itemSingular': instance.itemSingular,
+      'itemPlural': instance.itemPlural,
+      'type': instance.type,
     };

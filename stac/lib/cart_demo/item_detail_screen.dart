@@ -1,14 +1,14 @@
 import 'package:menu_cart/core/menu_data.dart';
+import 'package:menu_cart/stac_runtime/actions/cart/select_item_size/st_select_item_size_action.dart';
 import 'package:menu_cart/stac_runtime/actions/cart/st_add_to_cart/st_add_to_cart_action.dart';
-import 'package:menu_cart/stac_runtime/widgets/cart/st_addon_selector/st_addon_selector.dart';
+import 'package:menu_cart/stac_runtime/actions/cart/toggle_item_addon/st_toggle_item_addon_action.dart';
 import 'package:menu_cart/stac_runtime/widgets/cart/st_item_selection_wrapper/st_item_selection_wrapper.dart';
-import 'package:menu_cart/stac_runtime/widgets/cart/st_price_display/st_price_display.dart';
-import 'package:menu_cart/stac_runtime/widgets/cart/st_size_selector/st_size_selector.dart';
+import 'package:menu_cart/stac_runtime/widgets/collections/list_view_builder/st_list_view_builder.dart';
 import 'package:menu_cart/stac_runtime/widgets/controls/main_button/st_main_button.dart';
 import 'package:menu_cart/stac_runtime/widgets/layout/conditional/st_conditional_widget.dart';
+import 'package:menu_cart/stac_runtime/widgets/layout/conditional_container/st_conditional_container.dart';
 import 'package:stac/stac_core.dart';
 
-/// Item detail screen - STATEFUL version with reactive selections
 @StacScreen(screenName: 'item_detail')
 StacWidget itemDetailScreen() {
   const stateKey = 'item_detail_main';
@@ -151,16 +151,13 @@ StacWidget itemDetailScreen() {
 
                   const StacSizedBox(height: 8),
 
-                  // STATEFUL PRICE - updates dynamically
-                  StPriceDisplay(
-                    stateKey: stateKey,
-                    basePrice: '{{price}}',
-                    sizePrices: const {'Regular': 0.0, 'Large': 2.5},
-                    addonPrices: const {
-                      'Extra Cheese': 1.5,
-                      'Bacon': 2.0,
-                      'Avocado': 2.5,
-                    },
+                  StacText(
+                    data: '{{totalPriceLabel}}',
+                    style: StacTextStyle(
+                      fontSize: 28,
+                      fontWeight: StacFontWeight.w700,
+                      color: primaryColor,
+                    ),
                   ),
 
                   const StacSizedBox(height: 24),
@@ -177,11 +174,26 @@ StacWidget itemDetailScreen() {
 
                   const StacSizedBox(height: 12),
 
-                  // STATEFUL SIZE SELECTOR
-                  StSizeSelector(
-                    stateKey: stateKey,
-                    options: sizeOptions,
-                    initialValue: 'Regular',
+                  StacSizedBox(
+                    height: 70,
+                    child: StListViewBuilder(
+                      scrollDirection: 'horizontal',
+                      items: const [
+                        {
+                          'label': 'Regular',
+                          'priceLabel': '',
+                          'hasPrice': false,
+                          'selected': '{{regularSelected}}',
+                        },
+                        {
+                          'label': 'Large',
+                          'priceLabel': '+\$2.50',
+                          'hasPrice': true,
+                          'selected': '{{largeSelected}}',
+                        },
+                      ],
+                      itemTemplate: _sizeOptionTemplate(stateKey),
+                    ),
                   ),
 
                   const StacSizedBox(height: 24),
@@ -198,11 +210,26 @@ StacWidget itemDetailScreen() {
 
                   const StacSizedBox(height: 12),
 
-                  // STATEFUL ADDON SELECTOR
-                  StAddonSelector(
-                    stateKey: stateKey,
-                    options: addonOptions,
-                    initialSelected: const ['Extra Cheese'],
+                  StListViewBuilder(
+                    shrinkWrap: true,
+                    items: const [
+                      {
+                        'label': 'Extra Cheese',
+                        'priceLabel': '+\$1.50',
+                        'selected': '{{extraCheeseSelected}}',
+                      },
+                      {
+                        'label': 'Bacon',
+                        'priceLabel': '+\$2.00',
+                        'selected': '{{baconSelected}}',
+                      },
+                      {
+                        'label': 'Avocado',
+                        'priceLabel': '+\$2.50',
+                        'selected': '{{avocadoSelected}}',
+                      },
+                    ],
+                    itemTemplate: _addonOptionTemplate(stateKey),
                   ),
 
                   const StacSizedBox(height: 32),
@@ -225,6 +252,64 @@ StacWidget itemDetailScreen() {
             ),
           ],
         ),
+      ),
+    ),
+  );
+}
+
+StacWidget _sizeOptionTemplate(String stateKey) {
+  return StacGestureDetector(
+    onTap: StSelectItemSizeAction(stateKey: stateKey, size: '{{label}}'),
+    child: StConditionalContainer(
+      when: '{{selected}}',
+      margin: const StacEdgeInsets.only(right: 12),
+      padding: const StacEdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      decorationWhenTrue: StacBoxDecoration(
+        color: primaryColor,
+        borderRadius: StacBorderRadius.circular(12),
+      ),
+      decorationWhenFalse: StacBoxDecoration(
+        color: surfaceColor,
+        borderRadius: StacBorderRadius.circular(12),
+        border: StacBorder.all(color: textSecondary, width: 2),
+      ),
+      child: StacColumn(
+        mainAxisSize: StacMainAxisSize.min,
+        children: [
+          StacText(data: '{{label}}'),
+          StConditionalWidget(
+            when: '{{hasPrice}}',
+            whenTrue: StacText(data: '{{priceLabel}}'),
+            whenFalse: const StacSizedBox(height: 0),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+StacWidget _addonOptionTemplate(String stateKey) {
+  return StacGestureDetector(
+    onTap: StToggleItemAddonAction(stateKey: stateKey, addon: '{{label}}'),
+    child: StConditionalContainer(
+      when: '{{selected}}',
+      margin: const StacEdgeInsets.only(bottom: 10),
+      padding: const StacEdgeInsets.all(16),
+      decorationWhenTrue: StacBoxDecoration(
+        color: primaryColor,
+        borderRadius: StacBorderRadius.circular(12),
+      ),
+      decorationWhenFalse: StacBoxDecoration(
+        color: surfaceColor,
+        borderRadius: StacBorderRadius.circular(12),
+        border: StacBorder.all(color: textSecondary, width: 2),
+      ),
+      child: StacRow(
+        mainAxisAlignment: StacMainAxisAlignment.spaceBetween,
+        children: [
+          StacText(data: '{{label}}'),
+          StacText(data: '{{priceLabel}}'),
+        ],
       ),
     ),
   );

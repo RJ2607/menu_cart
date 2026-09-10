@@ -16,7 +16,7 @@ StUpdateCartQuantityAction _$StUpdateCartQuantityActionFromJson(
 Map<String, dynamic> _$StUpdateCartQuantityActionToJson(
         StUpdateCartQuantityAction instance) =>
     <String, dynamic>{
-      'actionType': instance.actionType,
       'index': instance.index,
       'quantity': instance.quantity,
+      'actionType': instance.actionType,
     };

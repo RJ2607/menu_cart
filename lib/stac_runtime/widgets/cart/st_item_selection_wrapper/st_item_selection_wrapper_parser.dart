@@ -4,6 +4,7 @@ import 'package:menu_cart/core/controllers/item_selection_controller.dart';
 import 'package:menu_cart/core/menu_data.dart';
 import 'package:stac/stac.dart';
 
+import '../../../utils/inject_data.dart';
 import 'st_item_selection_wrapper.dart';
 
 class StItemSelectionWrapperParser extends StacParser<StItemSelectionWrapper> {
@@ -104,39 +105,33 @@ class _ItemSelectionWrapperWidgetState
       'isFeatured': item.isFeatured,
     };
 
-    return Stac.fromJson(_replacePlaceholders(
-          widget.model.child.toJson(),
-          itemData,
-        ), context) ??
-        const SizedBox.shrink();
-  }
-
-  dynamic _replacePlaceholders(
-    dynamic value,
-    Map<String, dynamic> data,
-  ) {
-    if (value is String) {
-      final exact = RegExp(r'^\{\{([^}]+)\}\}$').firstMatch(value);
-      if (exact != null && data.containsKey(exact.group(1))) {
-        return data[exact.group(1)];
-      }
-
-      var result = value;
-      data.forEach((key, item) {
-        result = result.replaceAll('{{$key}}', item?.toString() ?? '');
-      });
-      return result;
-    }
-    if (value is Map) {
-      final result = <String, dynamic>{};
-      value.forEach((key, item) {
-        result[key.toString()] = _replacePlaceholders(item, data);
-      });
-      return result;
-    }
-    if (value is List) {
-      return value.map((item) => _replacePlaceholders(item, data)).toList();
-    }
-    return value;
+    final controller = Get.find<ItemSelectionController>(
+      tag: widget.model.stateKey,
+    );
+    return Obx(() {
+      final selectedSize = controller.selectedSize.value;
+      final selectedAddons = List<String>.from(controller.selectedAddons);
+      final total = controller.calculateTotalPrice(
+        basePrice: item.price,
+        sizePrices: const {'Regular': 0.0, 'Large': 2.5},
+        addonPrices: const {'Extra Cheese': 1.5, 'Bacon': 2.0, 'Avocado': 2.5},
+      );
+      final resolvedData = <String, dynamic>{
+        ...itemData,
+        'selectedSize': selectedSize,
+        'totalPrice': total,
+        'totalPriceLabel': '\$${total.toStringAsFixed(2)}',
+        'regularSelected': selectedSize == 'Regular',
+        'largeSelected': selectedSize == 'Large',
+        'extraCheeseSelected': selectedAddons.contains('Extra Cheese'),
+        'baconSelected': selectedAddons.contains('Bacon'),
+        'avocadoSelected': selectedAddons.contains('Avocado'),
+      };
+      return Stac.fromJson(
+            injectData(widget.model.child.toJson(), resolvedData),
+            context,
+          ) ??
+          const SizedBox.shrink();
+    });
   }
 }
