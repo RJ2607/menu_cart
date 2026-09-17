@@ -37,7 +37,7 @@ Future<void> main() async {
     () async {
       WidgetsFlutterBinding.ensureInitialized();
       PaintingBinding.instance.imageCache.maximumSizeBytes = 200 << 20;
-      // Get.testMode = true;
+      Get.testMode = true;
 
       Widget app;
 

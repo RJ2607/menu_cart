@@ -92,6 +92,7 @@ StacWidget menuScreen() {
           StacPadding(
             padding: const StacEdgeInsets.symmetric(horizontal: 16),
             child: StacRow(
+              spacing: 12,
               children: [
                 StacExpanded(
                   child: _festivalCard(
@@ -101,13 +102,24 @@ StacWidget menuScreen() {
                     page: christmasDiscountPageKey,
                   ),
                 ),
-                const StacSizedBox(width: 12),
+                // const StacSizedBox(width: 12),
                 StacExpanded(
                   child: _festivalCard(
                     title: 'New Year',
                     discount: '30% OFF',
                     color: '#173B58',
                     page: newYearDiscountPageKey,
+                  ),
+                ),
+                StacExpanded(
+                  child: _festivalCard(
+                    title: 'Diwali 🪔',
+                    discount: '40% OFF',
+                    color: '#7C1D2B',
+                    page: diwaliDiscountPageKey,
+                    gradientColors: const ['#2D0A31', '#C2570F'],
+                    discountColor: '#FFC93C',
+                    borderColor: '#FFC93C',
                   ),
                 ),
               ],
@@ -281,18 +293,33 @@ StacWidget _festivalCard({
   required String discount,
   required String color,
   required String page,
+  String? emoji,
+  List<String>? gradientColors,
+  String? discountColor,
+  String? borderColor,
 }) {
   return StacGestureDetector(
     onTap: StWildcardPageNavAction(wildcardPage: page),
     child: StacContainer(
       padding: const StacEdgeInsets.all(16),
       decoration: StacBoxDecoration(
-        color: color,
+        color: gradientColors == null ? color : null,
+        gradient: gradientColors == null
+            ? null
+            : StacLinearGradient(
+                colors: gradientColors,
+                begin: StacAlignment.topLeft,
+                end: StacAlignment.bottomRight,
+              ),
         borderRadius: StacBorderRadius.circular(16),
+        border: borderColor == null ? null : StacBorder.all(color: borderColor),
       ),
       child: StacColumn(
         crossAxisAlignment: StacCrossAxisAlignment.start,
         children: [
+          if (emoji != null)
+            StacText(data: emoji, style: StacTextStyle(fontSize: 20)),
+          if (emoji != null) const StacSizedBox(height: 4),
           StacText(
             data: title,
             style: StacTextStyle(
@@ -305,7 +332,7 @@ StacWidget _festivalCard({
           StacText(
             data: discount,
             style: StacTextStyle(
-              color: StacColors.white,
+              color: discountColor ?? '#FFFFFF',
               fontSize: 20,
               fontWeight: StacFontWeight.w700,
             ),

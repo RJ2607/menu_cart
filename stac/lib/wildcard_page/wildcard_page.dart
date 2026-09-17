@@ -3,6 +3,7 @@ import 'package:stac/stac_core.dart';
 
 import 'festival_discount_data.dart';
 import 'pages/christmas_discount_page.dart';
+import 'pages/diwali_discount_page.dart';
 import 'pages/new_year_discount_page.dart';
 
 @StacScreen(screenName: 'wildcard_page')
@@ -10,5 +11,6 @@ StacWidget festivalWildcardPage() => WildcardPage(
   children: {
     christmasDiscountPageKey: christmasDiscountPage(),
     newYearDiscountPageKey: newYearDiscountPage(),
+    diwaliDiscountPageKey: diwaliDiscountPage(),
   },
 );
