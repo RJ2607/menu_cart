@@ -28,7 +28,7 @@ part 'st_cart_item_list_builder.g.dart';
 ///         children: [
 ///           StacImage.network('{{imageUrl}}'),
 ///           StacText(data: '{{name}}'),
-///           StacText(data: '\${{totalPrice}}'),
+///           StacText(data: '₹{{totalPrice}}'),
 ///         ],
 ///       ),
 ///     ),

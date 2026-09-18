@@ -5,6 +5,8 @@ import 'package:menu_cart/stac_runtime/widgets/cart/cart_item_list_builder/st_ca
 import 'package:menu_cart/stac_runtime/widgets/cart/cart_summary_builder/st_cart_summary_builder.dart';
 import 'package:menu_cart/stac_runtime/widgets/collections/dismissible/st_dismissible.dart';
 import 'package:menu_cart/stac_runtime/widgets/controls/main_button/st_main_button.dart';
+import 'package:menu_cart/stac_runtime/widgets/festive/festive_offer_bar/st_festive_offer_bar.dart';
+import 'package:menu_cart/stac_runtime/widgets/festive/festive_offer_picker/st_festive_offer_picker.dart';
 import 'package:stac/stac_core.dart';
 
 /// Cart screen - Fully template-based with JSON-configurable layout
@@ -38,6 +40,17 @@ StacWidget cartScreen() {
     ),
     body: StacColumn(
       children: [
+        // Festive checkout story (pitch: "festive checkout" demo):
+        // full thematic banner on top (badge + amount-off + min-order +
+        // unlock progress + code) + remove pill. Hidden until an offer is
+        // applied; every future festival renders automatically.
+        // Discounted price then flows into the summary's green
+        // "Festive Discount (CODE)" row and the checkout success bill.
+        const FestiveOfferBar(
+          showWhenNone: false,
+          compact: false,
+          showRemoveButton: true,
+        ),
         // Cart items list with swipe-to-dismiss and quantity controls
         StacExpanded(
           child: StacSingleChildScrollView(
@@ -73,6 +86,13 @@ StacWidget cartScreen() {
                           data: 'Add some delicious items to get started!',
                           textAlign: StacTextAlign.center,
                           style: StacTextStyle(fontSize: 14, color: '#636E72'),
+                        ),
+                        const StacSizedBox(height: 12),
+                        StacText(
+                          data:
+                              'Tip: tap a 🎉 festival card on home — DIWALI40, HELLO30 or MERRY500 auto-applies here.',
+                          textAlign: StacTextAlign.center,
+                          style: StacTextStyle(fontSize: 13, color: '#8A6A4A'),
                         ),
                       ],
                     ),
@@ -243,7 +263,7 @@ StacWidget cartScreen() {
                                   // Item total price
                                   StacText(
                                     data:
-                                        '\${{totalPrice}}', // Replaced by parser
+                                        '₹{{totalPrice}}', // Replaced by parser
                                     style: StacTextStyle(
                                       fontSize: 18,
                                       fontWeight: StacFontWeight.w700,
@@ -265,6 +285,10 @@ StacWidget cartScreen() {
         ),
 
         // Cart summary with configurable charges
+        // Festive picker — apply/clear offers directly in cart (registry-driven).
+        const FestiveOfferPicker(
+          title: '🎉 Festive offers — tap to apply in cart',
+        ),
         StCartSummaryBuilder(
           backgroundColor: '#FFFFFF',
           borderTopRadius: 24,
@@ -286,6 +310,16 @@ StacWidget cartScreen() {
               color: '#636E72',
               fontSize: 16,
               fontWeight: 'w400',
+            ),
+            // Festive savings row — {{code}} is replaced with the active
+            // offer code at runtime. Works for percent AND flat festivals;
+            // future festivals need no changes here.
+            ChargeItem(
+              label: 'Festive Discount ({{code}})',
+              valueKey: 'discount',
+              color: '#1E8E3E',
+              fontSize: 16,
+              fontWeight: 'w600',
             ),
             // To add a tax charge, uncomment:
             // ChargeItem(

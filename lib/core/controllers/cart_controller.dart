@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:menu_cart/core/menu_data.dart'
+    show addonSurcharge, sizeSurcharge;
 
 /// Cart item model
 class CartItem {
@@ -22,19 +24,9 @@ class CartItem {
 
   double get itemPrice {
     double price = basePrice;
-    if (selectedSize == 'Large') price += 2.50;
+    price += sizeSurcharge(selectedSize);
     for (var addon in selectedAddons) {
-      switch (addon) {
-        case 'Extra Cheese':
-          price += 1.50;
-          break;
-        case 'Bacon':
-          price += 2.00;
-          break;
-        case 'Avocado':
-          price += 2.50;
-          break;
-      }
+      price += addonSurcharge(addon);
     }
     return price;
   }
@@ -60,7 +52,7 @@ class CartController extends GetxController {
   int get cartCount => cartItems.fold(0, (sum, item) => sum + item.quantity);
   double get subtotal =>
       cartItems.fold(0.0, (sum, item) => sum + item.totalPrice);
-  double get deliveryFee => 3.99;
+  double get deliveryFee => 49;
   double get total => subtotal + deliveryFee;
 
   bool isFavorite(String itemId) => favorites.contains(itemId);

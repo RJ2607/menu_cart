@@ -1409,8 +1409,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/stac"
-      ref: main
-      resolved-ref: "3260a502abcb2acf2ce5be659ccd806147144bf8"
+      ref: local-server-change
+      resolved-ref: "9032ef6deca36527b5d95e526d5d3af6a3b5851b"
       url: "https://github.com/smoke-trees/st_sdui.git"
     source: git
     version: "1.5.0"
@@ -1418,8 +1418,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/stac_core"
-      ref: "3260a502abcb2acf2ce5be659ccd806147144bf8"
-      resolved-ref: "3260a502abcb2acf2ce5be659ccd806147144bf8"
+      ref: "9032ef6deca36527b5d95e526d5d3af6a3b5851b"
+      resolved-ref: "9032ef6deca36527b5d95e526d5d3af6a3b5851b"
       url: "https://github.com/smoke-trees/st_sdui.git"
     source: git
     version: "1.5.0"
@@ -1427,8 +1427,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/stac_framework"
-      ref: "3260a502abcb2acf2ce5be659ccd806147144bf8"
-      resolved-ref: "3260a502abcb2acf2ce5be659ccd806147144bf8"
+      ref: "9032ef6deca36527b5d95e526d5d3af6a3b5851b"
+      resolved-ref: "9032ef6deca36527b5d95e526d5d3af6a3b5851b"
       url: "https://github.com/smoke-trees/st_sdui.git"
     source: git
     version: "1.0.0"
@@ -1436,8 +1436,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/stac_logger"
-      ref: "3260a502abcb2acf2ce5be659ccd806147144bf8"
-      resolved-ref: "3260a502abcb2acf2ce5be659ccd806147144bf8"
+      ref: "9032ef6deca36527b5d95e526d5d3af6a3b5851b"
+      resolved-ref: "9032ef6deca36527b5d95e526d5d3af6a3b5851b"
       url: "https://github.com/smoke-trees/st_sdui.git"
     source: git
     version: "1.1.0"

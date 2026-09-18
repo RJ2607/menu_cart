@@ -127,7 +127,8 @@ StacWidget foodCard(MenuItem item) {
                     mainAxisAlignment: StacMainAxisAlignment.spaceBetween,
                     children: [
                       StacText(
-                        data: '\$${item.price.toStringAsFixed(2)}',
+                        data:
+                            '₹${item.price.toStringAsFixed(item.price % 1 == 0 ? 0 : 2)}',
                         style: StacTextStyle(
                           fontSize: 18,
                           fontWeight: StacFontWeight.w700,

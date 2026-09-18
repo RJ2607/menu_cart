@@ -27,6 +27,16 @@ export 'stac_runtime/actions/cart/toggle_item_addon/st_toggle_item_addon_action.
 export 'stac_runtime/actions/cart/toggle_item_addon/st_toggle_item_addon_action_parser.dart';
 export 'stac_runtime/actions/wildcard_page_nav/st_wildcard_page_nav.dart';
 export 'stac_runtime/actions/wildcard_page_nav/st_wildcard_page_nav_parser.dart';
+export 'stac_runtime/actions/festive/clear_festive_offer/st_clear_festive_offer_action.dart';
+export 'stac_runtime/actions/festive/clear_festive_offer/st_clear_festive_offer_action_parser.dart';
+export 'stac_runtime/actions/festive/apply_festive_offer/st_apply_festive_offer_action.dart';
+export 'stac_runtime/actions/festive/apply_festive_offer/st_apply_festive_offer_action_parser.dart';
+export 'stac_runtime/widgets/festive/festive_offer_bar/st_festive_offer_bar.dart';
+export 'stac_runtime/widgets/festive/festive_offer_bar/st_festive_offer_bar_parser.dart';
+export 'stac_runtime/widgets/festive/festive_offer_picker/st_festive_offer_picker.dart';
+export 'stac_runtime/widgets/festive/festive_offer_picker/st_festive_offer_picker_parser.dart';
+export 'stac_runtime/widgets/cart/cart_preview_bar/st_cart_preview_bar.dart';
+export 'stac_runtime/widgets/cart/cart_preview_bar/st_cart_preview_bar_parser.dart';
 export 'stac_runtime/widgets/cart/dynamic_cart_summary/st_dynamic_cart_summary.dart';
 export 'stac_runtime/widgets/cart/dynamic_cart_summary/st_dynamic_cart_summary_parser.dart';
 export 'stac_runtime/widgets/cart/quantity_control/st_quantity_control.dart';

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:stac/stac.dart';
 
 import '../../../../core/controllers/cart_controller.dart';
+import '../../../../utils/money.dart';
 import 'st_menu_item_list_builder.dart';
 
 /// Parser for StMenuItemListBuilder that renders menu items filtered by category.
@@ -125,7 +126,7 @@ class StMenuItemListBuilderParser extends StacParser<StMenuItemListBuilder> {
       'index': index.toString(),
       for (final entry in item.entries)
         entry.key: entry.value is num
-            ? (entry.value as num).toStringAsFixed(2)
+            ? inrNum(entry.value as num)
             : entry.value?.toString() ?? '',
     };
 

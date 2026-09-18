@@ -10,7 +10,7 @@ const String brandTagline = 'Fresh Street Food, Elevated';
 
 // LIVE EDIT: Toggle featured item or change promo text
 const String featuredItemId = 'burger_classic';
-const String promoText = '🎉 Free delivery on orders over \$25';
+const String promoText = '🎉 Free delivery on orders over ₹499';
 
 // Theme colors (warm palette)
 const String primaryColor = '#FF6B35';
@@ -56,7 +56,7 @@ final List<MenuItem> menuItems = [
     name: 'Classic Urban Burger',
     description: 'Grass-fed beef, cheddar, pickles, special sauce',
     category: 'Mains',
-    price: 12.99,
+    price: 249.0,
     imageUrl:
         'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=800&fm=jpg',
     isVegetarian: false,
@@ -68,7 +68,7 @@ final List<MenuItem> menuItems = [
     name: 'Grilled Chicken Wrap',
     description: 'Herb-marinated chicken, greens, chipotle mayo',
     category: 'Mains',
-    price: 10.99,
+    price: 229.0,
     imageUrl:
         'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=800&fm=jpg',
     isVegetarian: false,
@@ -80,7 +80,7 @@ final List<MenuItem> menuItems = [
     name: 'Mediterranean Bowl',
     description: 'Quinoa, roasted veggies, falafel, tahini drizzle',
     category: 'Mains',
-    price: 11.49,
+    price: 239.0,
     imageUrl:
         'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&fm=jpg',
     isVegetarian: true,
@@ -92,7 +92,7 @@ final List<MenuItem> menuItems = [
     name: 'Truffle Parmesan Fries',
     description: 'Hand-cut fries with truffle oil and parmesan',
     category: 'Sides',
-    price: 5.99,
+    price: 149.0,
     imageUrl:
         'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=800&fm=jpg',
     isVegetarian: true,
@@ -104,7 +104,7 @@ final List<MenuItem> menuItems = [
     name: 'Fresh Mint Lemonade',
     description: 'House-made lemonade with fresh mint',
     category: 'Drinks',
-    price: 3.99,
+    price: 99.0,
     imageUrl:
         'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=800',
     isVegetarian: true,
@@ -115,7 +115,7 @@ final List<MenuItem> menuItems = [
     name: 'Berry Blast Smoothie',
     description: 'Mixed berries, banana, Greek yogurt',
     category: 'Drinks',
-    price: 6.49,
+    price: 169.0,
     imageUrl:
         'https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=800&fm=jpg',
     isVegetarian: true,
@@ -140,21 +140,46 @@ MenuItem? getItemById(String id) {
 /// Size options for detail screen
 const List<Map<String, dynamic>> sizeOptions = [
   {'label': 'Regular', 'price': 0.0},
-  {'label': 'Large', 'price': 2.5},
+  {'label': 'Large', 'price': 50.0},
 ];
 
 /// Add-on options for detail screen
 const List<Map<String, dynamic>> addonOptions = [
-  {'label': 'Extra Cheese', 'price': 1.5},
-  {'label': 'Bacon', 'price': 2.0},
-  {'label': 'Avocado', 'price': 2.5},
+  {'label': 'Extra Cheese', 'price': 30.0},
+  {'label': 'Bacon', 'price': 40.0},
+  {'label': 'Avocado', 'price': 50.0},
 ];
+
+/// Single source of truth for price deltas. Cart math
+/// ([CartController], item-detail wrapper) must read these helpers —
+/// never hardcode surcharges — so UI labels and totals can't drift apart.
+double sizeSurcharge(String size) {
+  for (final o in sizeOptions) {
+    if (o['label'] == size) return (o['price'] as num).toDouble();
+  }
+  return 0;
+}
+
+double addonSurcharge(String label) {
+  for (final o in addonOptions) {
+    if (o['label'] == label) return (o['price'] as num).toDouble();
+  }
+  return 0;
+}
+
+Map<String, double> get sizePriceMap => {
+  for (final o in sizeOptions) o['label'] as String: (o['price'] as num).toDouble(),
+};
+
+Map<String, double> get addonPriceMap => {
+  for (final o in addonOptions) o['label'] as String: (o['price'] as num).toDouble(),
+};
 
 /// Seeded cart items for demo
 final List<Map<String, dynamic>> seededCartItems = [];
 
 /// Cart calculations
-const double deliveryFee = 3.99;
+const double deliveryFee = 49.0;
 
 double calculateSubtotal(List<Map<String, dynamic>> items) {
   return items.fold(0.0, (sum, item) {

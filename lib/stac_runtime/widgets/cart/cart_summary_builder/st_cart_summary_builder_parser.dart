@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:stac/stac.dart';
 
 import '../../../../core/controllers/cart_controller.dart';
+import '../../../../core/controllers/festive_controller.dart';
+import '../../../../utils/money.dart';
 import 'st_cart_summary_builder.dart';
 
 /// Parser for StCartSummaryBuilder that renders cart charges and action button.
@@ -117,9 +119,28 @@ class StCartSummaryBuilderParser extends StacParser<StCartSummaryBuilder> {
     });
   }
 
+  FestiveController _festive() {
+    try {
+      return FestiveController.to;
+    } catch (_) {
+      return Get.put(FestiveController(), permanent: true);
+    }
+  }
+
   Widget _buildChargeRow(CartController controller, ChargeItem chargeItem) {
-    // Get value from controller based on valueKey
+    final festive = _festive();
+    // Labels may carry a {{code}} template so future festivals render their
+    // own code with zero JSON/parser changes.
+    var label = chargeItem.label;
+    final code = festive.activeOffer?.code ?? '';
+    label = label.replaceAll('{{code}}', code);
+
+    // Get value from controllers based on valueKey.
+    // New keys: "discount" (festive savings) and festive-aware "total".
+    // "total" now = subtotal - discount + deliveryFee so old JSON keeps
+    // working and new JSON can add an explicit discount row.
     double value;
+    var isDiscount = false;
     switch (chargeItem.valueKey) {
       case 'subtotal':
         value = controller.subtotal;
@@ -127,8 +148,12 @@ class StCartSummaryBuilderParser extends StacParser<StCartSummaryBuilder> {
       case 'deliveryFee':
         value = controller.deliveryFee;
         break;
+      case 'discount':
+        value = festive.discountAmount;
+        isDiscount = true;
+        break;
       case 'total':
-        value = controller.total;
+        value = festive.total;
         break;
       default:
         value = 0.0;
@@ -144,17 +169,20 @@ class StCartSummaryBuilderParser extends StacParser<StCartSummaryBuilder> {
             ? const Color(0xFF2D3436)
             : const Color(0xFF636E72));
 
-    final valueColor = chargeItem.isTotal
-        ? const Color(0xFFFF6B35)
-        : const Color(0xFF2D3436);
+    final valueColor = isDiscount
+        ? const Color(0xFF1E8E3E)
+        : chargeItem.isTotal
+            ? const Color(0xFFFF6B35)
+            : const Color(0xFF2D3436);
 
     final valueFontSize = chargeItem.isTotal ? 24.0 : 16.0;
+    final symbol = festive.activeOffer?.currencySymbol ?? '₹';
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          chargeItem.label,
+          label,
           style: TextStyle(
             fontSize: fontSize,
             fontWeight: fontWeight,
@@ -162,7 +190,7 @@ class StCartSummaryBuilderParser extends StacParser<StCartSummaryBuilder> {
           ),
         ),
         Text(
-          '\$${value.toStringAsFixed(2)}',
+          isDiscount ? '-${money(symbol, value)}' : money(symbol, value),
           style: TextStyle(
             fontSize: valueFontSize,
             fontWeight: FontWeight.w700,

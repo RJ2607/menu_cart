@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:stac/stac.dart';
 
 import '../../../../core/controllers/cart_controller.dart';
+import '../../../../utils/money.dart';
 import 'st_cart_item_list_builder.dart';
 
 /// Parser for StCartItemListBuilder that renders cart items using a template.
@@ -96,10 +97,10 @@ class StCartItemListBuilderParser extends StacParser<StCartItemListBuilder> {
       'id': item.id,
       'name': item.name,
       'imageUrl': item.imageUrl,
-      'basePrice': item.basePrice.toStringAsFixed(2),
-      'itemPrice': item.itemPrice.toStringAsFixed(2),
+      'basePrice': inrNum(item.basePrice),
+      'itemPrice': inrNum(item.itemPrice),
       'quantity': item.quantity.toString(),
-      'totalPrice': item.totalPrice.toStringAsFixed(2),
+      'totalPrice': inrNum(item.totalPrice),
       'optionsText': item.optionsText,
       'selectedSize': item.selectedSize,
       'selectedAddons': item.selectedAddons.join(', '),

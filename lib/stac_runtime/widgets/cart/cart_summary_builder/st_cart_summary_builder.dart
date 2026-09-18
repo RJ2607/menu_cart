@@ -40,13 +40,16 @@ class ChargeItem {
 }
 
 /// A template-based cart summary widget that displays charges and action button.
-/// 
+///
 /// Renders charge line items from CartController using [chargeItems] configuration.
-/// Each charge item reads its value from the controller using [valueKey]:
+/// Each charge item reads its value from the controllers using [valueKey]:
 /// - "subtotal" - sum of all item totals
 /// - "deliveryFee" - delivery fee amount
-/// - "total" - subtotal + deliveryFee
-/// 
+/// - "discount" - active festive savings (0 when no offer / below minimum)
+/// - "total" - festive-aware total: subtotal - discount + deliveryFee
+/// Labels may contain a {{code}} template, replaced with the active offer
+/// code at runtime (e.g. label: 'Festive Discount ({{code}})').
+///
 /// Example usage:
 /// ```dart
 /// StCartSummaryBuilder(

@@ -24,6 +24,6 @@ Map<String, dynamic> _$StItemSelectionWrapperToJson(
       'stateKey': instance.stateKey,
       'initialSize': instance.initialSize,
       'initialAddons': instance.initialAddons,
-      'child': instance.child.toJson(),
+      'child': instance.child,
       'type': instance.type,
     };

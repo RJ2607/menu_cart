@@ -1,3 +1,4 @@
+import 'package:menu_cart/stac_runtime/actions/festive/apply_festive_offer/st_apply_festive_offer_action.dart';
 import 'package:menu_cart/stac_runtime/actions/wildcard_page_nav/st_wildcard_page_nav.dart';
 import 'package:menu_cart/stac_runtime/widgets/controls/main_button/st_main_button.dart';
 import 'package:stac/stac_core.dart';
@@ -135,7 +136,7 @@ StacWidget diwaliDiscountPage() {
                         border: StacBorder.all(color: '#FFC93C'),
                       ),
                       child: StacText(
-                        data: 'Min. \$25',
+                        data: 'Min. ₹499',
                         style: StacTextStyle(
                           color: '#FFE9A8',
                           fontSize: 13,
@@ -167,7 +168,7 @@ StacWidget diwaliDiscountPage() {
                 StacRow(
                   children: [
                     StacExpanded(
-                      child: _perkCard('🍬', 'Free mithai', 'On orders \$40+'),
+                      child: _perkCard('🍬', 'Free mithai', 'On orders ₹799+'),
                     ),
                     const StacSizedBox(width: 12),
                     StacExpanded(
@@ -181,21 +182,36 @@ StacWidget diwaliDiscountPage() {
                 ),
                 const StacSizedBox(height: 18),
                 _offerCode(data['code'], data['validity']),
+                const StacSizedBox(height: 18),
+                _stepsCard(const [
+                  'Tap “Check festive menu” — DIWALI40 auto-applies',
+                  'Add thalis, mithai & platters worth ₹499+',
+                  '40% comes off in cart + checkout bill',
+                ]),
+                const StacSizedBox(height: 18),
+                _teaserCard(
+                  '🍬',
+                  'Festive thali picks',
+                  'Mithai • sharing platters • family sides',
+                ),
                 const StacSizedBox(height: 24),
                 StMainButton(
-                  title: 'Order for Diwali',
+                  title: 'Check festive menu • DIWALI40',
                   color: '#7C1D2B',
                   textColor: StacColors.white,
-                  onPressed: StacNavigator.pushStac('menu'),
+                  onPressed: const StApplyFestiveOfferAction(
+                    festiveKey: diwaliDiscountPageKey,
+                    navigateTo: 'menu',
+                  ),
                 ),
                 const StacSizedBox(height: 12),
                 StMainButton(
-                  title: 'See Christmas offer',
+                  title: 'See New Year offer',
                   color: '#FFF8E7',
                   textColor: '#7C1D2B',
                   borderSide: const StacBorderSide(color: '#7C1D2B'),
                   onPressed: const StWildcardPageNavAction(
-                    wildcardPage: christmasDiscountPageKey,
+                    wildcardPage: newYearDiscountPageKey,
                   ),
                 ),
               ],
@@ -234,6 +250,89 @@ StacWidget _perkCard(String emoji, String title, String subtitle) {
           style: StacTextStyle(color: '#8A6A4A', fontSize: 12),
         ),
       ],
+    ),
+  );
+}
+
+StacWidget _stepsCard(List<String> steps) {
+  return StacFractionallySizedBox(
+    widthFactor: 1,
+    child: StacContainer(
+      padding: const StacEdgeInsets.all(18),
+      decoration: StacBoxDecoration(
+        color: StacColors.white,
+        borderRadius: StacBorderRadius.circular(18),
+        border: StacBorder.all(color: '#F0D9A8'),
+      ),
+      child: StacColumn(
+        crossAxisAlignment: StacCrossAxisAlignment.start,
+        children: [
+          StacText(
+            data: 'HOW THE 40% WORKS',
+            style: StacTextStyle(
+              color: '#7C1D2B',
+              fontSize: 12,
+              fontWeight: StacFontWeight.w700,
+              letterSpacing: 1.5,
+            ),
+          ),
+          const StacSizedBox(height: 12),
+          StacText(
+            data: '1. ${steps[0]}',
+            style: StacTextStyle(color: '#5A3220', fontSize: 14, height: 1.4),
+          ),
+          const StacSizedBox(height: 8),
+          StacText(
+            data: '2. ${steps[1]}',
+            style: StacTextStyle(color: '#5A3220', fontSize: 14, height: 1.4),
+          ),
+          const StacSizedBox(height: 8),
+          StacText(
+            data: '3. ${steps[2]}',
+            style: StacTextStyle(color: '#5A3220', fontSize: 14, height: 1.4),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+StacWidget _teaserCard(String emoji, String title, String subtitle) {
+  return StacFractionallySizedBox(
+    widthFactor: 1,
+    child: StacContainer(
+      padding: const StacEdgeInsets.all(16),
+      decoration: StacBoxDecoration(
+        color: '#2D0A31',
+        borderRadius: StacBorderRadius.circular(18),
+        border: StacBorder.all(color: '#FFC93C'),
+      ),
+      child: StacRow(
+        children: [
+          StacText(data: emoji, style: StacTextStyle(fontSize: 30)),
+          const StacSizedBox(width: 12),
+          StacExpanded(
+            child: StacColumn(
+              crossAxisAlignment: StacCrossAxisAlignment.start,
+              children: [
+                StacText(
+                  data: title,
+                  style: StacTextStyle(
+                    color: StacColors.white,
+                    fontSize: 15,
+                    fontWeight: StacFontWeight.w700,
+                  ),
+                ),
+                const StacSizedBox(height: 4),
+                StacText(
+                  data: subtitle,
+                  style: StacTextStyle(color: '#E8C88A', fontSize: 13),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }

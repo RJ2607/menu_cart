@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:menu_cart/core/controllers/item_selection_controller.dart';
 import 'package:menu_cart/core/menu_data.dart';
+import 'package:menu_cart/utils/money.dart';
 import 'package:stac/stac.dart';
 
 import '../../../utils/inject_data.dart';
@@ -113,14 +114,14 @@ class _ItemSelectionWrapperWidgetState
       final selectedAddons = List<String>.from(controller.selectedAddons);
       final total = controller.calculateTotalPrice(
         basePrice: item.price,
-        sizePrices: const {'Regular': 0.0, 'Large': 2.5},
-        addonPrices: const {'Extra Cheese': 1.5, 'Bacon': 2.0, 'Avocado': 2.5},
+        sizePrices: sizePriceMap,
+        addonPrices: addonPriceMap,
       );
       final resolvedData = <String, dynamic>{
         ...itemData,
         'selectedSize': selectedSize,
         'totalPrice': total,
-        'totalPriceLabel': '\$${total.toStringAsFixed(2)}',
+        'totalPriceLabel': inr(total),
         'regularSelected': selectedSize == 'Regular',
         'largeSelected': selectedSize == 'Large',
         'extraCheeseSelected': selectedAddons.contains('Extra Cheese'),

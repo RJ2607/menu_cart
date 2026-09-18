@@ -5,6 +5,7 @@ import 'package:menu_cart/stac_runtime/actions/cart/place_order/st_place_order_a
 import 'package:stac/stac.dart';
 
 import '../../../../core/controllers/cart_controller.dart';
+import '../../../../utils/money.dart';
 import 'st_dynamic_cart_summary.dart';
 
 /// Parses the "st_dynamic_cart_summary" Stac widget type.
@@ -73,7 +74,7 @@ class DynamicCartSummaryParser extends StacParser<DynamicCartSummary> {
                   ),
                 ),
                 Text(
-                  '\$${subtotal.toStringAsFixed(2)}',
+                  inr(subtotal),
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -97,7 +98,7 @@ class DynamicCartSummaryParser extends StacParser<DynamicCartSummary> {
                   ),
                 ),
                 Text(
-                  '\$${deliveryFee.toStringAsFixed(2)}',
+                  inr(deliveryFee),
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -128,7 +129,7 @@ class DynamicCartSummaryParser extends StacParser<DynamicCartSummary> {
                   ),
                 ),
                 Text(
-                  '\$${total.toStringAsFixed(2)}',
+                  inr(total),
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w700,

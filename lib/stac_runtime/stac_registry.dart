@@ -19,6 +19,8 @@ final Dio _dio = Dio();
 
 class StacParsers {
   static final List<StacParser> parsers = [
+    FestiveOfferBarParser(),
+    FestiveOfferPickerParser(),
     StMainButtonParser(),
     StPageViewParser(),
     StCustomBottomBarParser(),
@@ -40,12 +42,15 @@ class StacParsers {
     // Cart custom widgets
     const StCartBadgeParser(),
     const StCategoryChipParser(),
+    const StCartPreviewBarParser(),
     const FilteredMenuItemsParser(),
     StItemSelectionWrapperParser(),
   ];
 
   static final List<StacActionParser> actionParsers = [
     StWildcardPageNavActionParser(),
+    StClearFestiveOfferActionParser(),
+    StApplyFestiveOfferActionParser(),
     StPlaceOrderActionParser(),
     StNavigateToItemDetailActionParser(),
     // Cart custom actions

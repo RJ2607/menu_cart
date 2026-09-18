@@ -75,9 +75,9 @@ StCategoryChip(           // Interactive filtering
 ```dart
 StPriceDisplay(           // Real-time price calculation
   stateKey: 'item_detail_main',
-  basePrice: 12.99,
-  sizePrices: {'Large': 2.5},
-  addonPrices: {'Extra Cheese': 1.5, 'Bacon': 2.0},
+  basePrice: 249.0,
+  sizePrices: {'Large': 50},
+  addonPrices: {'Extra Cheese': 30, 'Bacon': 40},
 )
 
 StSizeSelector(           // Interactive size buttons
@@ -209,18 +209,18 @@ Obx() Rebuilds UI (Reactive)
 #### On Item Detail Screen:
 1. **Size Selection:**
    - "Regular" is highlighted (orange background)
-   - Click "Large" → Button turns orange, price changes to **$15.49**
-   - Click "Regular" again → Reverts to **$12.99**
+   - Click "Large" → Button turns orange, price changes to **₹299**
+   - Click "Regular" again → Reverts to **₹249**
 
 2. **Addon Selection:**
    - "Extra Cheese" checkbox is checked by default
-   - Click "Bacon" → Checkbox checks, price adds **$2.00**
-   - Click "Avocado" → Checkbox checks, price adds **$2.50**
-   - Click "Extra Cheese" again → Unchecks, price decreases **$1.50**
+   - Click "Bacon" → Checkbox checks, price adds **₹40**
+   - Click "Avocado" → Checkbox checks, price adds **₹50**
+   - Click "Extra Cheese" again → Unchecks, price decreases **₹30**
 
 3. **Dynamic Price:**
    - Select "Large" + "Extra Cheese" + "Bacon" + "Avocado"
-   - Price becomes: **$12.99 + $2.50 + $1.50 + $2.00 + $2.50 = $21.49**
+   - Price becomes: **₹249 + ₹50 + ₹30 + ₹40 + ₹50 = ₹419**
 
 4. **Favorite Toggle:**
    - Click heart icon → Animates from outline to filled
@@ -277,7 +277,7 @@ StSizeSelector(
   stateKey: 'product_123',
   options: [
     {'label': 'Regular', 'price': 0.0},
-    {'label': 'Large', 'price': 2.5},
+    {'label': 'Large', 'price': 50.0},
   ],
   initialValue: 'Regular',
 )
@@ -293,8 +293,8 @@ Multi-select checkboxes for product add-ons.
 StAddonSelector(
   stateKey: 'product_123',
   options: [
-    {'label': 'Extra Cheese', 'price': 1.5},
-    {'label': 'Bacon', 'price': 2.0},
+    {'label': 'Extra Cheese', 'price': 30.0},
+    {'label': 'Bacon', 'price': 40.0},
   ],
   initialSelected: ['Extra Cheese'],
 )
@@ -309,9 +309,9 @@ Dynamically calculated price display that updates based on selections.
 ```dart
 StPriceDisplay(
   stateKey: 'product_123',
-  basePrice: 12.99,
-  sizePrices: {'Large': 2.5},
-  addonPrices: {'Extra Cheese': 1.5, 'Bacon': 2.0},
+  basePrice: 249.0,
+  sizePrices: {'Large': 50},
+  addonPrices: {'Extra Cheese': 30, 'Bacon': 40},
 )
 ```
 
