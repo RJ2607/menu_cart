@@ -347,34 +347,30 @@ StacWidget itemDetailScreen() {
                       color: textPrimary,
                     ),
                   ),
-                  const StacSizedBox(height: 12),
-                  StacContainer(
-                    height: 150,
-                    child: StListViewBuilder(
-                      shrinkWrap: true,
-                      scrollDirection: 'horizontal',
-                      items: const [
-                        {
-                          'label': 'Extra Cheese',
-                          'priceLabel': '+₹30',
-                          'emoji': '🧀',
-                          'selected': '{{extraCheeseSelected}}',
-                        },
-                        {
-                          'label': 'Bacon',
-                          'priceLabel': '+₹40',
-                          'emoji': '🥓',
-                          'selected': '{{baconSelected}}',
-                        },
-                        {
-                          'label': 'Avocado',
-                          'priceLabel': '+₹50',
-                          'emoji': '🥑',
-                          'selected': '{{avocadoSelected}}',
-                        },
-                      ],
-                      itemTemplate: _addonOptionTemplate(stateKey),
-                    ),
+                  // const StacSizedBox(height: 12),
+                  StListViewBuilder(
+                    shrinkWrap: true,
+                    items: const [
+                      {
+                        'label': 'Extra Cheese',
+                        'priceLabel': '+₹30',
+                        'emoji': '🧀',
+                        'selected': '{{extraCheeseSelected}}',
+                      },
+                      {
+                        'label': 'Bacon',
+                        'priceLabel': '+₹40',
+                        'emoji': '🥓',
+                        'selected': '{{baconSelected}}',
+                      },
+                      {
+                        'label': 'Avocado',
+                        'priceLabel': '+₹50',
+                        'emoji': '🥑',
+                        'selected': '{{avocadoSelected}}',
+                      },
+                    ],
+                    itemTemplate: _addonOptionTemplate(stateKey),
                   ),
                   const StacSizedBox(height: 24),
                   StMainButton(
@@ -467,9 +463,8 @@ StacWidget _addonOptionTemplate(String stateKey) {
     onTap: StToggleItemAddonAction(stateKey: stateKey, addon: '{{label}}'),
     child: StConditionalContainer(
       when: '{{selected}}',
-      widthExpr: (StacSizeExpr.sw - StacSizeExpr.px(70)) / 3,
-      margin: const StacEdgeInsets.only(right: 10),
-      padding: const StacEdgeInsets.symmetric(horizontal: 8, vertical: 12),
+      margin: const StacEdgeInsets.only(bottom: 10),
+      padding: const StacEdgeInsets.all(16),
       decorationWhenTrue: StacBoxDecoration(
         color: '#FFF3D6',
         borderRadius: StacBorderRadius.circular(14),
@@ -480,36 +475,30 @@ StacWidget _addonOptionTemplate(String stateKey) {
         borderRadius: StacBorderRadius.circular(14),
         border: StacBorder.all(color: '#E5DCCB', width: 1),
       ),
-      child: StacColumn(
-        crossAxisAlignment: StacCrossAxisAlignment.center,
-        mainAxisSize: StacMainAxisSize.min,
+      child: StacRow(
         children: [
-          StacText(data: '{{emoji}}', style: StacTextStyle(fontSize: 26)),
-          const StacSizedBox(height: 6),
-          StacText(
-            data: '{{label}}',
-            textAlign: StacTextAlign.center,
-            style: StacTextStyle(
-              fontSize: 12,
-              fontWeight: StacFontWeight.w600,
-              color: textPrimary,
+          StacText(data: '{{emoji}}', style: StacTextStyle(fontSize: 20)),
+          const StacSizedBox(width: 12),
+          StacExpanded(
+            child: StacColumn(
+              crossAxisAlignment: StacCrossAxisAlignment.start,
+              children: [
+                StacText(data: '{{label}}'),
+                const StacSizedBox(height: 2),
+                StacText(
+                  data: '{{priceLabel}} • counts to festive min',
+                  style: StacTextStyle(fontSize: 12),
+                ),
+              ],
             ),
-            maxLines: 1,
-            overflow: StacTextOverflow.ellipsis,
           ),
-          const StacSizedBox(height: 2),
-          StacText(
-            data: '{{priceLabel}}',
-            textAlign: StacTextAlign.center,
-            style: StacTextStyle(fontSize: 12, color: textSecondary),
-          ),
-          const StacSizedBox(height: 8),
+          // ON/OFF pill flips with selection (layout variation).
           StConditionalWidget(
             when: '{{selected}}',
             whenTrue: StacContainer(
               padding: const StacEdgeInsets.symmetric(
                 horizontal: 10,
-                vertical: 5,
+                vertical: 6,
               ),
               decoration: StacBoxDecoration(
                 color: '#1E8E3E',
@@ -518,7 +507,7 @@ StacWidget _addonOptionTemplate(String stateKey) {
               child: StacText(
                 data: 'ON',
                 style: StacTextStyle(
-                  fontSize: 10,
+                  fontSize: 11,
                   fontWeight: StacFontWeight.w700,
                   color: StacColors.white,
                 ),
@@ -527,7 +516,7 @@ StacWidget _addonOptionTemplate(String stateKey) {
             whenFalse: StacContainer(
               padding: const StacEdgeInsets.symmetric(
                 horizontal: 10,
-                vertical: 5,
+                vertical: 6,
               ),
               decoration: StacBoxDecoration(
                 color: '#E5DCCB',
@@ -536,7 +525,7 @@ StacWidget _addonOptionTemplate(String stateKey) {
               child: StacText(
                 data: 'OFF',
                 style: StacTextStyle(
-                  fontSize: 10,
+                  fontSize: 11,
                   fontWeight: StacFontWeight.w700,
                   color: '#7D6565',
                 ),

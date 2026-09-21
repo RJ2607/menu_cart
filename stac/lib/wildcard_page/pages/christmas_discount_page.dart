@@ -185,13 +185,9 @@ StacWidget christmasDiscountPage() {
                       child: _menuMini('🍗', 'Roast Platter', '₹649'),
                     ),
                     const StacSizedBox(width: 10),
-                    StacExpanded(
-                      child: _menuMini('🍰', 'Plum Cake', '₹299'),
-                    ),
+                    StacExpanded(child: _menuMini('🍰', 'Plum Cake', '₹299')),
                     const StacSizedBox(width: 10),
-                    StacExpanded(
-                      child: _menuMini('🥂', 'Berry Sip', '₹149'),
-                    ),
+                    StacExpanded(child: _menuMini('🥂', 'Berry Sip', '₹149')),
                   ],
                 ),
                 const StacSizedBox(height: 18),

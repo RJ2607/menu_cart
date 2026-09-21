@@ -203,13 +203,9 @@ StacWidget diwaliDiscountPage() {
                 const StacSizedBox(height: 10),
                 StacRow(
                   children: [
-                    StacExpanded(
-                      child: _menuMini('🍬', 'Mithai Box', '₹249'),
-                    ),
+                    StacExpanded(child: _menuMini('🍬', 'Mithai Box', '₹249')),
                     const StacSizedBox(width: 10),
-                    StacExpanded(
-                      child: _menuMini('🍛', 'Royal Thali', '₹349'),
-                    ),
+                    StacExpanded(child: _menuMini('🍛', 'Royal Thali', '₹349')),
                     const StacSizedBox(width: 10),
                     StacExpanded(
                       child: _menuMini('🍗', 'Sharing Platter', '₹499'),
