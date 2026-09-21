@@ -191,6 +191,34 @@ StacWidget newYearDiscountPage() {
               '30% comes off in cart + checkout bill',
             ]),
             const StacSizedBox(height: 14),
+            _savingsSnapshot(),
+            const StacSizedBox(height: 14),
+            StacText(
+              data: '🎆 ON THE COUNTDOWN TABLE',
+              style: StacTextStyle(
+                color: '#C9FF49',
+                fontSize: 12,
+                fontWeight: StacFontWeight.w700,
+                letterSpacing: 1.5,
+              ),
+            ),
+            const StacSizedBox(height: 10),
+            StacRow(
+              children: [
+                StacExpanded(
+                  child: _menuMini('🥗', 'Power Bowl', '₹239'),
+                ),
+                const StacSizedBox(width: 10),
+                StacExpanded(
+                  child: _menuMini('🌯', 'Grill Wrap', '₹229'),
+                ),
+                const StacSizedBox(width: 10),
+                StacExpanded(
+                  child: _menuMini('🥤', 'Fresh Sip', '₹99'),
+                ),
+              ],
+            ),
+            const StacSizedBox(height: 14),
             _teaserCard(
               '🎆',
               'Midnight countdown picks',
@@ -303,6 +331,99 @@ StacWidget _stepsCard(List<String> steps) {
           ),
         ],
       ),
+    ),
+  );
+}
+
+StacWidget _savingsSnapshot() {
+  return StacFractionallySizedBox(
+    widthFactor: 1,
+    child: StacContainer(
+      padding: const StacEdgeInsets.all(18),
+      decoration: StacBoxDecoration(
+        gradient: StacLinearGradient(
+          colors: const ['#173B58', '#102438'],
+          begin: StacAlignment.topLeft,
+          end: StacAlignment.bottomRight,
+        ),
+        borderRadius: StacBorderRadius.circular(18),
+        border: StacBorder.all(color: '#C9FF49'),
+      ),
+      child: StacColumn(
+        crossAxisAlignment: StacCrossAxisAlignment.start,
+        children: [
+          StacText(
+            data: 'SAVINGS SNAPSHOT • SAME 30% AS CART',
+            style: StacTextStyle(
+              color: '#C9FF49',
+              fontSize: 12,
+              fontWeight: StacFontWeight.w700,
+              letterSpacing: 1.2,
+            ),
+          ),
+          const StacSizedBox(height: 12),
+          _savingsRow('₹700 cart', 'pay ₹490'),
+          const StacSizedBox(height: 8),
+          _savingsRow('₹1000 cart', 'pay ₹700'),
+          const StacSizedBox(height: 8),
+          _savingsRow('₹1500 cart', 'pay ₹1050'),
+        ],
+      ),
+    ),
+  );
+}
+
+StacWidget _savingsRow(String cart, String pay) {
+  return StacRow(
+    mainAxisAlignment: StacMainAxisAlignment.spaceBetween,
+    children: [
+      StacText(
+        data: cart,
+        style: StacTextStyle(color: '#D6E8F2', fontSize: 14),
+      ),
+      StacText(
+        data: pay,
+        style: StacTextStyle(
+          color: '#C9FF49',
+          fontSize: 14,
+          fontWeight: StacFontWeight.w700,
+        ),
+      ),
+    ],
+  );
+}
+
+StacWidget _menuMini(String emoji, String title, String price) {
+  return StacContainer(
+    padding: const StacEdgeInsets.all(12),
+    decoration: StacBoxDecoration(
+      color: '#173B58',
+      borderRadius: StacBorderRadius.circular(16),
+      border: StacBorder.all(color: '#0E2233'),
+    ),
+    child: StacColumn(
+      crossAxisAlignment: StacCrossAxisAlignment.start,
+      children: [
+        StacText(data: emoji, style: StacTextStyle(fontSize: 24)),
+        const StacSizedBox(height: 6),
+        StacText(
+          data: title,
+          style: StacTextStyle(
+            color: StacColors.white,
+            fontSize: 12,
+            fontWeight: StacFontWeight.w700,
+          ),
+        ),
+        const StacSizedBox(height: 2),
+        StacText(
+          data: price,
+          style: StacTextStyle(
+            color: '#C9FF49',
+            fontSize: 13,
+            fontWeight: StacFontWeight.w700,
+          ),
+        ),
+      ],
     ),
   );
 }

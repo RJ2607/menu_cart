@@ -189,6 +189,34 @@ StacWidget diwaliDiscountPage() {
                   '40% comes off in cart + checkout bill',
                 ]),
                 const StacSizedBox(height: 18),
+                _savingsSnapshot(),
+                const StacSizedBox(height: 18),
+                StacText(
+                  data: '🪔 ON THE FESTIVE TABLE',
+                  style: StacTextStyle(
+                    color: '#7C1D2B',
+                    fontSize: 12,
+                    fontWeight: StacFontWeight.w700,
+                    letterSpacing: 1.5,
+                  ),
+                ),
+                const StacSizedBox(height: 10),
+                StacRow(
+                  children: [
+                    StacExpanded(
+                      child: _menuMini('🍬', 'Mithai Box', '₹249'),
+                    ),
+                    const StacSizedBox(width: 10),
+                    StacExpanded(
+                      child: _menuMini('🍛', 'Royal Thali', '₹349'),
+                    ),
+                    const StacSizedBox(width: 10),
+                    StacExpanded(
+                      child: _menuMini('🍗', 'Sharing Platter', '₹499'),
+                    ),
+                  ],
+                ),
+                const StacSizedBox(height: 18),
                 _teaserCard(
                   '🍬',
                   'Festive thali picks',
@@ -293,6 +321,95 @@ StacWidget _stepsCard(List<String> steps) {
           ),
         ],
       ),
+    ),
+  );
+}
+
+StacWidget _savingsSnapshot() {
+  return StacFractionallySizedBox(
+    widthFactor: 1,
+    child: StacContainer(
+      padding: const StacEdgeInsets.all(18),
+      decoration: StacBoxDecoration(
+        color: StacColors.white,
+        borderRadius: StacBorderRadius.circular(18),
+        border: StacBorder.all(color: '#F0D9A8'),
+      ),
+      child: StacColumn(
+        crossAxisAlignment: StacCrossAxisAlignment.start,
+        children: [
+          StacText(
+            data: 'SAVINGS SNAPSHOT • SAME MATH AS CART',
+            style: StacTextStyle(
+              color: '#7C1D2B',
+              fontSize: 12,
+              fontWeight: StacFontWeight.w700,
+              letterSpacing: 1.2,
+            ),
+          ),
+          const StacSizedBox(height: 12),
+          _savingsRow('₹500 thali', 'pay ₹300'),
+          const StacSizedBox(height: 8),
+          _savingsRow('₹1000 feast', 'pay ₹600'),
+          const StacSizedBox(height: 8),
+          _savingsRow('₹1500 feast', 'pay ₹900'),
+        ],
+      ),
+    ),
+  );
+}
+
+StacWidget _savingsRow(String cart, String pay) {
+  return StacRow(
+    mainAxisAlignment: StacMainAxisAlignment.spaceBetween,
+    children: [
+      StacText(
+        data: cart,
+        style: StacTextStyle(color: '#5A3220', fontSize: 14),
+      ),
+      StacText(
+        data: pay,
+        style: StacTextStyle(
+          color: '#1E8E3E',
+          fontSize: 14,
+          fontWeight: StacFontWeight.w700,
+        ),
+      ),
+    ],
+  );
+}
+
+StacWidget _menuMini(String emoji, String title, String price) {
+  return StacContainer(
+    padding: const StacEdgeInsets.all(12),
+    decoration: StacBoxDecoration(
+      color: StacColors.white,
+      borderRadius: StacBorderRadius.circular(16),
+      border: StacBorder.all(color: '#F0D9A8'),
+    ),
+    child: StacColumn(
+      crossAxisAlignment: StacCrossAxisAlignment.start,
+      children: [
+        StacText(data: emoji, style: StacTextStyle(fontSize: 24)),
+        const StacSizedBox(height: 6),
+        StacText(
+          data: title,
+          style: StacTextStyle(
+            color: '#4A1500',
+            fontSize: 12,
+            fontWeight: StacFontWeight.w700,
+          ),
+        ),
+        const StacSizedBox(height: 2),
+        StacText(
+          data: price,
+          style: StacTextStyle(
+            color: '#7C1D2B',
+            fontSize: 13,
+            fontWeight: StacFontWeight.w700,
+          ),
+        ),
+      ],
     ),
   );
 }

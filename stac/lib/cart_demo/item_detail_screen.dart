@@ -10,19 +10,6 @@ import 'package:menu_cart/stac_runtime/widgets/layout/conditional/st_conditional
 import 'package:menu_cart/stac_runtime/widgets/layout/conditional_container/st_conditional_container.dart';
 import 'package:stac/stac_core.dart';
 
-/// Item detail — festive layout variation (pitch: "layout" demo).
-///
-/// Deliberately different from the classic bare-price layout so the pitch
-/// can show two SDUI layouts over the same data:
-/// 1. Tall 300 hero with gradient + floating back button + floating
-///    "festive savings in cart" pill overlaid at the hero base.
-/// 2. Reactive festive chip under the hero (visible only when an offer is
-///    applied from a festival card / wildcard "Check festive menu" CTA).
-/// 3. Title + veg badge + rating/time/serves strip.
-/// 4. Price summary card with total + per-item math hint.
-/// 5. "Why you'll love it" bullets card.
-/// 6. Size as radio-dot cards + add-ons as check-circle rows (gold selected).
-/// 7. "Pairs well with" teaser + CTA + festive auto-apply note.
 @StacScreen(screenName: 'item_detail')
 StacWidget itemDetailScreen() {
   const stateKey = 'item_detail_main';
@@ -37,7 +24,6 @@ StacWidget itemDetailScreen() {
         child: StacColumn(
           crossAxisAlignment: StacCrossAxisAlignment.start,
           children: [
-            // Tall hero with overlaid festive pill (layout variation).
             StacStack(
               children: [
                 StacClipRRect(
@@ -46,7 +32,7 @@ StacWidget itemDetailScreen() {
                     bottomRight: 28,
                   ),
                   child: StacContainer(
-                    height: 300,
+                    height: 260,
                     decoration: StacBoxDecoration(color: surfaceColor),
                     child: StacImage.network(
                       '{{imageUrl}}',
@@ -55,7 +41,7 @@ StacWidget itemDetailScreen() {
                   ),
                 ),
                 StacContainer(
-                  height: 300,
+                  height: 260,
                   decoration: StacBoxDecoration(
                     gradient: StacLinearGradient(
                       colors: [
@@ -87,13 +73,12 @@ StacWidget itemDetailScreen() {
                   ),
                 ),
                 StacPositioned(
-                  bottom: 16,
-                  left: 20,
-                  right: 20,
+                  top: 48,
+                  right: 16,
                   child: StacContainer(
                     padding: const StacEdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 10,
+                      horizontal: 12,
+                      vertical: 8,
                     ),
                     decoration: StacBoxDecoration(
                       color: '#2D0A31',
@@ -101,11 +86,33 @@ StacWidget itemDetailScreen() {
                       border: StacBorder.all(color: '#FFC93C'),
                     ),
                     child: StacText(
-                      data: '🎉 Festive savings auto-apply in cart',
+                      data: '⭐ 4.8 • 2k ratings',
                       style: StacTextStyle(
-                        fontSize: 13,
+                        fontSize: 12,
                         fontWeight: StacFontWeight.w700,
                         color: '#FFC93C',
+                      ),
+                    ),
+                  ),
+                ),
+                StacPositioned(
+                  bottom: 16,
+                  left: 20,
+                  child: StacContainer(
+                    padding: const StacEdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                    decoration: StacBoxDecoration(
+                      color: '#FFC93C',
+                      borderRadius: StacBorderRadius.circular(100),
+                    ),
+                    child: StacText(
+                      data: '🔥 Bestseller',
+                      style: StacTextStyle(
+                        fontSize: 12,
+                        fontWeight: StacFontWeight.w700,
+                        color: '#4A1500',
                       ),
                     ),
                   ),
@@ -113,8 +120,6 @@ StacWidget itemDetailScreen() {
               ],
             ),
 
-            // Reactive festive chip — status display only (apply/remove
-            // happens in the cart picker, not here).
             const FestiveOfferBar(showWhenNone: false, compact: true),
 
             StacPadding(
@@ -127,54 +132,75 @@ StacWidget itemDetailScreen() {
               child: StacColumn(
                 crossAxisAlignment: StacCrossAxisAlignment.start,
                 children: [
-                  // Name + veg badge.
                   StacRow(
+                    crossAxisAlignment: StacCrossAxisAlignment.start,
                     children: [
                       StacExpanded(
-                        child: StacText(
-                          data: '{{name}}',
-                          style: StacTextStyle(
-                            fontSize: 26,
-                            fontWeight: StacFontWeight.w700,
-                            color: textPrimary,
-                          ),
+                        child: StacColumn(
+                          crossAxisAlignment: StacCrossAxisAlignment.start,
+                          children: [
+                            StacText(
+                              data: '{{name}}',
+                              style: StacTextStyle(
+                                fontSize: 24,
+                                fontWeight: StacFontWeight.w700,
+                                color: textPrimary,
+                              ),
+                            ),
+                            const StacSizedBox(height: 4),
+                            StConditionalWidget(
+                              when: '{{isVegetarian}}',
+                              whenTrue: StacText(
+                                data: '🌱 Vegetarian • made fresh',
+                                style: StacTextStyle(
+                                  fontSize: 13,
+                                  color: '#2E7D32',
+                                  fontWeight: StacFontWeight.w600,
+                                ),
+                              ),
+                              whenFalse: StacText(
+                                data: '🍗 Non-veg • made fresh',
+                                style: StacTextStyle(
+                                  fontSize: 13,
+                                  color: '#7D6565',
+                                  fontWeight: StacFontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      StConditionalWidget(
-                        when: '{{isVegetarian}}',
-                        whenTrue: StacContainer(
-                          padding: const StacEdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 5,
-                          ),
-                          decoration: StacBoxDecoration(
-                            color: '#4CAF50',
-                            borderRadius: StacBorderRadius.circular(6),
-                          ),
-                          child: StacText(
-                            data: '🌱 Veggie',
+                      const StacSizedBox(width: 12),
+                      StacColumn(
+                        crossAxisAlignment: StacCrossAxisAlignment.end,
+                        children: [
+                          StacText(
+                            data: '{{totalPriceLabel}}',
                             style: StacTextStyle(
-                              fontSize: 12,
-                              color: StacColors.white,
-                              fontWeight: StacFontWeight.w600,
+                              fontSize: 24,
+                              fontWeight: StacFontWeight.w700,
+                              color: primaryColor,
                             ),
                           ),
-                        ),
-                        whenFalse: const StacSizedBox(height: 0, width: 0),
+                          StacText(
+                            data: 'incl. size + add-ons',
+                            style: StacTextStyle(
+                              fontSize: 11,
+                              color: textSecondary,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-
-                  const StacSizedBox(height: 8),
-
-                  // Rating / time / serves strip (layout variation).
+                  const StacSizedBox(height: 10),
                   StacRow(
                     children: [
-                      _metaPill('⭐ 4.8', '#FFF3D6', '#4A1500'),
-                      const StacSizedBox(width: 8),
                       _metaPill('⏱ 25 min', '#FFF8F3', '#7D6565'),
                       const StacSizedBox(width: 8),
                       _metaPill('🍽 Serves 1–2', '#FFF8F3', '#7D6565'),
+                      const StacSizedBox(width: 8),
+                      _metaPill('🎉 Festive off in cart', '#FFF3D6', '#4A1500'),
                     ],
                   ),
 
@@ -188,10 +214,7 @@ StacWidget itemDetailScreen() {
                       height: 1.5,
                     ),
                   ),
-
                   const StacSizedBox(height: 16),
-
-                  // Price summary card with math hint.
                   StacContainer(
                     padding: const StacEdgeInsets.all(16),
                     decoration: StacBoxDecoration(
@@ -202,80 +225,8 @@ StacWidget itemDetailScreen() {
                     child: StacColumn(
                       crossAxisAlignment: StacCrossAxisAlignment.start,
                       children: [
-                        StacRow(
-                          mainAxisAlignment: StacMainAxisAlignment.spaceBetween,
-                          children: [
-                            StacColumn(
-                              crossAxisAlignment: StacCrossAxisAlignment.start,
-                              children: [
-                                StacText(
-                                  data: 'Total (size + add-ons)',
-                                  style: StacTextStyle(
-                                    fontSize: 12,
-                                    fontWeight: StacFontWeight.w600,
-                                    color: textSecondary,
-                                  ),
-                                ),
-                                const StacSizedBox(height: 4),
-                                StacText(
-                                  data: '{{totalPriceLabel}}',
-                                  style: StacTextStyle(
-                                    fontSize: 28,
-                                    fontWeight: StacFontWeight.w700,
-                                    color: primaryColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            StacContainer(
-                              padding: const StacEdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 8,
-                              ),
-                              decoration: StacBoxDecoration(
-                                color: '#FFC93C',
-                                borderRadius: StacBorderRadius.circular(100),
-                              ),
-                              child: StacText(
-                                data: '🎉 Festive off in cart',
-                                style: StacTextStyle(
-                                  fontSize: 12,
-                                  fontWeight: StacFontWeight.w700,
-                                  color: '#4A1500',
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const StacSizedBox(height: 8),
                         StacText(
-                          data:
-                              'Base {{priceLabel}} + size & add-ons update live. Festival % / flat savings apply on the cart subtotal.',
-                          style: StacTextStyle(
-                            fontSize: 12,
-                            color: '#8A6A4A',
-                            height: 1.4,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  const StacSizedBox(height: 16),
-
-                  // "Why you'll love it" bullets (layout variation).
-                  StacContainer(
-                    padding: const StacEdgeInsets.all(16),
-                    decoration: StacBoxDecoration(
-                      color: '#FFF8E7',
-                      borderRadius: StacBorderRadius.circular(16),
-                      border: StacBorder.all(color: '#F0D9A8'),
-                    ),
-                    child: StacColumn(
-                      crossAxisAlignment: StacCrossAxisAlignment.start,
-                      children: [
-                        StacText(
-                          data: 'WHY YOU’LL LOVE IT',
+                          data: 'BILL PREVIEW',
                           style: StacTextStyle(
                             fontSize: 12,
                             fontWeight: StacFontWeight.w700,
@@ -284,36 +235,72 @@ StacWidget itemDetailScreen() {
                           ),
                         ),
                         const StacSizedBox(height: 10),
-                        StacText(
-                          data: '• Made fresh to order with house sauces',
-                          style: StacTextStyle(
-                            fontSize: 14,
-                            color: '#5A3220',
-                            height: 1.5,
-                          ),
+                        StacRow(
+                          mainAxisAlignment: StacMainAxisAlignment.spaceBetween,
+                          children: [
+                            StacText(
+                              data: 'Base price',
+                              style: StacTextStyle(
+                                fontSize: 14,
+                                color: textSecondary,
+                              ),
+                            ),
+                            StacText(
+                              data: '{{priceLabel}}',
+                              style: StacTextStyle(
+                                fontSize: 14,
+                                fontWeight: StacFontWeight.w600,
+                                color: textPrimary,
+                              ),
+                            ),
+                          ],
                         ),
-                        StacText(
-                          data: '• Large size + add-ons built for sharing',
-                          style: StacTextStyle(
-                            fontSize: 14,
-                            color: '#5A3220',
-                            height: 1.5,
-                          ),
+                        const StacSizedBox(height: 6),
+                        StacRow(
+                          mainAxisAlignment: StacMainAxisAlignment.spaceBetween,
+                          children: [
+                            StacText(
+                              data: 'With size + add-ons',
+                              style: StacTextStyle(
+                                fontSize: 14,
+                                color: textSecondary,
+                              ),
+                            ),
+                            StacText(
+                              data: '{{totalPriceLabel}}',
+                              style: StacTextStyle(
+                                fontSize: 16,
+                                fontWeight: StacFontWeight.w700,
+                                color: primaryColor,
+                              ),
+                            ),
+                          ],
                         ),
-                        StacText(
-                          data: '• Counts toward every festive min-order',
-                          style: StacTextStyle(
-                            fontSize: 14,
-                            color: '#5A3220',
-                            height: 1.5,
-                          ),
+                        const StacSizedBox(height: 6),
+                        StacRow(
+                          mainAxisAlignment: StacMainAxisAlignment.spaceBetween,
+                          children: [
+                            StacText(
+                              data: 'Festive savings',
+                              style: StacTextStyle(
+                                fontSize: 14,
+                                color: textSecondary,
+                              ),
+                            ),
+                            StacText(
+                              data: '− auto in cart 🎉',
+                              style: StacTextStyle(
+                                fontSize: 14,
+                                fontWeight: StacFontWeight.w700,
+                                color: '#1E8E3E',
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
-
                   const StacSizedBox(height: 24),
-
                   StacText(
                     data: 'Choose Size',
                     style: StacTextStyle(
@@ -322,35 +309,36 @@ StacWidget itemDetailScreen() {
                       color: textPrimary,
                     ),
                   ),
-
                   const StacSizedBox(height: 12),
-
-                  StacRow(
-                    children: [
-                      StacExpanded(
-                        child: _sizeCard(
-                          stateKey: stateKey,
-                          size: 'Regular',
-                          priceLabel: 'Included',
-                          hint: 'Classic portion',
-                          when: '{{regularSelected}}',
+                  StacContainer(
+                    padding: const StacEdgeInsets.all(4),
+                    decoration: StacBoxDecoration(
+                      color: surfaceColor,
+                      borderRadius: StacBorderRadius.circular(100),
+                      border: StacBorder.all(color: '#E5DCCB'),
+                    ),
+                    child: StacRow(
+                      children: [
+                        StacExpanded(
+                          child: _sizeSegment(
+                            stateKey: stateKey,
+                            size: 'Regular',
+                            priceLabel: 'Included',
+                            when: '{{regularSelected}}',
+                          ),
                         ),
-                      ),
-                      const StacSizedBox(width: 12),
-                      StacExpanded(
-                        child: _sizeCard(
-                          stateKey: stateKey,
-                          size: 'Large',
-                          priceLabel: '+₹50',
-                          hint: 'Extra filling',
-                          when: '{{largeSelected}}',
+                        StacExpanded(
+                          child: _sizeSegment(
+                            stateKey: stateKey,
+                            size: 'Large',
+                            priceLabel: '+₹50',
+                            when: '{{largeSelected}}',
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-
-                  const StacSizedBox(height: 24),
-
+                  const StacSizedBox(height: 16),
                   StacText(
                     data: 'Add-Ons',
                     style: StacTextStyle(
@@ -359,9 +347,7 @@ StacWidget itemDetailScreen() {
                       color: textPrimary,
                     ),
                   ),
-
                   const StacSizedBox(height: 12),
-
                   StListViewBuilder(
                     shrinkWrap: true,
                     items: const [
@@ -386,54 +372,7 @@ StacWidget itemDetailScreen() {
                     ],
                     itemTemplate: _addonOptionTemplate(stateKey),
                   ),
-
-                  const StacSizedBox(height: 16),
-
-                  // Pairs-well-with teaser (layout variation).
-                  StacContainer(
-                    padding: const StacEdgeInsets.all(16),
-                    decoration: StacBoxDecoration(
-                      color: '#2D0A31',
-                      borderRadius: StacBorderRadius.circular(16),
-                    ),
-                    child: StacRow(
-                      children: [
-                        StacText(
-                          data: '🍟',
-                          style: StacTextStyle(fontSize: 28),
-                        ),
-                        const StacSizedBox(width: 12),
-                        StacExpanded(
-                          child: StacColumn(
-                            crossAxisAlignment: StacCrossAxisAlignment.start,
-                            children: [
-                              StacText(
-                                data:
-                                    'Pairs well with Truffle Fries + Lemonade',
-                                style: StacTextStyle(
-                                  color: StacColors.white,
-                                  fontSize: 14,
-                                  fontWeight: StacFontWeight.w700,
-                                ),
-                              ),
-                              const StacSizedBox(height: 4),
-                              StacText(
-                                data:
-                                    'Bundle sides & sips to hit festive minimums faster.',
-                                style: StacTextStyle(
-                                  color: '#E8C88A',
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
                   const StacSizedBox(height: 24),
-
                   StMainButton(
                     title: 'Add to Cart',
                     onPressed: StAddToCartAction(
@@ -444,9 +383,7 @@ StacWidget itemDetailScreen() {
                       itemBasePrice: '{{price}}',
                     ),
                   ),
-
                   const StacSizedBox(height: 12),
-
                   StacContainer(
                     padding: const StacEdgeInsets.all(14),
                     decoration: StacBoxDecoration(
@@ -460,7 +397,6 @@ StacWidget itemDetailScreen() {
                       style: StacTextStyle(fontSize: 13, color: '#8A6A4A'),
                     ),
                   ),
-
                   const StacSizedBox(height: 32),
                 ],
               ),
@@ -491,44 +427,64 @@ StacWidget _metaPill(String label, String bg, String fg) {
   );
 }
 
-StacWidget _sizeCard({
+StacWidget _sizeSegment({
   required String stateKey,
   required String size,
   required String priceLabel,
-  required String hint,
   required String when,
 }) {
   return StacGestureDetector(
     onTap: StSelectItemSizeAction(stateKey: stateKey, size: size),
     child: StConditionalContainer(
       when: when,
-      padding: const StacEdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      padding: const StacEdgeInsets.symmetric(horizontal: 12, vertical: 12),
       decorationWhenTrue: StacBoxDecoration(
         color: primaryColor,
-        borderRadius: StacBorderRadius.circular(16),
+        borderRadius: StacBorderRadius.circular(100),
       ),
       decorationWhenFalse: StacBoxDecoration(
-        color: surfaceColor,
-        borderRadius: StacBorderRadius.circular(16),
-        border: StacBorder.all(color: textSecondary, width: 2),
+        color: StacColors.transparent,
+        borderRadius: StacBorderRadius.circular(100),
       ),
       child: StacColumn(
-        crossAxisAlignment: StacCrossAxisAlignment.start,
         mainAxisSize: StacMainAxisSize.min,
         children: [
-          StacRow(
-            children: [
-              StacText(data: size),
-              const StacSizedBox(width: 6),
-              StacText(data: '●', style: StacTextStyle(fontSize: 10)),
-            ],
-          ),
-          const StacSizedBox(height: 4),
-          StacText(data: priceLabel),
-          const StacSizedBox(height: 4),
-          StacText(data: hint, style: StacTextStyle(fontSize: 12)),
+          StacText(data: size),
+          const StacSizedBox(height: 2),
+          StacText(data: priceLabel, style: StacTextStyle(fontSize: 12)),
         ],
       ),
+    ),
+  );
+}
+
+StacWidget _bundleMini(String emoji, String title, String price) {
+  return StacContainer(
+    padding: const StacEdgeInsets.all(14),
+    decoration: StacBoxDecoration(
+      color: '#2D0A31',
+      borderRadius: StacBorderRadius.circular(16),
+      border: StacBorder.all(color: '#FFC93C'),
+    ),
+    child: StacColumn(
+      crossAxisAlignment: StacCrossAxisAlignment.start,
+      children: [
+        StacText(data: emoji, style: StacTextStyle(fontSize: 26)),
+        const StacSizedBox(height: 8),
+        StacText(
+          data: title,
+          style: StacTextStyle(
+            color: StacColors.white,
+            fontSize: 13,
+            fontWeight: StacFontWeight.w700,
+          ),
+        ),
+        const StacSizedBox(height: 2),
+        StacText(
+          data: '$price • adds to min-order',
+          style: StacTextStyle(color: '#E8C88A', fontSize: 11),
+        ),
+      ],
     ),
   );
 }
@@ -552,7 +508,7 @@ StacWidget _addonOptionTemplate(String stateKey) {
       ),
       child: StacRow(
         children: [
-          StacText(data: '◉ {{emoji}}', style: StacTextStyle(fontSize: 18)),
+          StacText(data: '{{emoji}}', style: StacTextStyle(fontSize: 20)),
           const StacSizedBox(width: 12),
           StacExpanded(
             child: StacColumn(
@@ -567,7 +523,46 @@ StacWidget _addonOptionTemplate(String stateKey) {
               ],
             ),
           ),
-          StacText(data: '{{priceLabel}}'),
+          // ON/OFF pill flips with selection (layout variation).
+          StConditionalWidget(
+            when: '{{selected}}',
+            whenTrue: StacContainer(
+              padding: const StacEdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 6,
+              ),
+              decoration: StacBoxDecoration(
+                color: '#1E8E3E',
+                borderRadius: StacBorderRadius.circular(100),
+              ),
+              child: StacText(
+                data: 'ON',
+                style: StacTextStyle(
+                  fontSize: 11,
+                  fontWeight: StacFontWeight.w700,
+                  color: StacColors.white,
+                ),
+              ),
+            ),
+            whenFalse: StacContainer(
+              padding: const StacEdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 6,
+              ),
+              decoration: StacBoxDecoration(
+                color: '#E5DCCB',
+                borderRadius: StacBorderRadius.circular(100),
+              ),
+              child: StacText(
+                data: 'OFF',
+                style: StacTextStyle(
+                  fontSize: 11,
+                  fontWeight: StacFontWeight.w700,
+                  color: '#7D6565',
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     ),

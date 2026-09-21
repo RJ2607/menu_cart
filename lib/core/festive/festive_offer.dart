@@ -93,4 +93,10 @@ class FestiveOffer {
         return '$currencySymbol${value.toStringAsFixed(value % 1 == 0 ? 0 : 2)} off';
     }
   }
+
+  String exampleLine(double subtotal) {
+    if (!isEligible(subtotal)) return unlockHint(subtotal);
+    final pay = subtotal - discountFor(subtotal);
+    return '${formatAmount(subtotal)} → pay ${formatAmount(pay)}';
+  }
 }

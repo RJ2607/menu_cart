@@ -7,7 +7,6 @@ import '../../../../core/controllers/festive_controller.dart';
 import '../../../../utils/money.dart';
 import 'st_cart_summary_builder.dart';
 
-/// Parser for StCartSummaryBuilder that renders cart charges and action button.
 class StCartSummaryBuilderParser extends StacParser<StCartSummaryBuilder> {
   const StCartSummaryBuilderParser();
 
@@ -113,6 +112,40 @@ class StCartSummaryBuilderParser extends StacParser<StCartSummaryBuilder> {
               Stac.fromJson(model.actionButton!.toJson(), context) ??
                   const SizedBox.shrink(),
             ],
+            Builder(
+              builder: (context) {
+                final festive = _festive();
+                final offer = festive.activeOffer;
+                final saved = festive.discountAmount;
+                if (offer == null || saved <= 0) return const SizedBox.shrink();
+                final symbol = offer.currencySymbol;
+                return Column(
+                  children: [
+                    SizedBox(height: rowSpacing + 4),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE6F4EA),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        '🎉 You save ${money(symbol, saved)} with ${offer.code} — pay ${money(symbol, festive.total)}',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF1E8E3E),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
           ],
         ),
       );
@@ -172,8 +205,8 @@ class StCartSummaryBuilderParser extends StacParser<StCartSummaryBuilder> {
     final valueColor = isDiscount
         ? const Color(0xFF1E8E3E)
         : chargeItem.isTotal
-            ? const Color(0xFFFF6B35)
-            : const Color(0xFF2D3436);
+        ? const Color(0xFFFF6B35)
+        : const Color(0xFF2D3436);
 
     final valueFontSize = chargeItem.isTotal ? 24.0 : 16.0;
     final symbol = festive.activeOffer?.currencySymbol ?? '₹';

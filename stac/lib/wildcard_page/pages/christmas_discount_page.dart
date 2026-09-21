@@ -167,6 +167,34 @@ StacWidget christmasDiscountPage() {
                 const StacSizedBox(height: 18),
                 _offerCode(data['code'], data['validity']),
                 const StacSizedBox(height: 18),
+                _savingsSnapshot(),
+                const StacSizedBox(height: 18),
+                StacText(
+                  data: '🎄 ON THE CHRISTMAS TABLE',
+                  style: StacTextStyle(
+                    color: '#8F1D2C',
+                    fontSize: 12,
+                    fontWeight: StacFontWeight.w700,
+                    letterSpacing: 1.5,
+                  ),
+                ),
+                const StacSizedBox(height: 10),
+                StacRow(
+                  children: [
+                    StacExpanded(
+                      child: _menuMini('🍗', 'Roast Platter', '₹649'),
+                    ),
+                    const StacSizedBox(width: 10),
+                    StacExpanded(
+                      child: _menuMini('🍰', 'Plum Cake', '₹299'),
+                    ),
+                    const StacSizedBox(width: 10),
+                    StacExpanded(
+                      child: _menuMini('🥂', 'Berry Sip', '₹149'),
+                    ),
+                  ],
+                ),
+                const StacSizedBox(height: 18),
                 _teaserCard(
                   '🎄',
                   'What’s on the Christmas table?',
@@ -271,6 +299,95 @@ StacWidget _stepsCard(List<String> steps, String color, String bg) {
           ),
         ],
       ),
+    ),
+  );
+}
+
+StacWidget _savingsSnapshot() {
+  return StacFractionallySizedBox(
+    widthFactor: 1,
+    child: StacContainer(
+      padding: const StacEdgeInsets.all(18),
+      decoration: StacBoxDecoration(
+        color: '#2B1717',
+        borderRadius: StacBorderRadius.circular(18),
+        border: StacBorder.all(color: '#F7D794'),
+      ),
+      child: StacColumn(
+        crossAxisAlignment: StacCrossAxisAlignment.start,
+        children: [
+          StacText(
+            data: 'SAVINGS SNAPSHOT • FLAT ₹500, SAME AS CART',
+            style: StacTextStyle(
+              color: '#F7D794',
+              fontSize: 12,
+              fontWeight: StacFontWeight.w700,
+              letterSpacing: 1.2,
+            ),
+          ),
+          const StacSizedBox(height: 12),
+          _savingsRow('₹2000 feast', 'pay ₹1500'),
+          const StacSizedBox(height: 8),
+          _savingsRow('₹2500 feast', 'pay ₹2000'),
+          const StacSizedBox(height: 8),
+          _savingsRow('₹3000 feast', 'pay ₹2500'),
+        ],
+      ),
+    ),
+  );
+}
+
+StacWidget _savingsRow(String cart, String pay) {
+  return StacRow(
+    mainAxisAlignment: StacMainAxisAlignment.spaceBetween,
+    children: [
+      StacText(
+        data: cart,
+        style: StacTextStyle(color: '#FBE7B8', fontSize: 14),
+      ),
+      StacText(
+        data: pay,
+        style: StacTextStyle(
+          color: '#7BFF9E',
+          fontSize: 14,
+          fontWeight: StacFontWeight.w700,
+        ),
+      ),
+    ],
+  );
+}
+
+StacWidget _menuMini(String emoji, String title, String price) {
+  return StacContainer(
+    padding: const StacEdgeInsets.all(12),
+    decoration: StacBoxDecoration(
+      color: StacColors.white,
+      borderRadius: StacBorderRadius.circular(16),
+      border: StacBorder.all(color: '#E7C9A5'),
+    ),
+    child: StacColumn(
+      crossAxisAlignment: StacCrossAxisAlignment.start,
+      children: [
+        StacText(data: emoji, style: StacTextStyle(fontSize: 24)),
+        const StacSizedBox(height: 6),
+        StacText(
+          data: title,
+          style: StacTextStyle(
+            color: '#4A1500',
+            fontSize: 12,
+            fontWeight: StacFontWeight.w700,
+          ),
+        ),
+        const StacSizedBox(height: 2),
+        StacText(
+          data: price,
+          style: StacTextStyle(
+            color: '#8F1D2C',
+            fontSize: 13,
+            fontWeight: StacFontWeight.w700,
+          ),
+        ),
+      ],
     ),
   );
 }

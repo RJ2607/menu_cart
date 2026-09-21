@@ -1,3 +1,4 @@
+import 'package:menu_cart/core/festive/festive_offer.dart';
 import 'package:menu_cart/core/festive/festive_offers.dart';
 import 'package:menu_cart/core/menu_data.dart';
 import 'package:menu_cart/stac_runtime/actions/cart/navigate_to_item_detail/st_navigate_to_item_detail_action.dart';
@@ -11,14 +12,14 @@ import 'package:stac/stac_core.dart';
 
 import '../wildcard_page/festival_discount_data.dart';
 
-/// Menu screen - Fully template-based with category filtering
-///
-/// Features:
-/// 1. Category chips for filtering (All, Mains, Sides, Drinks)
-/// 2. Reactive menu items list that filters by selected category
-/// 3. Template-based item layout (JSON-configurable)
-/// 4. Live cart badge
-/// 5. Floating cart preview bar (last-added item, full-width, tap -> cart)
+String _demoExample(FestiveOffer? offer) {
+  if (offer == null) return '';
+  final demoSubtotal = offer.minOrderSubtotal >= 1000
+      ? offer.minOrderSubtotal
+      : 1000.0;
+  return 'e.g. ${offer.exampleLine(demoSubtotal)}';
+}
+
 @StacScreen(screenName: 'menu')
 StacWidget menuScreen() {
   return StacScaffold(
@@ -388,6 +389,15 @@ StacWidget _festivalCard({required String festiveKey, required String emoji}) {
           StacText(
             data: '$code • Tap to view',
             style: StacTextStyle(color: '#FFFFFF', fontSize: 11),
+          ),
+          const StacSizedBox(height: 4),
+          StacText(
+            data: _demoExample(offer),
+            style: StacTextStyle(
+              color: discountColor,
+              fontSize: 11,
+              fontWeight: StacFontWeight.w700,
+            ),
           ),
         ],
       ),

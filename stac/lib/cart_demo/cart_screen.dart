@@ -6,18 +6,8 @@ import 'package:menu_cart/stac_runtime/widgets/cart/cart_summary_builder/st_cart
 import 'package:menu_cart/stac_runtime/widgets/collections/dismissible/st_dismissible.dart';
 import 'package:menu_cart/stac_runtime/widgets/controls/main_button/st_main_button.dart';
 import 'package:menu_cart/stac_runtime/widgets/festive/festive_offer_bar/st_festive_offer_bar.dart';
-import 'package:menu_cart/stac_runtime/widgets/festive/festive_offer_picker/st_festive_offer_picker.dart';
 import 'package:stac/stac_core.dart';
 
-/// Cart screen - Fully template-based with JSON-configurable layout
-///
-/// Features:
-/// 1. Swipe-to-dismiss to remove items
-/// 2. Quantity controls (increment/decrement)
-/// 3. Auto-remove on quantity 0
-/// 4. Configurable charges list
-///
-/// All UI structure is defined in JSON/DSL and can be modified without code updates.
 @StacScreen(screenName: 'cart')
 StacWidget cartScreen() {
   return StacScaffold(
@@ -40,12 +30,6 @@ StacWidget cartScreen() {
     ),
     body: StacColumn(
       children: [
-        // Festive checkout story (pitch: "festive checkout" demo):
-        // full thematic banner on top (badge + amount-off + min-order +
-        // unlock progress + code) + remove pill. Hidden until an offer is
-        // applied; every future festival renders automatically.
-        // Discounted price then flows into the summary's green
-        // "Festive Discount (CODE)" row and the checkout success bill.
         const FestiveOfferBar(
           showWhenNone: false,
           compact: false,
@@ -98,8 +82,6 @@ StacWidget cartScreen() {
                     ),
                   ),
                 ),
-                // Item template with swipe-to-dismiss and quantity controls
-                // The parser will replace {{placeholders}} with actual cart item data
                 itemTemplate: StDismissible(
                   keyValue: 'cart-item-{{index}}',
                   direction: 'endToStart',
@@ -283,12 +265,6 @@ StacWidget cartScreen() {
             ),
           ),
         ),
-
-        // Cart summary with configurable charges
-        // Festive picker — apply/clear offers directly in cart (registry-driven).
-        const FestiveOfferPicker(
-          title: '🎉 Festive offers — tap to apply in cart',
-        ),
         StCartSummaryBuilder(
           backgroundColor: '#FFFFFF',
           borderTopRadius: 24,
@@ -321,14 +297,6 @@ StacWidget cartScreen() {
               fontSize: 16,
               fontWeight: 'w600',
             ),
-            // To add a tax charge, uncomment:
-            // ChargeItem(
-            //   label: 'Tax (10%)',
-            //   valueKey: 'tax',
-            //   color: '#636E72',
-            //   fontSize: 16,
-            //   fontWeight: 'w400',
-            // ),
             ChargeItem(
               label: 'Total',
               valueKey: 'total',

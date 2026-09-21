@@ -25,6 +25,16 @@ const Map<String, dynamic> christmasDiscountData = {
   ],
   'teaserTitle': 'What’s on the Christmas table?',
   'teaserSubtitle': 'Roast-style mains • truffle sides • berry sips',
+  'examples': [
+    {'cart': '₹2000 feast', 'pay': 'pay ₹1500'},
+    {'cart': '₹2500 feast', 'pay': 'pay ₹2000'},
+    {'cart': '₹3000 feast', 'pay': 'pay ₹2500'},
+  ],
+  'teasers': [
+    {'emoji': '🍗', 'title': 'Roast Platter', 'price': '₹649'},
+    {'emoji': '🍰', 'title': 'Plum Cake', 'price': '₹299'},
+    {'emoji': '🥂', 'title': 'Berry Sip', 'price': '₹149'},
+  ],
 };
 
 const Map<String, dynamic> newYearDiscountData = {
@@ -48,6 +58,16 @@ const Map<String, dynamic> newYearDiscountData = {
   ],
   'teaserTitle': 'Midnight countdown picks',
   'teaserSubtitle': 'Protein bowls • grilled wraps • fresh sips',
+  'examples': [
+    {'cart': '₹700 cart', 'pay': 'pay ₹490'},
+    {'cart': '₹1000 cart', 'pay': 'pay ₹700'},
+    {'cart': '₹1500 cart', 'pay': 'pay ₹1050'},
+  ],
+  'teasers': [
+    {'emoji': '🥗', 'title': 'Power Bowl', 'price': '₹239'},
+    {'emoji': '🌯', 'title': 'Grill Wrap', 'price': '₹229'},
+    {'emoji': '🥤', 'title': 'Fresh Sip', 'price': '₹99'},
+  ],
 };
 
 const Map<String, dynamic> diwaliDiscountData = {
@@ -71,6 +91,16 @@ const Map<String, dynamic> diwaliDiscountData = {
   ],
   'teaserTitle': 'Festive thali picks',
   'teaserSubtitle': 'Mithai • sharing platters • family sides',
+  'examples': [
+    {'cart': '₹500 thali', 'pay': 'pay ₹300'},
+    {'cart': '₹1000 feast', 'pay': 'pay ₹600'},
+    {'cart': '₹1500 feast', 'pay': 'pay ₹900'},
+  ],
+  'teasers': [
+    {'emoji': '🍬', 'title': 'Mithai Box', 'price': '₹249'},
+    {'emoji': '🍛', 'title': 'Royal Thali', 'price': '₹349'},
+    {'emoji': '🍗', 'title': 'Sharing Platter', 'price': '₹499'},
+  ],
 };
 
 /// All festive keys, in home-card order. New festivals append here.

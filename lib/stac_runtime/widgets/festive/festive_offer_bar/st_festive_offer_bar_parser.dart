@@ -8,9 +8,6 @@ import '../../../../core/festive/festive_offers.dart';
 import '../../../actions/festive/clear_festive_offer/st_clear_festive_offer_action.dart';
 import 'st_festive_offer_bar.dart';
 
-/// Reactive festive banner. Theming comes from the [FestiveOffer] registry so
-/// a future festival only needs a registry entry to render correctly here,
-/// in the cart summary and in the checkout dialog.
 class FestiveOfferBarParser extends StacParser<FestiveOfferBar> {
   const FestiveOfferBarParser();
 
@@ -26,7 +23,8 @@ class FestiveOfferBarParser extends StacParser<FestiveOfferBar> {
   String get type => 'st_festive_offer_bar';
 
   @override
-  FestiveOfferBar getModel(Map<String, dynamic> json) => FestiveOfferBar.fromJson(json);
+  FestiveOfferBar getModel(Map<String, dynamic> json) =>
+      FestiveOfferBar.fromJson(json);
 
   @override
   Widget parse(BuildContext context, FestiveOfferBar model) {
@@ -38,7 +36,9 @@ class FestiveOfferBarParser extends StacParser<FestiveOfferBar> {
     }
 
     return Obx(() {
-      final FestiveOffer? pinned = model.festiveKey == null ? null : festiveOffers[model.festiveKey];
+      final FestiveOffer? pinned = model.festiveKey == null
+          ? null
+          : festiveOffers[model.festiveKey];
       final FestiveOffer? offer = pinned ?? controller.activeOffer;
 
       if (offer == null) {
@@ -58,7 +58,11 @@ class FestiveOfferBarParser extends StacParser<FestiveOfferBar> {
               Expanded(
                 child: Text(
                   'Tap a festival card to unlock its offer',
-                  style: TextStyle(fontSize: 13, color: Color(0xFF636E72), fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Color(0xFF636E72),
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],
@@ -72,10 +76,15 @@ class FestiveOfferBarParser extends StacParser<FestiveOfferBar> {
       final String status = !isActive && pinned != null
           ? 'Tap to apply ${offer.code}'
           : eligible
-              ? 'Applied • ${offer.code} unlocked'
-              : 'Add ${offer.formatAmount(offer.minOrderSubtotal - subtotal)} more to unlock';
+          ? 'Applied • ${offer.code} unlocked'
+          : 'Add ${offer.formatAmount(offer.minOrderSubtotal - subtotal)} more to unlock';
+      final double progress = subtotal <= 0
+          ? 0
+          : (subtotal / offer.minOrderSubtotal).clamp(0, 1).toDouble();
+      final String savingsLine = eligible
+          ? '${offer.savingsPreview(subtotal)} on this cart'
+          : offer.unlockHint(subtotal);
 
-      // JSON style overrides win; otherwise the offer's registry theme.
       final Color bg = model.backgroundColor != null
           ? _color(model.backgroundColor!)
           : _color(offer.themeColor);
@@ -94,8 +103,14 @@ class FestiveOfferBarParser extends StacParser<FestiveOfferBar> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('🏷️ ${offer.badgeLabel} • ${offer.code}',
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: accent)),
+              Text(
+                '🏷️ ${offer.badgeLabel} • ${offer.code}',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: accent,
+                ),
+              ),
               if (model.showRemoveButton && isActive) ...[
                 const SizedBox(width: 8),
                 _removeButton(context, bg, accent),
@@ -124,30 +139,77 @@ class FestiveOfferBarParser extends StacParser<FestiveOfferBar> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: accent,
                     borderRadius: BorderRadius.circular(100),
                   ),
-                  child: Text(offer.badgeLabel,
-                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: bg)),
-                ),
-                Text(offer.code,
+                  child: Text(
+                    offer.badgeLabel,
                     style: TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w800, color: accent, letterSpacing: 1)),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w800,
+                      color: bg,
+                    ),
+                  ),
+                ),
+                Text(
+                  offer.code,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w800,
+                    color: accent,
+                    letterSpacing: 1,
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 10),
-            Text('${offer.name} festive offer • ${offer.amountOffLabel()} ${offer.minOrderLabel}',
-                style: const TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w600)),
+            Text(
+              '${offer.name} festive offer • ${offer.amountOffLabel()} ${offer.minOrderLabel}',
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 8),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: Container(
+                height: 8,
+                color: Colors.white.withOpacity(0.25),
+                child: FractionallySizedBox(
+                  alignment: Alignment.centerLeft,
+                  widthFactor: progress,
+                  child: Container(color: accent),
+                ),
+              ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              savingsLine,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: eligible ? accent : Colors.white.withOpacity(0.9),
+              ),
+            ),
             const SizedBox(height: 6),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: Text(status, style: TextStyle(fontSize: 12, color: accent)),
+                  child: Text(
+                    status,
+                    style: TextStyle(fontSize: 12, color: accent),
+                  ),
                 ),
-                if (model.showRemoveButton && isActive) _removeButton(context, bg, accent),
+                if (model.showRemoveButton && isActive)
+                  _removeButton(context, bg, accent),
               ],
             ),
           ],
@@ -156,8 +218,6 @@ class FestiveOfferBarParser extends StacParser<FestiveOfferBar> {
     });
   }
 
-  /// Tappable remove pill — dispatches `clear_festive_offer` through the
-  /// standard Stac pipeline so it works from any server-driven screen.
   Widget _removeButton(BuildContext context, Color bg, Color accent) {
     return GestureDetector(
       onTap: () => Stac.onCallFromJson(
@@ -174,17 +234,23 @@ class FestiveOfferBarParser extends StacParser<FestiveOfferBar> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Remove',
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: accent)),
+            Text(
+              'Remove',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: accent,
+              ),
+            ),
             const SizedBox(width: 4),
-            Text('✕',
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: accent)),
+            Text(
+              '✕',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: accent,
+              ),
+            ),
           ],
         ),
       ),
