@@ -287,15 +287,13 @@ StacWidget cartScreen() {
               fontSize: 16,
               fontWeight: 'w400',
             ),
-            // Festive savings row — {{code}} is replaced with the active
-            // offer code at runtime. Works for percent AND flat festivals;
-            // future festivals need no changes here.
             ChargeItem(
               label: 'Festive Discount ({{code}})',
               valueKey: 'discount',
               color: '#1E8E3E',
               fontSize: 16,
               fontWeight: 'w600',
+              visibleWhenCode: true,
             ),
             ChargeItem(
               label: 'Total',

@@ -13,6 +13,7 @@ ChargeItem _$ChargeItemFromJson(Map<String, dynamic> json) => ChargeItem(
       fontSize: (json['fontSize'] as num?)?.toDouble(),
       fontWeight: json['fontWeight'] as String?,
       isTotal: json['isTotal'] as bool? ?? false,
+      visibleWhenCode: json['visibleWhenCode'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$ChargeItemToJson(ChargeItem instance) =>
@@ -23,6 +24,7 @@ Map<String, dynamic> _$ChargeItemToJson(ChargeItem instance) =>
       'fontSize': instance.fontSize,
       'fontWeight': instance.fontWeight,
       'isTotal': instance.isTotal,
+      'visibleWhenCode': instance.visibleWhenCode,
     };
 
 StCartSummaryBuilder _$StCartSummaryBuilderFromJson(

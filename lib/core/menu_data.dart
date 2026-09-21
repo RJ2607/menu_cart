@@ -168,11 +168,13 @@ double addonSurcharge(String label) {
 }
 
 Map<String, double> get sizePriceMap => {
-  for (final o in sizeOptions) o['label'] as String: (o['price'] as num).toDouble(),
+  for (final o in sizeOptions)
+    o['label'] as String: (o['price'] as num).toDouble(),
 };
 
 Map<String, double> get addonPriceMap => {
-  for (final o in addonOptions) o['label'] as String: (o['price'] as num).toDouble(),
+  for (final o in addonOptions)
+    o['label'] as String: (o['price'] as num).toDouble(),
 };
 
 /// Seeded cart items for demo

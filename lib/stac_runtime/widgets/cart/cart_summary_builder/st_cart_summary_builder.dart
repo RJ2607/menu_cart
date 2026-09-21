@@ -24,6 +24,8 @@ class ChargeItem {
   /// If true, this is the total row (may have different styling)
   final bool isTotal;
 
+  final bool visibleWhenCode;
+
   const ChargeItem({
     required this.label,
     required this.valueKey,
@@ -31,6 +33,7 @@ class ChargeItem {
     this.fontSize,
     this.fontWeight,
     this.isTotal = false,
+    this.visibleWhenCode = false,
   });
 
   factory ChargeItem.fromJson(Map<String, dynamic> json) =>

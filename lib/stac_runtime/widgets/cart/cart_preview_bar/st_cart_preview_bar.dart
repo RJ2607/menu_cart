@@ -3,16 +3,6 @@ import 'package:stac/stac_core.dart';
 
 part 'st_cart_preview_bar.g.dart';
 
-/// Floating cart preview bar for the menu screen.
-///
-/// Reactive: hidden when the cart is empty, otherwise shows the last-added
-/// item's thumbnail + name (ellipsis) with a "View in cart" action.
-/// Tapping anywhere on the bar navigates to the cart. Designed to sit in a
-/// bottom-anchored [StacPositioned] inside a [StacStack].
-///
-/// Purely JSON-stylable: [viewLabel]/[imageSize] control content,
-/// [backgroundColor]/[textColor]/[accentColor]/[borderRadius] control the
-/// look — all optional, previous defaults preserved.
 @JsonSerializable(explicitToJson: true)
 class StCartPreviewBar extends StacWidget {
   const StCartPreviewBar({

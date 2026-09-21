@@ -63,6 +63,12 @@ class StCartSummaryBuilderParser extends StacParser<StCartSummaryBuilder> {
       final padding = model.padding ?? 20;
       final rowSpacing = model.rowSpacing ?? 12;
 
+      final festive = _festive();
+      final hasCode = festive.activeOffer != null;
+      final visibleCharges = model.chargeItems
+          .where((c) => !c.visibleWhenCode || hasCode)
+          .toList();
+
       return Container(
         padding: EdgeInsets.all(padding),
         decoration: BoxDecoration(
@@ -82,10 +88,10 @@ class StCartSummaryBuilderParser extends StacParser<StCartSummaryBuilder> {
         child: Column(
           children: [
             // Render charge items
-            ...model.chargeItems.asMap().entries.map((entry) {
+            ...visibleCharges.asMap().entries.map((entry) {
               final index = entry.key;
               final chargeItem = entry.value;
-              final isLast = index == model.chargeItems.length - 1;
+              final isLast = index == visibleCharges.length - 1;
 
               return Column(
                 children: [

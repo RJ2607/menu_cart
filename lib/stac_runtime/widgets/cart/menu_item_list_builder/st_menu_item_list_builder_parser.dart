@@ -22,17 +22,12 @@ class StMenuItemListBuilderParser extends StacParser<StMenuItemListBuilder> {
     final controller = Get.find<CartController>();
 
     return Obx(() {
-      // Get selected category
       final selectedCategory = controller.selectedCategory.value;
-
-      // Filter items by selected category
       final filteredItems = selectedCategory == 'All'
           ? model.items
           : model.items
                 .where((item) => item['category'] == selectedCategory)
                 .toList();
-
-      // Show empty widget if no items match
       if (filteredItems.isEmpty) {
         if (model.emptyWidget != null) {
           return Stac.fromJson(model.emptyWidget!.toJson(), context) ??
@@ -40,11 +35,7 @@ class StMenuItemListBuilderParser extends StacParser<StMenuItemListBuilder> {
         }
         return const SizedBox.shrink();
       }
-
-      // Build items list
       final itemWidgets = <Widget>[];
-
-      // Group items by category if "All" is selected
       if (selectedCategory == 'All') {
         final categoryOrder = <String>[];
         for (final item in filteredItems) {
@@ -60,7 +51,6 @@ class StMenuItemListBuilderParser extends StacParser<StMenuItemListBuilder> {
               .toList();
 
           if (categoryItems.isNotEmpty) {
-            // Add section header if template provided
             if (model.sectionHeaderTemplate != null) {
               final headerText = model.sectionHeaderTemplate!
                   .replaceAll('{{category}}', category)
@@ -80,8 +70,6 @@ class StMenuItemListBuilderParser extends StacParser<StMenuItemListBuilder> {
                 ),
               );
             }
-
-            // Add items for this category
             for (int i = 0; i < categoryItems.length; i++) {
               final item = categoryItems[i];
               itemWidgets.add(_buildItem(context, model, item, i));
@@ -97,7 +85,6 @@ class StMenuItemListBuilderParser extends StacParser<StMenuItemListBuilder> {
           }
         }
       } else {
-        // Single category selected - render all items
         for (int i = 0; i < filteredItems.length; i++) {
           final item = filteredItems[i];
           itemWidgets.add(_buildItem(context, model, item, i));
@@ -121,7 +108,6 @@ class StMenuItemListBuilderParser extends StacParser<StMenuItemListBuilder> {
     Map<String, dynamic> item,
     int index,
   ) {
-    // Create placeholder map for this item
     final placeholders = <String, String>{
       'index': index.toString(),
       for (final entry in item.entries)
@@ -130,34 +116,28 @@ class StMenuItemListBuilderParser extends StacParser<StMenuItemListBuilder> {
             : entry.value?.toString() ?? '',
     };
 
-    // Serialize template to JSON and replace placeholders
     final templateJson = _replacePlaceholders(
       model.itemTemplate.toJson(),
       placeholders,
     );
 
-    // Parse and render the template
     return Stac.fromJson(templateJson, context) ?? const SizedBox.shrink();
   }
 
-  /// Recursively replaces {{placeholder}} strings in JSON with actual values
   dynamic _replacePlaceholders(dynamic json, Map<String, String> placeholders) {
     if (json is String) {
-      // Replace all placeholders in the string
       String result = json;
       placeholders.forEach((key, value) {
         result = result.replaceAll('{{$key}}', value);
       });
       return result;
     } else if (json is Map) {
-      // Recursively replace in map values and cast to Map<String, dynamic>
       final result = <String, dynamic>{};
       json.forEach((key, value) {
         result[key.toString()] = _replacePlaceholders(value, placeholders);
       });
       return result;
     } else if (json is List) {
-      // Recursively replace in list items
       return json
           .map((item) => _replacePlaceholders(item, placeholders))
           .toList();

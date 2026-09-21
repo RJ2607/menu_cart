@@ -205,17 +205,11 @@ StacWidget newYearDiscountPage() {
             const StacSizedBox(height: 10),
             StacRow(
               children: [
-                StacExpanded(
-                  child: _menuMini('🥗', 'Power Bowl', '₹239'),
-                ),
+                StacExpanded(child: _menuMini('🥗', 'Power Bowl', '₹239')),
                 const StacSizedBox(width: 10),
-                StacExpanded(
-                  child: _menuMini('🌯', 'Grill Wrap', '₹229'),
-                ),
+                StacExpanded(child: _menuMini('🌯', 'Grill Wrap', '₹229')),
                 const StacSizedBox(width: 10),
-                StacExpanded(
-                  child: _menuMini('🥤', 'Fresh Sip', '₹99'),
-                ),
+                StacExpanded(child: _menuMini('🥤', 'Fresh Sip', '₹99')),
               ],
             ),
             const StacSizedBox(height: 14),
