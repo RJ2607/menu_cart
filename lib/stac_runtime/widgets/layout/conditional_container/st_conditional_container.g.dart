@@ -10,7 +10,9 @@ StConditionalContainer _$StConditionalContainerFromJson(
         Map<String, dynamic> json) =>
     StConditionalContainer(
       width: (json['width'] as num?)?.toDouble(),
+      widthExpr: const StacSizeExprConverter().fromJson(json['widthExpr']),
       height: (json['height'] as num?)?.toDouble(),
+      heightExpr: const StacSizeExprConverter().fromJson(json['heightExpr']),
       padding: json['padding'] == null
           ? null
           : StacEdgeInsets.fromJson(json['padding']),
@@ -36,7 +38,9 @@ Map<String, dynamic> _$StConditionalContainerToJson(
         StConditionalContainer instance) =>
     <String, dynamic>{
       'width': instance.width,
+      'widthExpr': const StacSizeExprConverter().toJson(instance.widthExpr),
       'height': instance.height,
+      'heightExpr': const StacSizeExprConverter().toJson(instance.heightExpr),
       'padding': instance.padding?.toJson(),
       'margin': instance.margin?.toJson(),
       'alignment': _$StacAlignmentEnumMap[instance.alignment],

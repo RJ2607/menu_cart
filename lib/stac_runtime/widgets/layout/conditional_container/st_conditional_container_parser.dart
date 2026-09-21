@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stac/stac.dart';
-import '../conditional/st_conditional.dart';
 
+import '../conditional/st_conditional.dart';
 import 'st_conditional_container.dart';
 
 class StConditionalContainerParser extends StacParser<StConditionalContainer> {
@@ -18,13 +18,14 @@ class StConditionalContainerParser extends StacParser<StConditionalContainer> {
         ? model.decorationWhenTrue
         : model.decorationWhenFalse;
 
-    // Build a plain, package-native StacContainer with the resolved
-    // decoration, then hand off to the package's own parser via the
-    // registry â€” no package source touched, no Container(...) logic
-    // duplicated here.
+    final metrics = stacMetricsOf(context);
+    final resolvedWidth = model.widthExpr?.resolveWith(metrics) ?? model.width;
+    final resolvedHeight =
+        model.heightExpr?.resolveWith(metrics) ?? model.height;
+
     final container = StacContainer(
-      width: model.width,
-      height: model.height,
+      width: resolvedWidth,
+      height: resolvedHeight,
       padding: model.padding,
       margin: model.margin,
       alignment: model.alignment,

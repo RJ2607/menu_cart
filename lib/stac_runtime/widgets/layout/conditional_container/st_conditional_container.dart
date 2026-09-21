@@ -22,7 +22,9 @@ part 'st_conditional_container.g.dart';
 class StConditionalContainer extends StacWidget {
   const StConditionalContainer({
     this.width,
+    this.widthExpr,
     this.height,
+    this.heightExpr,
     this.padding,
     this.margin,
     this.alignment,
@@ -33,7 +35,11 @@ class StConditionalContainer extends StacWidget {
   });
 
   final double? width;
+  @StacSizeExprConverter()
+  final StacSizeExpr? widthExpr;
   final double? height;
+  @StacSizeExprConverter()
+  final StacSizeExpr? heightExpr;
   final StacEdgeInsets? padding;
   final StacEdgeInsets? margin;
   final StacAlignment?

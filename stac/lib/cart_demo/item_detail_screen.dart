@@ -467,7 +467,7 @@ StacWidget _addonOptionTemplate(String stateKey) {
     onTap: StToggleItemAddonAction(stateKey: stateKey, addon: '{{label}}'),
     child: StConditionalContainer(
       when: '{{selected}}',
-      width: 116,
+      widthExpr: (StacSizeExpr.sw - StacSizeExpr.px(70)) / 3,
       margin: const StacEdgeInsets.only(right: 10),
       padding: const StacEdgeInsets.symmetric(horizontal: 8, vertical: 12),
       decorationWhenTrue: StacBoxDecoration(

@@ -77,7 +77,7 @@ dependencies:
   stac:
     git:
       url: https://github.com/smoke-trees/st_sdui.git
-      ref: local-server-change
+      ref: main 
       path: packages/stac
 
   # stac_core: ^1.5.0

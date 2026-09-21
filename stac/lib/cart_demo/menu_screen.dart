@@ -150,7 +150,6 @@ StacWidget menuScreen() {
                 ),
               ),
 
-              // Menu items - REACTIVE filtered list based on selected category
               StacPadding(
                 padding: const StacEdgeInsets.symmetric(horizontal: 16),
                 child: StMenuItemListBuilder(
