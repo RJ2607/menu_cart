@@ -23,7 +23,8 @@ StListViewBuilder _$StListViewBuilderFromJson(Map<String, dynamic> json) =>
       shrinkWrap: json['shrinkWrap'] as bool? ?? false,
       reverse: json['reverse'] as bool? ?? false,
       separator: json['separator'] as Map<String, dynamic>?,
-      scrollDirection: json['scrollDirection'] as String?,
+      scrollDirection:
+          $enumDecodeNullable(_$StacAxisEnumMap, json['scrollDirection']),
       enablePagination: json['enablePagination'] as bool? ?? false,
       page: (json['page'] as num?)?.toInt() ?? 1,
       count: (json['count'] as num?)?.toInt() ?? 20,
@@ -45,7 +46,7 @@ Map<String, dynamic> _$StListViewBuilderToJson(StListViewBuilder instance) =>
       'shrinkWrap': instance.shrinkWrap,
       'reverse': instance.reverse,
       'separator': instance.separator,
-      'scrollDirection': instance.scrollDirection,
+      'scrollDirection': _$StacAxisEnumMap[instance.scrollDirection],
       'enablePagination': instance.enablePagination,
       'page': instance.page,
       'count': instance.count,
@@ -55,3 +56,8 @@ Map<String, dynamic> _$StListViewBuilderToJson(StListViewBuilder instance) =>
       'footerLoadingWidget': instance.footerLoadingWidget,
       'type': instance.type,
     };
+
+const _$StacAxisEnumMap = {
+  StacAxis.horizontal: 'horizontal',
+  StacAxis.vertical: 'vertical',
+};

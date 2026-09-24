@@ -102,7 +102,7 @@ class StListViewBuilder extends StacWidget {
   final Map<String, dynamic>? separator;
 
   /// One of: horizontal, vertical.
-  final String? scrollDirection;
+  final StacAxis? scrollDirection;
 
   /// When true, the next page is fetched automatically as the user scrolls to
   /// the bottom of the list. Only applies when [endpoint] is set.

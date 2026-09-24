@@ -567,10 +567,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_validators
-      sha256: "00cc032a0eafaf5f0d4b1a3ed3347d52cd4bface4c1853ebbf1faf183bab346d"
+      sha256: da31b7bdfcc19536ab784ccae4be8452df4e7db159b90b6e07a8295be53114c4
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.3.0"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -740,10 +740,10 @@ packages:
     dependency: transitive
     description:
       name: image_picker_ios
-      sha256: ee3885b6fcd71958fbc79770dd194c63371439d536d69c47b279171a486482ae
+      sha256: "852a7762962f3bb3ad54ef1d342669e41557f466033a676baa8876b367cf4050"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.13+7"
+    version: "0.8.13+8"
   image_picker_linux:
     dependency: transitive
     description:
@@ -988,10 +988,10 @@ packages:
     dependency: transitive
     description:
       name: octo_image
-      sha256: "34faa6639a78c7e3cbe79be6f9f96535867e879748ade7d17c9b1ae7536293bd"
+      sha256: "66e8f59a538a9f9f53141bc22ec0a12f8e85f2ca3bfcacab6dd30315b2fc256d"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   package_config:
     dependency: transitive
     description:
@@ -1410,7 +1410,7 @@ packages:
     description:
       path: "packages/stac"
       ref: main
-      resolved-ref: "3fd38bc05180f154f6c3852db98e6152c2ca1c74"
+      resolved-ref: "99c190672e5c731bf1c13996210ebf728ab3d2a4"
       url: "https://github.com/smoke-trees/st_sdui.git"
     source: git
     version: "1.5.0"
@@ -1418,8 +1418,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/stac_core"
-      ref: "3fd38bc05180f154f6c3852db98e6152c2ca1c74"
-      resolved-ref: "3fd38bc05180f154f6c3852db98e6152c2ca1c74"
+      ref: "99c190672e5c731bf1c13996210ebf728ab3d2a4"
+      resolved-ref: "99c190672e5c731bf1c13996210ebf728ab3d2a4"
       url: "https://github.com/smoke-trees/st_sdui.git"
     source: git
     version: "1.5.0"
@@ -1427,8 +1427,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/stac_framework"
-      ref: "3fd38bc05180f154f6c3852db98e6152c2ca1c74"
-      resolved-ref: "3fd38bc05180f154f6c3852db98e6152c2ca1c74"
+      ref: "99c190672e5c731bf1c13996210ebf728ab3d2a4"
+      resolved-ref: "99c190672e5c731bf1c13996210ebf728ab3d2a4"
       url: "https://github.com/smoke-trees/st_sdui.git"
     source: git
     version: "1.0.0"
@@ -1436,8 +1436,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/stac_logger"
-      ref: "3fd38bc05180f154f6c3852db98e6152c2ca1c74"
-      resolved-ref: "3fd38bc05180f154f6c3852db98e6152c2ca1c74"
+      ref: "99c190672e5c731bf1c13996210ebf728ab3d2a4"
+      resolved-ref: "99c190672e5c731bf1c13996210ebf728ab3d2a4"
       url: "https://github.com/smoke-trees/st_sdui.git"
     source: git
     version: "1.1.0"

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -49,9 +48,11 @@ Future<void> main() async {
           actionParsers: StacParsers.actionParsers,
           logStackTraces: true,
           showErrorWidgets: true,
-          cacheConfig: kDebugMode
-              ? const StacCacheConfig(strategy: StacCacheStrategy.networkOnly)
-              : null,
+          cacheConfig: const StacCacheConfig(
+            strategy: StacCacheStrategy.networkFirst,
+            refreshInBackground: true,
+            maxAge: Duration(days: 7),
+          ),
         );
 
         InitBindings().dependencies();

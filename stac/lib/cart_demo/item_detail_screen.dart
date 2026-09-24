@@ -347,7 +347,10 @@ StacWidget itemDetailScreen() {
                       color: textPrimary,
                     ),
                   ),
-                  // const StacSizedBox(height: 12),
+                  const StacSizedBox(height: 12),
+                  // StacContainer(
+                  //   height: 150,
+                  //   child:
                   StListViewBuilder(
                     shrinkWrap: true,
                     items: const [
@@ -372,6 +375,7 @@ StacWidget itemDetailScreen() {
                     ],
                     itemTemplate: _addonOptionTemplate(stateKey),
                   ),
+                  // ),
                   const StacSizedBox(height: 24),
                   StMainButton(
                     title: 'Add to Cart',
@@ -526,6 +530,93 @@ StacWidget _addonOptionTemplate(String stateKey) {
                 data: 'OFF',
                 style: StacTextStyle(
                   fontSize: 11,
+                  fontWeight: StacFontWeight.w700,
+                  color: '#7D6565',
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+StacWidget _addonOptionTemplate1(String stateKey) {
+  return StacGestureDetector(
+    onTap: StToggleItemAddonAction(stateKey: stateKey, addon: '{{label}}'),
+    child: StConditionalContainer(
+      when: '{{selected}}',
+      widthExpr: (StacSizeExpr.sw - StacSizeExpr.px(70)) / 3,
+      margin: const StacEdgeInsets.only(right: 10),
+      padding: const StacEdgeInsets.symmetric(horizontal: 8, vertical: 12),
+      decorationWhenTrue: StacBoxDecoration(
+        color: '#FFF3D6',
+        borderRadius: StacBorderRadius.circular(14),
+        border: StacBorder.all(color: '#FFC93C', width: 2),
+      ),
+      decorationWhenFalse: StacBoxDecoration(
+        color: surfaceColor,
+        borderRadius: StacBorderRadius.circular(14),
+        border: StacBorder.all(color: '#E5DCCB', width: 1),
+      ),
+      child: StacColumn(
+        crossAxisAlignment: StacCrossAxisAlignment.center,
+        mainAxisSize: StacMainAxisSize.min,
+        children: [
+          StacText(data: '{{emoji}}', style: StacTextStyle(fontSize: 26)),
+          const StacSizedBox(height: 6),
+          StacText(
+            data: '{{label}}',
+            textAlign: StacTextAlign.center,
+            style: StacTextStyle(
+              fontSize: 12,
+              fontWeight: StacFontWeight.w600,
+              color: textPrimary,
+            ),
+            maxLines: 1,
+            overflow: StacTextOverflow.ellipsis,
+          ),
+          const StacSizedBox(height: 2),
+          StacText(
+            data: '{{priceLabel}}',
+            textAlign: StacTextAlign.center,
+            style: StacTextStyle(fontSize: 12, color: textSecondary),
+          ),
+          const StacSizedBox(height: 8),
+          StConditionalWidget(
+            when: '{{selected}}',
+            whenTrue: StacContainer(
+              padding: const StacEdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 5,
+              ),
+              decoration: StacBoxDecoration(
+                color: '#1E8E3E',
+                borderRadius: StacBorderRadius.circular(100),
+              ),
+              child: StacText(
+                data: 'ON',
+                style: StacTextStyle(
+                  fontSize: 10,
+                  fontWeight: StacFontWeight.w700,
+                  color: StacColors.white,
+                ),
+              ),
+            ),
+            whenFalse: StacContainer(
+              padding: const StacEdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 5,
+              ),
+              decoration: StacBoxDecoration(
+                color: '#E5DCCB',
+                borderRadius: StacBorderRadius.circular(100),
+              ),
+              child: StacText(
+                data: 'OFF',
+                style: StacTextStyle(
+                  fontSize: 10,
                   fontWeight: StacFontWeight.w700,
                   color: '#7D6565',
                 ),

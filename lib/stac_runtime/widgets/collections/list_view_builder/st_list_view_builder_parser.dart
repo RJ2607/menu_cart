@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:menu_cart/utils/console_logger.dart';
 import 'package:stac/stac.dart';
 
 import 'st_list_view_builder.dart';
@@ -38,9 +39,7 @@ class StListViewBuilderParser extends StacParser<StListViewBuilder> {
           : const SizedBox();
     }
 
-    final scrollDirection = model.scrollDirection == 'horizontal'
-        ? Axis.horizontal
-        : Axis.vertical;
+    final scrollDirection = model.scrollDirection?.parse;
 
     final separator = model.separator != null
         ? Stac.fromJson(model.separator, context) ?? const SizedBox()
@@ -54,7 +53,7 @@ class StListViewBuilderParser extends StacParser<StListViewBuilder> {
 
     if (separator != null) {
       return ListView.separated(
-        scrollDirection: scrollDirection,
+        scrollDirection: scrollDirection ?? Axis.vertical,
         reverse: model.reverse,
         shrinkWrap: model.shrinkWrap,
         padding: model.padding?.parse,
@@ -65,7 +64,7 @@ class StListViewBuilderParser extends StacParser<StListViewBuilder> {
     }
 
     return ListView.builder(
-      scrollDirection: scrollDirection,
+      scrollDirection: scrollDirection ?? Axis.vertical,
       reverse: model.reverse,
       shrinkWrap: model.shrinkWrap,
       padding: model.padding?.parse,
@@ -277,15 +276,15 @@ class _PagedListViewState extends State<_PagedListView> {
     StListViewBuilderParser parser,
     Widget? footer,
   ) {
-    final scrollDirection = model.scrollDirection == 'horizontal'
-        ? Axis.horizontal
-        : Axis.vertical;
+    final scrollDirection = model.scrollDirection?.parse;
 
     final separator = model.separator != null
         ? Stac.fromJson(model.separator, context) ?? const SizedBox()
         : null;
 
     final itemCount = _items.length + (footer != null ? 1 : 0);
+
+    ConsoleLogger.info('scrollDirection: $scrollDirection');
 
     Widget itemFor(int index) => index < _items.length
         ? parser._buildItem(context, model, _items, index)
@@ -294,7 +293,7 @@ class _PagedListViewState extends State<_PagedListView> {
     if (separator != null) {
       return ListView.separated(
         controller: _scrollController,
-        scrollDirection: scrollDirection,
+        scrollDirection: scrollDirection ?? Axis.vertical,
         reverse: model.reverse,
         shrinkWrap: model.shrinkWrap,
         padding: model.padding?.parse,
@@ -306,7 +305,7 @@ class _PagedListViewState extends State<_PagedListView> {
 
     return ListView.builder(
       controller: _scrollController,
-      scrollDirection: scrollDirection,
+      scrollDirection: scrollDirection ?? Axis.vertical,
       reverse: model.reverse,
       shrinkWrap: model.shrinkWrap,
       padding: model.padding?.parse,
