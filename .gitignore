@@ -35,7 +35,6 @@ migrate_working_dir/
 .pub/
 /build/
 /coverage/
-.agents
 stac.exe
 
 # Symbolication related
