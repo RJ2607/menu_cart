@@ -1,6 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:stac/stac_core.dart';
 
+import '../../layout/animation_config/st_animation_config.dart';
+
 part 'st_festive_offer_bar.g.dart';
 
 /// Reactive festive offer banner driven by [FestiveController].
@@ -27,6 +29,7 @@ class FestiveOfferBar extends StacWidget {
     this.backgroundColor,
     this.accentColor,
     this.borderRadius,
+    this.progressAnimation,
   });
 
   final String? festiveKey;
@@ -36,6 +39,7 @@ class FestiveOfferBar extends StacWidget {
   final String? backgroundColor;
   final String? accentColor;
   final double? borderRadius;
+  final StacAnimationConfig? progressAnimation;
 
   @override
   String get type => 'st_festive_offer_bar';

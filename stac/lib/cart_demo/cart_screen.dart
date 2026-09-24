@@ -1,4 +1,5 @@
 import 'package:menu_cart/core/menu_data.dart';
+import 'package:menu_cart/enums/st_enums/st_curves.dart';
 import 'package:menu_cart/stac_runtime/actions/cart/place_order/st_place_order_action.dart';
 import 'package:menu_cart/stac_runtime/actions/cart/update_cart_quantity/st_update_cart_quantity_action.dart';
 import 'package:menu_cart/stac_runtime/widgets/cart/cart_item_list_builder/st_cart_item_list_builder.dart';
@@ -6,6 +7,7 @@ import 'package:menu_cart/stac_runtime/widgets/cart/cart_summary_builder/st_cart
 import 'package:menu_cart/stac_runtime/widgets/collections/dismissible/st_dismissible.dart';
 import 'package:menu_cart/stac_runtime/widgets/controls/main_button/st_main_button.dart';
 import 'package:menu_cart/stac_runtime/widgets/festive/festive_offer_bar/st_festive_offer_bar.dart';
+import 'package:menu_cart/stac_runtime/widgets/layout/animation_config/st_animation_config.dart';
 import 'package:stac/stac_core.dart';
 
 @StacScreen(screenName: 'cart')
@@ -34,6 +36,10 @@ StacWidget cartScreen() {
           showWhenNone: false,
           compact: false,
           showRemoveButton: true,
+          progressAnimation: StacAnimationConfig(
+            durationMs: 350,
+            curve: StCurves.easeOutCubic,
+          ),
         ),
         // Cart items list with swipe-to-dismiss and quantity controls
         StacExpanded(

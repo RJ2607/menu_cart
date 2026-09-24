@@ -156,7 +156,39 @@ Obx() Rebuilds UI (Reactive)
 
 ---
 
-## 🚀 Getting Started
+## JSON-friendly animations
+
+The Stac screens in `stac/lib` now expose animation settings as JSON. The shared `StacAnimationConfig` supports:
+
+- `durationMs`
+- `curve` and `outCurve`
+- `opacityBegin` / `opacityEnd`
+- `scaleBegin` / `scaleEnd`
+- `offsetBeginX`, `offsetBeginY`, `offsetEndX`, `offsetEndY`
+- `delayMs`
+
+For example, a category chip can be changed in `stac/lib/cart_demo/menu_screen.dart`:
+
+```dart
+StCategoryChip(
+  category: 'Mains',
+  selectionAnimation: StacAnimationConfig(
+    durationMs: 240,
+    curve: 'easeOutCubic',
+  ),
+  pressAnimation: StacAnimationConfig(
+    durationMs: 120,
+    scaleEnd: 0.94,
+  ),
+)
+```
+
+The same values are emitted into `stac/.build/screens/menu.json` by `stac build`. Animation settings are also available on the cart badge, menu list, cart preview bar, festive offer progress, and the generic `animated_transition` widget.
+
+Supported curve names include `linear`, `easeIn`, `easeOut`, `easeInOut`, `easeInCubic`, `easeOutCubic`, `easeInOutCubic`, `easeOutBack`, `elasticOut`, and `bounceOut`.
+
+---
+
 
 ### Prerequisites
 

@@ -6,6 +6,7 @@ import '../../../../core/controllers/festive_controller.dart';
 import '../../../../core/festive/festive_offer.dart';
 import '../../../../core/festive/festive_offers.dart';
 import '../../../actions/festive/clear_festive_offer/st_clear_festive_offer_action.dart';
+import '../../layout/animation_config/st_animation.dart';
 import 'st_festive_offer_bar.dart';
 
 class FestiveOfferBarParser extends StacParser<FestiveOfferBar> {
@@ -36,6 +37,7 @@ class FestiveOfferBarParser extends StacParser<FestiveOfferBar> {
     }
 
     return Obx(() {
+      final progressAnimation = model.progressAnimation;
       final FestiveOffer? pinned = model.festiveKey == null
           ? null
           : festiveOffers[model.festiveKey];
@@ -182,10 +184,17 @@ class FestiveOfferBarParser extends StacParser<FestiveOfferBar> {
               child: Container(
                 height: 8,
                 color: Colors.white.withOpacity(0.25),
-                child: FractionallySizedBox(
-                  alignment: Alignment.centerLeft,
-                  widthFactor: progress,
-                  child: Container(color: accent),
+                child: TweenAnimationBuilder<double>(
+                  tween: Tween<double>(begin: 0, end: progress),
+                  duration: Duration(
+                    milliseconds: progressAnimation?.durationMs ?? 350,
+                  ),
+                  curve: stAnimationCurve(progressAnimation?.curve),
+                  builder: (context, value, _) => FractionallySizedBox(
+                    alignment: Alignment.centerLeft,
+                    widthFactor: value,
+                    child: Container(color: accent),
+                  ),
                 ),
               ),
             ),

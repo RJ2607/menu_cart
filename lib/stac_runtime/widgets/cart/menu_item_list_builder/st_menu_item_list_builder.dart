@@ -1,13 +1,15 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:stac/stac_core.dart';
 
+import '../../layout/animation_config/st_animation_config.dart';
+
 part 'st_menu_item_list_builder.g.dart';
 
 /// Template-based menu items list widget that filters by category.
-/// 
+///
 /// Observes CartController.selectedCategory and dynamically renders items
 /// matching the selected category using the provided itemTemplate.
-/// 
+///
 /// Available placeholders in itemTemplate:
 /// - {{id}} - item id
 /// - {{name}} - item name
@@ -37,12 +39,16 @@ class StMenuItemListBuilder extends StacWidget {
   /// Optional spacing between items
   final double? spacing;
 
+  /// Fade/slide transition when the selected category changes.
+  final StacAnimationConfig? categoryTransitionAnimation;
+
   const StMenuItemListBuilder({
     required this.items,
     required this.itemTemplate,
     this.sectionHeaderTemplate,
     this.emptyWidget,
     this.spacing,
+    this.categoryTransitionAnimation,
   });
 
   @override

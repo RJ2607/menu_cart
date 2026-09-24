@@ -3,7 +3,10 @@ import 'package:get/get.dart';
 import 'package:stac/stac.dart';
 
 import '../../../../core/controllers/cart_controller.dart';
+import '../../../../enums/st_enums/st_curves.dart';
 import '../../../../utils/money.dart';
+import '../../layout/animation_config/st_animation.dart';
+import '../../layout/animation_config/st_animation_config.dart';
 import 'st_menu_item_list_builder.dart';
 
 /// Parser for StMenuItemListBuilder that renders menu items filtered by category.
@@ -28,12 +31,29 @@ class StMenuItemListBuilderParser extends StacParser<StMenuItemListBuilder> {
           : model.items
                 .where((item) => item['category'] == selectedCategory)
                 .toList();
+      final transitionAnimation =
+          model.categoryTransitionAnimation ??
+          const StacAnimationConfig(
+            durationMs: 260,
+            curve: StCurves.easeOutCubic,
+            outCurve: StCurves.easeInCubic,
+            offsetBeginY: 0.04,
+          );
       if (filteredItems.isEmpty) {
-        if (model.emptyWidget != null) {
-          return Stac.fromJson(model.emptyWidget!.toJson(), context) ??
-              const SizedBox.shrink();
-        }
-        return const SizedBox.shrink();
+        return AnimatedSwitcher(
+          duration: Duration(milliseconds: transitionAnimation.durationMs),
+          switchInCurve: stAnimationCurve(transitionAnimation.curve),
+          switchOutCurve: stAnimationCurve(transitionAnimation.outCurve),
+          transitionBuilder: (child, value) =>
+              stSwitchTransition(child, value, transitionAnimation),
+          child: KeyedSubtree(
+            key: ValueKey('empty-$selectedCategory'),
+            child: model.emptyWidget == null
+                ? const SizedBox.shrink()
+                : Stac.fromJson(model.emptyWidget!.toJson(), context) ??
+                      const SizedBox.shrink(),
+          ),
+        );
       }
       final itemWidgets = <Widget>[];
       if (selectedCategory == 'All') {
@@ -95,9 +115,19 @@ class StMenuItemListBuilderParser extends StacParser<StMenuItemListBuilder> {
         }
       }
 
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: itemWidgets,
+      return AnimatedSwitcher(
+        duration: Duration(milliseconds: transitionAnimation.durationMs),
+        switchInCurve: stAnimationCurve(transitionAnimation.curve),
+        switchOutCurve: stAnimationCurve(transitionAnimation.outCurve),
+        transitionBuilder: (child, value) =>
+            stSwitchTransition(child, value, transitionAnimation),
+        child: KeyedSubtree(
+          key: ValueKey('menu-category-$selectedCategory'),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: itemWidgets,
+          ),
+        ),
       );
     });
   }

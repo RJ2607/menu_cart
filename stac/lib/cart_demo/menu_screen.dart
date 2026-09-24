@@ -1,5 +1,6 @@
 import 'package:menu_cart/core/festive/festive_offers.dart';
 import 'package:menu_cart/core/menu_data.dart';
+import 'package:menu_cart/enums/st_enums/st_curves.dart';
 import 'package:menu_cart/stac_runtime/actions/cart/navigate_to_item_detail/st_navigate_to_item_detail_action.dart';
 import 'package:menu_cart/stac_runtime/actions/festive/apply_festive_offer/st_apply_festive_offer_action.dart';
 import 'package:menu_cart/stac_runtime/widgets/cart/cart_preview_bar/st_cart_preview_bar.dart';
@@ -7,6 +8,7 @@ import 'package:menu_cart/stac_runtime/widgets/cart/menu_item_list_builder/st_me
 import 'package:menu_cart/stac_runtime/widgets/cart/st_cart_badge/st_cart_badge.dart';
 import 'package:menu_cart/stac_runtime/widgets/cart/st_category_chip/st_category_chip.dart';
 import 'package:menu_cart/stac_runtime/widgets/festive/festive_offer_bar/st_festive_offer_bar.dart';
+import 'package:menu_cart/stac_runtime/widgets/layout/animation_config/st_animation_config.dart';
 import 'package:stac/stac_core.dart';
 
 import '../wildcard_page/festival_discount_data.dart';
@@ -44,6 +46,12 @@ StacWidget menuScreen() {
             badgeColor: primaryColor,
             iconSize: 28,
             onTap: StacNavigator.pushStac('cart'),
+            badgeAnimation: const StacAnimationConfig(
+              durationMs: 200,
+              curve: StCurves.easeOutBack,
+              outCurve: StCurves.easeIn,
+              scaleBegin: 0.7,
+            ),
           ),
         ),
       ],
@@ -89,7 +97,13 @@ StacWidget menuScreen() {
               // Active-offer banner — reactive. Shows the applied festive theme,
               // unlock progress, and code. New festivals render automatically.
               // Remove pill lets the user clear the applied offer (clear_festive_offer).
-              const FestiveOfferBar(showRemoveButton: true),
+              const FestiveOfferBar(
+                showRemoveButton: true,
+                progressAnimation: StacAnimationConfig(
+                  durationMs: 350,
+                  curve: StCurves.easeOutCubic,
+                ),
+              ),
 
               StacPadding(
                 padding: const StacEdgeInsets.symmetric(horizontal: 16),
@@ -143,8 +157,30 @@ StacWidget menuScreen() {
                   scrollDirection: StacAxis.horizontal,
                   child: StacRow(
                     children: [
-                      const StCategoryChip(category: 'All'),
-                      ...categories.map((cat) => StCategoryChip(category: cat)),
+                      const StCategoryChip(
+                        category: 'All',
+                        selectionAnimation: StacAnimationConfig(
+                          durationMs: 220,
+                          curve: StCurves.easeOutCubic,
+                        ),
+                        pressAnimation: StacAnimationConfig(
+                          durationMs: 150,
+                          scaleEnd: 0.96,
+                        ),
+                      ),
+                      ...categories.map(
+                        (cat) => StCategoryChip(
+                          category: cat,
+                          selectionAnimation: const StacAnimationConfig(
+                            durationMs: 220,
+                            curve: StCurves.easeOutCubic,
+                          ),
+                          pressAnimation: const StacAnimationConfig(
+                            durationMs: 150,
+                            scaleEnd: 0.96,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -169,6 +205,12 @@ StacWidget menuScreen() {
                   ],
                   sectionHeaderTemplate: '{{category}}',
                   spacing: 16,
+                  categoryTransitionAnimation: const StacAnimationConfig(
+                    durationMs: 260,
+                    curve: StCurves.easeOutCubic,
+                    outCurve: StCurves.easeInCubic,
+                    offsetBeginY: 0.04,
+                  ),
                   emptyWidget: StacCenter(
                     child: StacPadding(
                       padding: const StacEdgeInsets.all(40),
@@ -196,7 +238,6 @@ StacWidget menuScreen() {
                   itemTemplate: StacGestureDetector(
                     onTap: StNavigateToItemDetailAction(itemId: '{{id}}'),
                     child: StacContainer(
-                      margin: const StacEdgeInsets.only(bottom: 16),
                       decoration: StacBoxDecoration(
                         color: cardColor,
                         borderRadius: StacBorderRadius.circular(16),
@@ -291,11 +332,18 @@ StacWidget menuScreen() {
             ],
           ),
         ),
-        const StacPositioned(
+        StacPositioned(
           left: 20,
           right: 20,
           bottom: 16,
-          child: StCartPreviewBar(),
+          child: StCartPreviewBar(
+            previewAnimation: const StacAnimationConfig(
+              durationMs: 280,
+              curve: StCurves.easeOutCubic,
+              outCurve: StCurves.easeInCubic,
+              offsetBeginY: 0.18,
+            ),
+          ),
         ),
       ],
     ),

@@ -1,6 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:stac/stac_core.dart';
 
+import '../../../../enums/st_enums/st_curves.dart';
+
 part 'st_animated_container.g.dart';
 
 /// Generic [AnimatedContainer] wrapper â€” animates decoration/size/padding
@@ -27,6 +29,7 @@ part 'st_animated_container.g.dart';
 class StAnimatedContainer extends StacWidget {
   const StAnimatedContainer({
     this.durationMs = 200,
+    this.curve = StCurves.easeInOut,
     this.width,
     this.height,
     this.padding,
@@ -40,6 +43,7 @@ class StAnimatedContainer extends StacWidget {
   });
 
   final int durationMs;
+  final StCurves curve;
   final double? width;
   final double? height;
   final StacEdgeInsets? padding;

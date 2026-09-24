@@ -15,6 +15,10 @@ FestiveOfferBar _$FestiveOfferBarFromJson(Map<String, dynamic> json) =>
       backgroundColor: json['backgroundColor'] as String?,
       accentColor: json['accentColor'] as String?,
       borderRadius: (json['borderRadius'] as num?)?.toDouble(),
+      progressAnimation: json['progressAnimation'] == null
+          ? null
+          : StacAnimationConfig.fromJson(
+              json['progressAnimation'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$FestiveOfferBarToJson(FestiveOfferBar instance) =>
@@ -26,5 +30,6 @@ Map<String, dynamic> _$FestiveOfferBarToJson(FestiveOfferBar instance) =>
       'backgroundColor': instance.backgroundColor,
       'accentColor': instance.accentColor,
       'borderRadius': instance.borderRadius,
+      'progressAnimation': instance.progressAnimation?.toJson(),
       'type': instance.type,
     };

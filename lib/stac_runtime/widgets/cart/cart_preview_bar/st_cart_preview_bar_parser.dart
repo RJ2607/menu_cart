@@ -3,6 +3,9 @@ import 'package:get/get.dart';
 import 'package:stac/stac.dart';
 
 import '../../../../core/controllers/cart_controller.dart';
+import '../../../../enums/st_enums/st_curves.dart';
+import '../../layout/animation_config/st_animation.dart';
+import '../../layout/animation_config/st_animation_config.dart';
 import 'st_cart_preview_bar.dart';
 
 /// Parses [StCartPreviewBar]: last-added item thumbnail + ellipsized name +
@@ -50,69 +53,87 @@ class StCartPreviewBarParser extends StacParser<StCartPreviewBar> {
 
     return Obx(() {
       final items = controller.cartItems;
-      if (items.isEmpty) return const SizedBox.shrink();
+      if (items.isEmpty) {
+        return const SizedBox.shrink();
+      }
       final last = items.last;
+      final animation =
+          model.previewAnimation ??
+          const StacAnimationConfig(
+            durationMs: 280,
+            curve: StCurves.easeOutCubic,
+            outCurve: StCurves.easeInCubic,
+            offsetBeginY: 0.18,
+          );
 
-      return GestureDetector(
-        onTap: () => Stac.onCallFromJson(
-          StacNavigator.pushStac('cart').toJson(),
-          context,
-        ),
-        child: Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: bg,
-            borderRadius: BorderRadius.circular(radius),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0x33000000),
-                blurRadius: 16,
-                offset: Offset(0, 4),
-              ),
-            ],
+      return AnimatedSwitcher(
+        duration: Duration(milliseconds: animation.durationMs),
+        switchInCurve: stAnimationCurve(animation.curve),
+        switchOutCurve: stAnimationCurve(animation.outCurve),
+        transitionBuilder: (child, value) =>
+            stSwitchTransition(child, value, animation),
+        child: GestureDetector(
+          key: ValueKey('cart-preview-${last.id}-${last.quantity}'),
+          onTap: () => Stac.onCallFromJson(
+            StacNavigator.pushStac('cart').toJson(),
+            context,
           ),
-          child: Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: SizedBox(
-                  width: imageSize,
-                  height: imageSize,
-                  child: Image.network(
-                    last.imageUrl,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, _, _) => ColoredBox(
-                      color: const Color(0xFFFFF8F3),
-                      child: Icon(Icons.fastfood, size: 24, color: accent),
+          child: Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: bg,
+              borderRadius: BorderRadius.circular(radius),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x33000000),
+                  blurRadius: 16,
+                  offset: Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: SizedBox(
+                    width: imageSize,
+                    height: imageSize,
+                    child: Image.network(
+                      last.imageUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, _, _) => ColoredBox(
+                        color: const Color(0xFFFFF8F3),
+                        child: Icon(Icons.fastfood, size: 24, color: accent),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  last.name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: textColor,
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    last.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: textColor,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                viewLabel,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: accent,
+                const SizedBox(width: 8),
+                Text(
+                  viewLabel,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: accent,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 4),
-              Icon(Icons.arrow_forward_ios, size: 16, color: accent),
-            ],
+                const SizedBox(width: 4),
+                Icon(Icons.arrow_forward_ios, size: 16, color: accent),
+              ],
+            ),
           ),
         ),
       );

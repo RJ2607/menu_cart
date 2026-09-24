@@ -19,6 +19,10 @@ StMenuItemListBuilder _$StMenuItemListBuilderFromJson(
           ? null
           : StacWidget.fromJson(json['emptyWidget'] as Map<String, dynamic>),
       spacing: (json['spacing'] as num?)?.toDouble(),
+      categoryTransitionAnimation: json['categoryTransitionAnimation'] == null
+          ? null
+          : StacAnimationConfig.fromJson(
+              json['categoryTransitionAnimation'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$StMenuItemListBuilderToJson(
@@ -29,5 +33,7 @@ Map<String, dynamic> _$StMenuItemListBuilderToJson(
       'sectionHeaderTemplate': instance.sectionHeaderTemplate,
       'emptyWidget': instance.emptyWidget?.toJson(),
       'spacing': instance.spacing,
+      'categoryTransitionAnimation':
+          instance.categoryTransitionAnimation?.toJson(),
       'type': instance.type,
     };

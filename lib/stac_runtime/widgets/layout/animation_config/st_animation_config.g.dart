@@ -1,59 +1,43 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'st_animated_container.dart';
+part of 'st_animation_config.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-StAnimatedContainer _$StAnimatedContainerFromJson(Map<String, dynamic> json) =>
-    StAnimatedContainer(
-      durationMs: (json['durationMs'] as num?)?.toInt() ?? 200,
+StacAnimationConfig _$StacAnimationConfigFromJson(Map<String, dynamic> json) =>
+    StacAnimationConfig(
+      durationMs: (json['durationMs'] as num?)?.toInt() ?? 220,
       curve: $enumDecodeNullable(_$StCurvesEnumMap, json['curve']) ??
-          StCurves.easeInOut,
-      width: (json['width'] as num?)?.toDouble(),
-      height: (json['height'] as num?)?.toDouble(),
-      padding: json['padding'] == null
-          ? null
-          : StacEdgeInsets.fromJson(json['padding']),
-      margin: json['margin'] == null
-          ? null
-          : StacEdgeInsets.fromJson(json['margin']),
-      alignment: json['alignment'] as String?,
-      decoration: json['decoration'] == null
-          ? null
-          : StacBoxDecoration.fromJson(
-              json['decoration'] as Map<String, dynamic>),
-      decorationWhen: json['decorationWhen'],
-      decorationWhenTrue: json['decorationWhenTrue'] == null
-          ? null
-          : StacBoxDecoration.fromJson(
-              json['decorationWhenTrue'] as Map<String, dynamic>),
-      decorationWhenFalse: json['decorationWhenFalse'] == null
-          ? null
-          : StacBoxDecoration.fromJson(
-              json['decorationWhenFalse'] as Map<String, dynamic>),
-      child: json['child'] == null
-          ? null
-          : StacWidget.fromJson(json['child'] as Map<String, dynamic>),
+          StCurves.easeOutCubic,
+      outCurve: $enumDecodeNullable(_$StCurvesEnumMap, json['outCurve']),
+      delayMs: (json['delayMs'] as num?)?.toInt() ?? 0,
+      opacityBegin: (json['opacityBegin'] as num?)?.toDouble() ?? 0,
+      opacityEnd: (json['opacityEnd'] as num?)?.toDouble() ?? 1,
+      scaleBegin: (json['scaleBegin'] as num?)?.toDouble() ?? 1,
+      scaleEnd: (json['scaleEnd'] as num?)?.toDouble() ?? 1,
+      offsetBeginX: (json['offsetBeginX'] as num?)?.toDouble() ?? 0,
+      offsetBeginY: (json['offsetBeginY'] as num?)?.toDouble() ?? 0,
+      offsetEndX: (json['offsetEndX'] as num?)?.toDouble() ?? 0,
+      offsetEndY: (json['offsetEndY'] as num?)?.toDouble() ?? 0,
     );
 
-Map<String, dynamic> _$StAnimatedContainerToJson(
-        StAnimatedContainer instance) =>
+Map<String, dynamic> _$StacAnimationConfigToJson(
+        StacAnimationConfig instance) =>
     <String, dynamic>{
       'durationMs': instance.durationMs,
       'curve': _$StCurvesEnumMap[instance.curve]!,
-      'width': instance.width,
-      'height': instance.height,
-      'padding': instance.padding?.toJson(),
-      'margin': instance.margin?.toJson(),
-      'alignment': instance.alignment,
-      'decoration': instance.decoration?.toJson(),
-      'decorationWhen': instance.decorationWhen,
-      'decorationWhenTrue': instance.decorationWhenTrue?.toJson(),
-      'decorationWhenFalse': instance.decorationWhenFalse?.toJson(),
-      'child': instance.child?.toJson(),
-      'type': instance.type,
+      'outCurve': _$StCurvesEnumMap[instance.outCurve],
+      'delayMs': instance.delayMs,
+      'opacityBegin': instance.opacityBegin,
+      'opacityEnd': instance.opacityEnd,
+      'scaleBegin': instance.scaleBegin,
+      'scaleEnd': instance.scaleEnd,
+      'offsetBeginX': instance.offsetBeginX,
+      'offsetBeginY': instance.offsetBeginY,
+      'offsetEndX': instance.offsetEndX,
+      'offsetEndY': instance.offsetEndY,
     };
 
 const _$StCurvesEnumMap = {

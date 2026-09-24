@@ -1,6 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:stac/stac_core.dart';
 
+import '../../layout/animation_config/st_animation_config.dart';
+
 part 'st_cart_preview_bar.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -12,6 +14,7 @@ class StCartPreviewBar extends StacWidget {
     this.textColor,
     this.accentColor,
     this.borderRadius,
+    this.previewAnimation,
   });
 
   final String? viewLabel;
@@ -20,6 +23,7 @@ class StCartPreviewBar extends StacWidget {
   final String? textColor;
   final String? accentColor;
   final double? borderRadius;
+  final StacAnimationConfig? previewAnimation;
 
   @override
   String get type => 'st_cart_preview_bar';

@@ -27,6 +27,7 @@ class StacParsers {
     StDialogParser(),
     StDismissibleParser(),
     StAnimatedContainerParser(),
+    const StAnimatedTransitionParser(),
     StAnimatedIconToggleParser(),
     StConditionalWidgetParser(),
     StConditionalContainerParser(),

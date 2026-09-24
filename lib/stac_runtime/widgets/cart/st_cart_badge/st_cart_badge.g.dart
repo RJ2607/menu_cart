@@ -13,6 +13,10 @@ StCartBadge _$StCartBadgeFromJson(Map<String, dynamic> json) => StCartBadge(
       onTap: json['onTap'] == null
           ? null
           : StacAction.fromJson(json['onTap'] as Map<String, dynamic>),
+      badgeAnimation: json['badgeAnimation'] == null
+          ? null
+          : StacAnimationConfig.fromJson(
+              json['badgeAnimation'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$StCartBadgeToJson(StCartBadge instance) =>
@@ -20,6 +24,7 @@ Map<String, dynamic> _$StCartBadgeToJson(StCartBadge instance) =>
       'iconColor': instance.iconColor,
       'badgeColor': instance.badgeColor,
       'iconSize': instance.iconSize,
-      'onTap': instance.onTap,
+      'onTap': instance.onTap?.toJson(),
+      'badgeAnimation': instance.badgeAnimation?.toJson(),
       'type': instance.type,
     };

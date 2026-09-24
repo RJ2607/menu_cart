@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stac/stac.dart';
-import '../conditional/st_conditional.dart';
 
+import '../animation_config/st_animation.dart';
+import '../conditional/st_conditional.dart';
 import 'st_animated_container.dart';
 
 class StAnimatedContainerParser extends StacParser<StAnimatedContainer> {
@@ -24,7 +25,7 @@ class StAnimatedContainerParser extends StacParser<StAnimatedContainer> {
 
     return AnimatedContainer(
       duration: Duration(milliseconds: model.durationMs),
-      curve: Curves.easeInOut,
+      curve: stAnimationCurve(model.curve),
       width: model.width,
       height: model.height,
       padding: model.padding?.parse,

@@ -14,6 +14,10 @@ StCartPreviewBar _$StCartPreviewBarFromJson(Map<String, dynamic> json) =>
       textColor: json['textColor'] as String?,
       accentColor: json['accentColor'] as String?,
       borderRadius: (json['borderRadius'] as num?)?.toDouble(),
+      previewAnimation: json['previewAnimation'] == null
+          ? null
+          : StacAnimationConfig.fromJson(
+              json['previewAnimation'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$StCartPreviewBarToJson(StCartPreviewBar instance) =>
@@ -24,5 +28,6 @@ Map<String, dynamic> _$StCartPreviewBarToJson(StCartPreviewBar instance) =>
       'textColor': instance.textColor,
       'accentColor': instance.accentColor,
       'borderRadius': instance.borderRadius,
+      'previewAnimation': instance.previewAnimation?.toJson(),
       'type': instance.type,
     };

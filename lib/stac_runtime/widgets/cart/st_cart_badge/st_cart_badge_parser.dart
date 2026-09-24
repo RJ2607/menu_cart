@@ -3,6 +3,9 @@ import 'package:get/get.dart';
 import 'package:stac/stac.dart';
 
 import '../../../../core/controllers/cart_controller.dart';
+import '../../../../enums/st_enums/st_curves.dart';
+import '../../layout/animation_config/st_animation.dart';
+import '../../layout/animation_config/st_animation_config.dart';
 import 'st_cart_badge.dart';
 
 class StCartBadgeParser extends StacParser<StCartBadge> {
@@ -50,32 +53,50 @@ class _CartBadgeWidget extends StatelessWidget {
             ),
             Obx(() {
               final count = cartController.cartCount;
-              if (count == 0) return const SizedBox.shrink();
+              final animation =
+                  model.badgeAnimation ??
+                  const StacAnimationConfig(
+                    durationMs: 200,
+                    curve: StCurves.easeOutBack,
+                    outCurve: StCurves.easeIn,
+                    opacityBegin: 0,
+                    scaleBegin: 0.7,
+                  );
 
               return Positioned(
                 right: -4,
                 top: -4,
-                child: Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: badgeColor,
-                    shape: BoxShape.circle,
-                  ),
-                  constraints: const BoxConstraints(
-                    minWidth: 18,
-                    minHeight: 18,
-                  ),
-                  child: Center(
-                    child: Text(
-                      count > 99 ? '99+' : '$count',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
+                child: AnimatedSwitcher(
+                  duration: Duration(milliseconds: animation.durationMs),
+                  switchInCurve: stAnimationCurve(animation.curve),
+                  switchOutCurve: stAnimationCurve(animation.outCurve),
+                  transitionBuilder: (child, value) =>
+                      stSwitchTransition(child, value, animation),
+                  child: count == 0
+                      ? const SizedBox.shrink(key: ValueKey('empty-cart-badge'))
+                      : Container(
+                          key: ValueKey('cart-badge-$count'),
+                          padding: const EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: badgeColor,
+                            shape: BoxShape.circle,
+                          ),
+                          constraints: const BoxConstraints(
+                            minWidth: 18,
+                            minHeight: 18,
+                          ),
+                          child: Center(
+                            child: Text(
+                              count > 99 ? '99+' : '$count',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w700,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
                 ),
               );
             }),
